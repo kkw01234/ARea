@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.RecommendActivity;
+import kr.co.area.hashtag.Recommend.RecommendActivity;
 import kr.co.area.hashtag.Recommend.WriteActivity;
 
 public class MainActiviy extends AppCompatActivity {
@@ -17,28 +18,54 @@ public class MainActiviy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button recommendbutton = (Button) findViewById(R.id.button);
-        Button writebutton = (Button) findViewById(R.id.button4);
+        Button Recommendbutton = (Button) findViewById(R.id.recommendButton);
+        Button Writebutton = (Button) findViewById(R.id.WriteButton);
+        final Button ARSearchButton = (Button) findViewById(R.id.ARSearchButton);
+        Button MapSearchButton = (Button) findViewById(R.id.MapSearchButton);
 
-        recommendbutton.setOnClickListener(new View.OnClickListener() {
+        Recommendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCilck_button(v);
+                recommendFunction(v);
             }
         });
-        writebutton.setOnClickListener(new View.OnClickListener() {
+        Writebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
-                startActivity(intent);
+                WriteFunction(v);
+            }
+        });
+        ARSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARSearchFunction(v);
+            }
+        });
+        MapSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapSearchButton(v);
             }
         });
     }
 
-    public void onCilck_button (View v){
+    public void recommendFunction (View v){
+        Intent recommendintent = new Intent(getApplicationContext(), RecommendActivity.class);
+        startActivity(recommendintent);
+    }
 
-        Intent intent_02 = new Intent(getApplicationContext(), RecommendActivity.class);
-        startActivity(intent_02);
+    public void WriteFunction(View v){
+        Intent writeintent = new Intent(getApplicationContext(), WriteActivity.class);
+        startActivity(writeintent);
+    }
 
+    public void ARSearchFunction(View v){
+
+    }
+
+
+    public void MapSearchButton(View v){
+        Intent mapintent = new Intent(getApplicationContext(),GoogleMapsActivity.class);
+        startActivity(mapintent);
     }
 }

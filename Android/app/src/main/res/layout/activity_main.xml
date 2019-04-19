@@ -4,48 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main">
+    tools:context=".Main.MainActiviy">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/recommendButton"
         android:layout_width="409dp"
         android:layout_height="0dp"
         android:layout_marginTop="112dp"
         android:layout_marginBottom="11dp"
         android:text="추천경로"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/ARSearchButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/ARSearchButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="17dp"
         android:text="AR검색"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/MapSearchButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/recommendButton" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/MapSearchButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="18dp"
         android:text="지도검색"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/WriteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/ARSearchButton" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/WriteButton"
         android:layout_width="423dp"
         android:layout_height="0dp"
         android:layout_marginBottom="300dp"
         android:text="글쓰기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/MapSearchButton" />
 </android.support.constraint.ConstraintLayout>

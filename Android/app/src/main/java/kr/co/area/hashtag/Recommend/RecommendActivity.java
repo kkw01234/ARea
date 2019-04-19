@@ -1,9 +1,10 @@
-package kr.co.area.hashtag;
+package kr.co.area.hashtag.Recommend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.myapplication.R;
+import kr.co.area.hashtag.R;
+
 
 public class RecommendActivity extends AppCompatActivity {
 
