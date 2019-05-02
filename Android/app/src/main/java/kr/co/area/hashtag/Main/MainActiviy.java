@@ -22,6 +22,7 @@ public class MainActiviy extends AppCompatActivity {
         Button Writebutton = (Button) findViewById(R.id.WriteButton);
         final Button ARSearchButton = (Button) findViewById(R.id.ARSearchButton);
         Button MapSearchButton = (Button) findViewById(R.id.MapSearchButton);
+        Button MypageButton = (Button) findViewById(R.id.MypageButton);
 
         Recommendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,13 @@ public class MainActiviy extends AppCompatActivity {
                 MapSearchButton(v);
             }
         });
+        MypageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MypageFunction(v);
+            }
+        });
+
     }
 
     public void recommendFunction (View v){
@@ -67,5 +75,10 @@ public class MainActiviy extends AppCompatActivity {
     public void MapSearchButton(View v){
         Intent mapintent = new Intent(getApplicationContext(),GoogleMapsActivity.class);
         startActivity(mapintent);
+    }
+
+    public void MypageFunction(View v){
+        Intent mypageintent = new Intent(getApplicationContext(),Mypage.class);
+        startActivity(mypageintent);
     }
 }
