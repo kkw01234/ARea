@@ -15,7 +15,7 @@ public class ImageGridAdapter extends BaseAdapter {
     Context context = null;
 
     //-----------------------------------------------------------
-    // imageIDs는 이미지 파일들의 리소스 ID들을 담는 배열
+    // imageIDs는 이미지 파일들의 리소스 ID들을 담는 배열입니다.
     // 이 배열의 원소들은 자식 뷰들인 ImageView 뷰들이 무엇을 보여주는지를
     // 결정하는데 활용될 것입니다.
 
@@ -41,7 +41,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
             imageView = (ImageView)convertView;
         else {
             //---------------------------------------------------------------
-            // GridView 뷰를 구성할 ImageView 뷰의 비트맵을 정의
+            // GridView 뷰를 구성할 ImageView 뷰의 비트맵을 정의합니다.
             // 그리고 그것의 크기를 320*240으로 줄입니다.
             // 크기를 줄이는 이유는 메모리 부족 문제를 막을 수 있기 때문입니다.
 
@@ -67,12 +67,12 @@ public View getView(int position, View convertView, ViewGroup parent) {
             //imageView.setImageResource(imageIDs[position]);
 
             //---------------------------------------------------------------
-            // 사진 항목들의 클릭을 처리하는 ImageClickListener 객체를 정의
-            // 그리고 그것을 ImageView의 클릭 리스너로 설정
+            // 사진 항목들의 클릭을 처리하는 ImageClickListener 객체를 정의합니다.
+            // 그리고 그것을 ImageView의 클릭 리스너로 설정합니다.
 
-            ImageClickListener imageViewClickListener
-                    = new ImageClickListener(context, imageIDs[position]);
-            imageView.setOnClickListener(imageViewClickListener);
+            //ImageClickListener imageViewClickListener
+                    //= new ImageClickListener(context, imageIDs[position]);
+           // imageView.setOnClickListener(imageViewClickListener);
         }
 
         return imageView;

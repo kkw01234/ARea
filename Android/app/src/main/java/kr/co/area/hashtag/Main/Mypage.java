@@ -18,12 +18,6 @@ public class Mypage extends AppCompatActivity {
             R.drawable.image5,
             R.drawable.image6,
             R.drawable.image7,
-            R.drawable.image8,
-            R.drawable.image9,
-            R.drawable.image10,
-            R.drawable.image11,
-            R.drawable.image12,
-            R.drawable.image13,
     };
 
     @Override
@@ -31,7 +25,7 @@ public class Mypage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
         //-----------------------------------------------------------------------
-        // 사진들을 보여줄 GridView 뷰의 어댑터 객체를 정의하고 그것을 이 뷰의 어댑터로 설정.
+        // 사진들을 보여줄 GridView 뷰의 어댑터 객체를 정의하고 그것을 이 뷰의 어댑터로 설정합니다.
 
         GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
         ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
