@@ -16,16 +16,7 @@ public class recommendlist_2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendlist_2);
 
-        //마이페이지로 넘어가기버튼실행
-        Button P2 = (Button)findViewById(R.id.plus2);
-        P2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(
-                        getApplicationContext(), Mypage.class); // 다음 넘어갈 클래스 지정
-                startActivity(intent); // 다음 화면으로 넘어가기
-            }
-        });
+
     }
 }
 
