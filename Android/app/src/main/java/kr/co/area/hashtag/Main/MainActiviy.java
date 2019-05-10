@@ -1,6 +1,7 @@
 package kr.co.area.hashtag.Main;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
+import kr.co.area.hashtag.Login.Login;
+import kr.co.area.hashtag.Login.RequestHttpURLConnection;
 import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.RecommendActivity;
@@ -29,7 +37,7 @@ public class MainActiviy extends AppCompatActivity {
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
 
         // Initializing the TabLayout
 
@@ -68,7 +76,16 @@ public class MainActiviy extends AppCompatActivity {
 
     }
 
-
+    class LogoutTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            RequestHttpURLConnection conn = new RequestHttpURLConnection();
+            String url = "http://118.220.3.71:13565/logout";
+            String result = conn.request(url, null, getApplicationContext());
+            System.out.println(result);
+            return result;
+        }
+    }
 
 
     //메뉴만들기
@@ -100,6 +117,23 @@ public class MainActiviy extends AppCompatActivity {
             case R.id.menu5:
                 Intent intent5 = new Intent(MainActiviy.this, Mypage.class);
                 startActivity(intent5);
+                break;
+            case R.id.menu6:
+                String result = null;
+                try {
+                    result = new LogoutTask().execute().get();
+                    JSONObject jObject = new JSONObject(result);
+                    String state = jObject.getString("result");
+                    System.out.println(state);
+                    Intent intent6 = new Intent(MainActiviy.this, Login.class);
+                    startActivity(intent6);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
         return true;

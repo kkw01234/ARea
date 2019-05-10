@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "217823803303",
+    "firebase_url": "https://signarea-d60bf.firebaseio.com",
+    "project_id": "signarea-d60bf",
+    "storage_bucket": "signarea-d60bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217823803303:android:83827abcb03dda5d",
+        "android_client_info": {
+          "package_name": "kr.co.area.hashtag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217823803303-m1qkkihn0ch4re1f45l05246koi9spkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.area.hashtag",
+            "certificate_hash": "6c87dece06498de86edd61a26f0e48e1578a1a52"
+          }
+        },
+        {
+          "client_id": "217823803303-mdo88us1e8e0t8elvk29qbrnsk5ot02e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmcDRXwSeGsGX0y9YNl2Ev0aG6sZ1ltos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217823803303-mdo88us1e8e0t8elvk29qbrnsk5ot02e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

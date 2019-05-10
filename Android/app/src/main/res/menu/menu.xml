@@ -16,4 +16,7 @@
 
     <item android:title="MY PAGE"
         android:id="@+id/menu5"/>
+
+    <item android:title="로그아웃"
+        android:id="@+id/menu6"/>
 </menu>
