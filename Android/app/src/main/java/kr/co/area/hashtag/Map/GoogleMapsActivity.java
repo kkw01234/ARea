@@ -41,15 +41,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.Recommend.Recommendlist_2Activity;
 import kr.co.area.hashtag.utils.Request_Code;
+import noman.googleplaces.NRPlaces;
+import noman.googleplaces.Place;
+import noman.googleplaces.PlaceType;
+import noman.googleplaces.PlacesException;
+import noman.googleplaces.PlacesListener;
 
 
 public class GoogleMapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback{
+        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback,PlacesListener {
 
 
     private GoogleMap mGoogleMap = null;
@@ -79,6 +87,8 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
+
+    List<Marker> previous_marker = null; //맛집 마커 저장하는곳
 
 
 
@@ -132,6 +142,7 @@ public class GoogleMapsActivity extends AppCompatActivity
             }
         });
         */
+        previous_marker = new ArrayList<>();
 
     }
 
@@ -291,7 +302,22 @@ public class GoogleMapsActivity extends AppCompatActivity
             }
         });
 
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                Intent intent = new Intent(getBaseContext(), Recommendlist_2Activity.class);
+
+                String title = marker.getTitle();
+                String address = marker.getSnippet();
+
+                intent.putExtra("title", title);
+                intent.putExtra( "address", address);
+
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -395,7 +421,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mGoogleMap.moveCamera(cameraUpdate);
-
+        showPlaceInformation(currentPosition); //우선 임시로 여기에 놔두었습니다.
     }
     public void setSearchLocation(LatLng latLng, String markerTitle, String markerSnippet) {
 
@@ -542,19 +568,14 @@ public class GoogleMapsActivity extends AppCompatActivity
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하실래요?");
         builder.setCancelable(true);
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
+        builder.setPositiveButton("설정", (dialog,id)-> {
                 Intent callGPSSettingIntent
                         = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivityForResult(callGPSSettingIntent, Request_Code.GPS_ENABLE_REQUEST_CODE);
             }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
+        );
+        builder.setNegativeButton("취소", (dialog,id)-> {
                 dialog.cancel();
-            }
         });
         builder.create().show();
     }
@@ -586,4 +607,68 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onPlacesFailure(PlacesException e) {
+
+    }
+
+    @Override
+    public void onPlacesStart() {
+
+    }
+
+    @Override
+    public void onPlacesSuccess(final List<Place> places) {
+        runOnUiThread(()->{
+
+                for (noman.googleplaces.Place place : places) {
+                    LatLng latLng
+                            = new LatLng(place.getLatitude()
+                            , place.getLongitude());
+                    String markerSnippet = getCurrentAddress(latLng).get(0).getAddressLine(0);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(place.getName());
+                    markerOptions.snippet(markerSnippet);
+                    Marker item = mGoogleMap.addMarker(markerOptions);
+                    previous_marker.add(item);
+                }
+
+
+                //중복 마커 제거
+
+                HashSet<Marker> hashSet = new HashSet<Marker>();
+                hashSet.addAll(previous_marker);
+                previous_marker.clear();
+                previous_marker.addAll(hashSet);
+
+
+            });
+
+
+
+
+    }
+
+
+    @Override
+    public void onPlacesFinished() {
+
+    }
+    public void showPlaceInformation(LatLng location)
+    {
+        mGoogleMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener(GoogleMapsActivity.this)
+                .key("AIzaSyDGUj-frLFa_pp5Jer5IKWUfRv1tQ-mrJI")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(1000) //1000 미터 내에서 검색
+                .type(PlaceType.RESTAURANT) //음식점
+                .build()
+                .execute();
+    }
 }

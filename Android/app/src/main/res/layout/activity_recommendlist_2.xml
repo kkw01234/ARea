@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Recommend.recommendlist_2">
+    tools:context=".Recommend.Recommendlist_2Activity">
 
     <View
         android:id="@+id/view3"
@@ -44,14 +44,12 @@
         app:layout_constraintVertical_bias="0.687" />
 
     <TextView
-        android:id="@+id/가게이름"
+        android:id="@+id/place_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text='"한방통닭"'
         android:textSize="35sp"
@@ -101,14 +99,12 @@
         app:layout_constraintVertical_bias="0.223" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/place_address_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="위치 :"
         android:textSize="20sp"
@@ -139,14 +135,12 @@
         app:layout_constraintVertical_bias="0.513" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/place_recommend_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="후기 :"
         android:textSize="20sp"
@@ -158,14 +152,12 @@
         app:layout_constraintVertical_bias="0.805" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/place_star_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="평점 :"
         android:textSize="20sp"
@@ -177,33 +169,12 @@
         app:layout_constraintVertical_bias="0.761" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/place_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="바베큐모듬구이 25000 "
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.64"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.302" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="한방통닭 18000 / "
         android:textSize="20sp"
@@ -215,14 +186,12 @@
         app:layout_constraintVertical_bias="0.263" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/place_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="매일 17:00 - 02:00"
         android:textSize="20sp"
@@ -234,14 +203,12 @@
         app:layout_constraintVertical_bias="0.223" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/place_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="서울 용산구 대사관로34길 38"
         android:textSize="20sp"

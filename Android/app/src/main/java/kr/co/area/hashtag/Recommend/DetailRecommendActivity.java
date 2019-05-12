@@ -20,7 +20,7 @@ public class DetailRecommendActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(
-                        getApplicationContext(), recommendlist_2.class); // 다음 넘어갈 클래스 지정
+                        getApplicationContext(), Recommendlist_2Activity.class); // 다음 넘어갈 클래스 지정
                         startActivity(intent); // 다음 화면으로 넘어가기
             }
         });
