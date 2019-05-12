@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -98,6 +102,7 @@ public class Login extends Activity {
                         e.printStackTrace();
                     }
                     break;
+
                 case R.id.buttonlogout:
                     String result = null;
                     try {
@@ -117,8 +122,7 @@ public class Login extends Activity {
             }
         }
     };
-
-    public void joinFunction(View v) {
+    public void joinFunction (View v){
         Intent joinintent = new Intent(getApplicationContext(), Join.class);
         startActivity(joinintent);
     }
