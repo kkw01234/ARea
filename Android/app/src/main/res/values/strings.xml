@@ -11,4 +11,7 @@
     <string name="signup">회원가입</string>
     <string name="success_signup">회원가입 성공</string>
     <string name="failed_signup">회원가입 실패</string>
+    <string name="id">ID</string>
+    <string name="auto_login">자동 로그인</string>
+    <string name="logout">로그아웃</string>
 </resources>
