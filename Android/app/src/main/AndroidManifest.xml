@@ -34,7 +34,7 @@
         <activity android:name=".Login.Join" />
         <activity android:name=".Login.Login"/>
         <activity android:name=".Main.MainActiviy" />
-
+        <activity android:name=".Map.GoogleMapsActivity" />
         <activity
             android:name=".Main.SplashActivity"
             android:screenOrientation="portrait"
