@@ -16,23 +16,30 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.CheckIdTask;
+import kr.co.area.hashtag.asyncTask.CheckNameTask;
+import kr.co.area.hashtag.asyncTask.JoinTask;
 
 public class Join extends Activity {
     EditText joinId, joinPwd, checkPwd, joinMail, joinname;
-    Button checkBtn, joinButton ;
+    Button checkBtn, joinButton, checkName;
     boolean idcheck = false;
+    boolean namecheck = false;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
-        joinId = (EditText) findViewById(R.id.joinId);
-        joinPwd = (EditText) findViewById(R.id.joinpw);
-        checkPwd = (EditText) findViewById(R.id.checkjoinpw);
-        joinMail = (EditText) findViewById(R.id.joinmail);
-        joinname = (EditText) findViewById(R.id.nickname);
-        checkBtn = (Button) findViewById(R.id.checkbtn);
-        joinButton = (Button) findViewById(R.id.joinBtn);
+        activity = this;
+        joinId = findViewById(R.id.joinId);
+        joinPwd = findViewById(R.id.joinpw);
+        checkPwd = findViewById(R.id.checkjoinpw);
+        joinMail = findViewById(R.id.joinmail);
+        joinname = findViewById(R.id.nickname);
+        checkBtn = findViewById(R.id.checkbtn);
+        joinButton = findViewById(R.id.joinBtn);
+        checkName = findViewById(R.id.checkbtn2);
         joinId.setOnClickListener(idListener);
         joinId.addTextChangedListener(new TextWatcher() {
             @Override
@@ -50,41 +57,37 @@ public class Join extends Activity {
                 return;
             }
         });
+        joinname.setOnClickListener(nameListener);
+        joinname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                return;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                idcheck = false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                return;
+            }
+        });
         checkBtn.setOnClickListener(btnListener);
         joinButton.setOnClickListener(btnListener);
+        checkName.setOnClickListener(btnListener);
     }
 
-    class JoinTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            RequestHttpURLConnection conn = new RequestHttpURLConnection();
-            String url = "http://118.220.3.71:13565/register_user";
-            ArrayList<Parameter> params = new ArrayList<>();
-            params.add(new Parameter("id", strings[0]));
-            params.add(new Parameter("pwd", strings[1]));
-            params.add(new Parameter("name", strings[2]));
-            params.add(new Parameter("email", strings[3]));
-            String result = conn.request(url, params, getApplicationContext());
-            System.out.println(result);
-            return result;
-        }
-    }
-    class CheckTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            RequestHttpURLConnection conn = new RequestHttpURLConnection();
-            String url = "http://118.220.3.71:13565/check_dup_id";
-            ArrayList<Parameter> params = new ArrayList<>();
-            params.add(new Parameter("id", strings[0]));
-            String result = conn.request(url, params, getApplicationContext());
-            System.out.println(result);
-            return result;
-        }
-    }
     View.OnClickListener idListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             idcheck = true;
+        }
+    };
+    View.OnClickListener nameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            namecheck = true;
         }
     };
 
@@ -99,7 +102,7 @@ public class Join extends Activity {
                         return;
                     }
                     try {
-                        String result = new  CheckTask().execute(checkId).get();
+                        String result = new CheckIdTask(activity).execute(checkId).get();
                         /*
                          *  제이슨 구조 해독해서, result 값 알기
                          * */
@@ -108,6 +111,30 @@ public class Join extends Activity {
                         System.out.println(state);
                         if (state.equals("avail")) {
                             Toast.makeText(Join.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                            idcheck = true;
+                        } else if (state.equals("dup")) {
+                            Toast.makeText(Join.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.checkbtn2: // 중복 버튼 눌렀을 경우
+                    String checkName = joinname.getText().toString();
+                    if (checkName.equals("")) {
+                        Toast.makeText(Join.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    try {
+                        String result = new CheckNameTask(activity).execute(checkName).get();
+                        /*
+                         *  제이슨 구조 해독해서, result 값 알기
+                         * */
+                        JSONObject jObject = new JSONObject(result);
+                        String state = jObject.getString("result");
+                        System.out.println(state);
+                        if (state.equals("avail")) {
+                            Toast.makeText(Join.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                             idcheck = true;
                         } else if (state.equals("dup")) {
                             Toast.makeText(Join.this, "중복입니다.", Toast.LENGTH_SHORT).show();
@@ -128,27 +155,31 @@ public class Join extends Activity {
                             Toast.makeText(Join.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (!idcheck){
+                        if (!idcheck) {
                             Toast.makeText(Join.this, "확인되지 않은 아이디 입니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (username.equals("")){
+                        if (!namecheck) {
+                            Toast.makeText(Join.this, "확인되지 않은 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (username.equals("")) {
                             Toast.makeText(Join.this, "닉네임을 적어주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (userPwd.equals("")){
+                        if (userPwd.equals("")) {
                             Toast.makeText(Join.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (checkPw.equals("")){
+                        if (checkPw.equals("")) {
                             Toast.makeText(Join.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (userMail.equals("")){
+                        if (userMail.equals("")) {
                             Toast.makeText(Join.this, "이메일을 적어주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        String result = new JoinTask().execute(userId,userPwd,username,userMail).get();
+                        String result = new JoinTask(activity).execute(userId, userPwd, username, userMail).get();
 
                         JSONObject jObject = new JSONObject(result);
                         String state = jObject.getString("result");
@@ -159,8 +190,7 @@ public class Join extends Activity {
                             Intent intent = new Intent(Join.this, Login.class);
                             startActivity(intent);
                             finish();
-                        }
-                        else if (state.equals("email fail")) {
+                        } else if (state.equals("email fail")) {
                             Toast.makeText(Join.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -173,4 +203,3 @@ public class Join extends Activity {
     };
 
 }
-

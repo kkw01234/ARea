@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.etc;
+package kr.co.area.hashtag.utils;
 
 public class Request_Code { //Request 코드 모음집
     public final static int PERMISSIONS_REQUEST_CODE = 2000;

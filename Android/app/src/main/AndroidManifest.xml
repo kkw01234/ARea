@@ -2,19 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.co.area.hashtag">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -23,29 +21,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".Main.AR"></activity>
+        <activity
+            android:name=".Main.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Main.AR" />
         <activity android:name=".Recommend.DetailRecommendActivity" />
         <activity android:name=".Recommend.RecommendActivity" />
-        <activity android:name=".Recommend.WrittenActivity" />
-        <activity android:name=".Recommend.WriteActivity" />
+        <activity android:name=".Write.WrittenActivity" />
+        <activity android:name=".Write.WriteActivity" />
         <activity android:name=".Recommend.recommendlist_2" />
         <activity android:name=".Main.Mypage" />
         <activity android:name=".Login.Join" />
-        <activity android:name=".Login.Login"/>
+        <activity android:name=".Login.Login" />
         <activity android:name=".Main.MainActiviy" />
+        <activity android:name=".Write.SearchActivity"/>
         <activity android:name=".Map.GoogleMapsActivity" />
         <activity
             android:name=".Main.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -58,10 +58,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <!--
-        @string/title_activity_google_maps
-        -->
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <!--         @string/title_activity_google_maps -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

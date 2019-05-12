@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -46,7 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.etc.Request_Code;
+import kr.co.area.hashtag.utils.Request_Code;
 
 
 public class GoogleMapsActivity extends AppCompatActivity

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ar_search"
+        android:title="AR 검색" />
+    <item
+        android:id="@+id/map_search"
+        android:title="지도 검색" />
+    <item
+        android:id="@+id/kwd_search"
+        android:title="키워드 검색" />
+    <item
+        android:id="@+id/rec_path"
+        android:title="추천 경로" />
+    <item
+        android:id="@+id/logout"
+        android:title="로그아웃" />
+</menu>

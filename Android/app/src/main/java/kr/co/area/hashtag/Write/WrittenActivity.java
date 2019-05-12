@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Recommend;
+package kr.co.area.hashtag.Write;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.Write.WriteActivity;
 
 
 public class WrittenActivity extends AppCompatActivity {
@@ -25,8 +26,8 @@ public class WrittenActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.viewText);
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-        textView.setText(WriteActivity.strText);
-        ratingBar.setRating(WriteActivity.starnum);
+        textView.setText(WriteActivity.reviewText);
+        ratingBar.setRating(WriteActivity.reviewPoint);
         imageView.setImageBitmap(WriteActivity.scaled);
 
         btn2.setOnClickListener(new View.OnClickListener() {

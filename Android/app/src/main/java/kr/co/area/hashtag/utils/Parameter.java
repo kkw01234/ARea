@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Login;
+package kr.co.area.hashtag.utils;
 
 public class Parameter {
     private String key, value;
