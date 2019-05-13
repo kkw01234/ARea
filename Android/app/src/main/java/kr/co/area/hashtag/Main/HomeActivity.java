@@ -3,6 +3,7 @@ package kr.co.area.hashtag.Main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity
         navigationView = findViewById(R.id.navigationView);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -73,7 +75,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch(id) {
+        switch (id) {
             case R.id.ar_search:
                 startActivity(new Intent(this, AR.class));
                 finish();

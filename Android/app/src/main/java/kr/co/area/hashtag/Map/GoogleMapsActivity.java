@@ -67,6 +67,7 @@ public class GoogleMapsActivity extends AppCompatActivity
     private static final String TAG = "Google_Maps_Activity";
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
+    private static final int UPDATE_REPLACE = 10;
 
 
     // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용
@@ -109,8 +110,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         locationRequest = LocationRequest.create(); //new LocationRequest는 지원이 안됨 create로 만들어줘야함
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setInterval(UPDATE_INTERVAL_MS)
-                .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS)
+                .setSmallestDisplacement(UPDATE_REPLACE);
                 ;
 
 
@@ -180,6 +180,9 @@ public class GoogleMapsActivity extends AppCompatActivity
                 setCurrentLocation(location, markerTitle, markerSnippet);
 
                 mCurrentLocatiion = location;
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentPosition);
+                mGoogleMap.moveCamera(cameraUpdate);
+                showPlaceInformation(currentPosition); //우선 임시로 여기에 놔두었습니다.
             }
 
 
@@ -310,10 +313,14 @@ public class GoogleMapsActivity extends AppCompatActivity
                 Intent intent = new Intent(getBaseContext(), Recommendlist_2Activity.class);
 
                 String title = marker.getTitle();
-                String address = marker.getSnippet();
+                //String address = marker.getSnippet();
+                String id = marker.getSnippet();
+
 
                 intent.putExtra("title", title);
-                intent.putExtra( "address", address);
+                //intent.putExtra( "address", address);
+                intent.putExtra("id",id);
+                intent.putExtra("pos",marker.getPosition());
 
                 startActivity(intent);
             }
@@ -419,9 +426,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         currentMarker = mGoogleMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mGoogleMap.moveCamera(cameraUpdate);
-        showPlaceInformation(currentPosition); //우선 임시로 여기에 놔두었습니다.
+
     }
     public void setSearchLocation(LatLng latLng, String markerTitle, String markerSnippet) {
 
@@ -629,7 +634,9 @@ public class GoogleMapsActivity extends AppCompatActivity
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
                     markerOptions.title(place.getName());
-                    markerOptions.snippet(markerSnippet);
+                    markerOptions.snippet(place.getPlaceId());
+
+
                     Marker item = mGoogleMap.addMarker(markerOptions);
                     previous_marker.add(item);
                 }
