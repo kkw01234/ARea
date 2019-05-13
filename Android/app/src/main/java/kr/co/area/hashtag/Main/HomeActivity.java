@@ -2,6 +2,7 @@ package kr.co.area.hashtag.Main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -27,6 +29,7 @@ import kr.co.area.hashtag.Login.Login;
 import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.RecommendActivity;
+import kr.co.area.hashtag.Write.WriteActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 
 public class HomeActivity extends AppCompatActivity
@@ -35,6 +38,9 @@ public class HomeActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private View headerView;
+    private TextView userHi;
+    private TextView goMyPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,15 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
+        headerView = navigationView.getHeaderView(0);
+        userHi = headerView.findViewById(R.id.userHi);
+        userHi.setText(user.getString("userName", "???") + "님 안녕하세요");
+        goMyPage = headerView.findViewById(R.id.goMyPage);
+        goMyPage.setOnClickListener((v) -> {
+            startActivity(new Intent(HomeActivity.this, Mypage.class));
+            finish();
+        });
     }
 
     @Override
@@ -88,6 +103,9 @@ public class HomeActivity extends AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (id == R.id.write) {
+            startActivity(new Intent(this, WriteActivity.class));
+            finish();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

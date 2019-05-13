@@ -69,12 +69,17 @@ public class Login extends Activity {
                             }
                             SharedPreferences userInfo = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
                             SharedPreferences.Editor infoEdit = userInfo.edit();
+                            String userId = jObject.getString("userId");
                             String userName = jObject.getString("userName");
                             String userEmail = jObject.getString("userEmail");
                             String userRight = jObject.getString("userRight");
                             infoEdit.putString("userName", userName);
                             infoEdit.putString("userEmail", userEmail);
                             infoEdit.putString("userRight", userRight);
+                            infoEdit.putString("userId", userId);
+                            System.out.println(userName);
+                            System.out.println(userEmail);
+                            System.out.println(userRight);
                             infoEdit.commit();
                             Toast.makeText(Login.this, "로그인", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(Login.this, HomeActivity.class));

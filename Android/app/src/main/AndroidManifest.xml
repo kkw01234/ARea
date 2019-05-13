@@ -36,6 +36,7 @@
         <activity android:name=".Login.Login" />
         <activity android:name=".Main.MainActiviy" />
         <activity android:name=".Write.SearchActivity"/>
+        <activity android:name=".Main.ChangeMypage"/>
         <activity android:name=".Map.GoogleMapsActivity" />
         <activity
             android:name=".Main.SplashActivity"

@@ -100,7 +100,7 @@ public class WriteActivity extends AppCompatActivity {
         wrbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences auto = getSharedPreferences("userInform", Activity.MODE_PRIVATE);
+                SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
                 reviewUser = auto.getString("userName", null);
                 System.out.println(reviewUser);
                 reviewText = ed1.getText().toString() ;

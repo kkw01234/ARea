@@ -6,19 +6,6 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/joinId"
-        android:layout_width="280dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="30dp"
-        android:hint="아이디"
-        android:textColor="#000"
-        android:textColorHint="#c9c9c9"
-        android:textSize="23dp"
-        app:layout_constraintBottom_toTopOf="@+id/joinpw"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
         android:id="@+id/nickname"
         android:layout_width="280dp"
         android:layout_height="0dp"
@@ -26,39 +13,23 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="28dp"
         android:hint="닉네임"
-        app:layout_constraintBottom_toTopOf="@+id/joinmail"
+        app:layout_constraintBottom_toTopOf="@+id/emailtextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/joinBtn"
+        android:id="@+id/changeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="68dp"
-        android:text="회원가입"
+        android:text="수정하기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/checkbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="중복"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
-        app:layout_constraintStart_toEndOf="@+id/joinId"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
 
     <EditText
         android:id="@+id/checkjoinpw"
@@ -89,30 +60,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/joinmail"
-        android:layout_width="280dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="28dp"
-        android:ems="10"
-        android:hint="이메일"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/joinBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView30"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="60dp"
-        android:text="@string/signup"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:text="개인정보 수정"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,14 +80,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="212dp"
         android:text="중복"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toEndOf="@+id/nickname"
-        app:layout_constraintTop_toBottomOf="@+id/checkbtn"
-        app:layout_constraintVertical_bias="0.469" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
+
+    <TextView
+        android:id="@+id/idtextView"
+        android:layout_width="278dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/joinpw"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView30"
+        app:layout_constraintVertical_bias="0.814" />
+
+    <TextView
+        android:id="@+id/emailtextView"
+        android:layout_width="276dp"
+        android:layout_height="49dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="548dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -15,4 +15,7 @@
     <item
         android:id="@+id/logout"
         android:title="로그아웃" />
+    <item
+        android:id="@+id/write"
+        android:title="글쓰기(이따뺄거)" />
 </menu>
