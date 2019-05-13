@@ -20,18 +20,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import kr.co.area.hashtag.Login.Join;
-import kr.co.area.hashtag.Login.Login;
 import kr.co.area.hashtag.R;
 
 public class WriteActivity extends AppCompatActivity {

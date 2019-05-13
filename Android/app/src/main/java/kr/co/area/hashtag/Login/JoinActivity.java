@@ -2,7 +2,7 @@ package kr.co.area.hashtag.Login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,14 +13,15 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
+import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.Main.Mypage;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.CheckIdTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 import kr.co.area.hashtag.asyncTask.JoinTask;
+import kr.co.area.hashtag.asyncTask.LoginTask;
 
-public class Join extends Activity {
+public class JoinActivity extends Activity {
     EditText joinId, joinPwd, checkPwd, joinMail, joinname;
     Button checkBtn, joinButton, checkName;
     boolean idCheck = false, nameCheck = false;
@@ -76,12 +77,18 @@ public class Join extends Activity {
         checkName.setOnClickListener(btnListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(JoinActivity.this, LoginActivity.class));
+        finish();
+    }
+
     View.OnClickListener btnListener = (view) -> {
         switch (view.getId()) {
             case R.id.checkbtn: // 중복 버튼 눌렀을 경우
                 String checkId = joinId.getText().toString();
                 if (checkId.equals("")) {
-                    Toast.makeText(Join.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JoinActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
@@ -93,10 +100,10 @@ public class Join extends Activity {
                     String state = jObject.getString("result");
                     System.out.println(state);
                     if (state.equals("avail")) {
-                        Toast.makeText(Join.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
                         idCheck = true;
                     } else if (state.equals("dup")) {
-                        Toast.makeText(Join.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -105,7 +112,7 @@ public class Join extends Activity {
             case R.id.checkbtn2: // 중복 버튼 눌렀을 경우
                 String checkName = joinname.getText().toString();
                 if (checkName.equals("")) {
-                    Toast.makeText(Join.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JoinActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
@@ -117,10 +124,10 @@ public class Join extends Activity {
                     String state = jObject.getString("result");
                     System.out.println(state);
                     if (state.equals("avail")) {
-                        Toast.makeText(Join.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                         nameCheck = true;
                     } else if (state.equals("dup")) {
-                        Toast.makeText(Join.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -135,31 +142,31 @@ public class Join extends Activity {
 
                 try {
                     if (!userPwd.equals(checkPw)) {
-                        Toast.makeText(Join.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (!idCheck) {
-                        Toast.makeText(Join.this, "확인되지 않은 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "확인되지 않은 아이디 입니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (!nameCheck) {
-                        Toast.makeText(Join.this, "확인되지 않은 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "확인되지 않은 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (username.equals("")) {
-                        Toast.makeText(Join.this, "닉네임을 적어주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "닉네임을 적어주세요.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (userPwd.equals("")) {
-                        Toast.makeText(Join.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (checkPw.equals("")) {
-                        Toast.makeText(Join.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (userMail.equals("")) {
-                        Toast.makeText(Join.this, "이메일을 적어주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "이메일을 적어주세요.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     String result = new JoinTask(activity).execute(userId, userPwd, username, userMail).get();
@@ -169,12 +176,12 @@ public class Join extends Activity {
                     System.out.println(state);
 
                     if (state.equals("success")) {
-                        Toast.makeText(Join.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Join.this, Login.class);
+                        Toast.makeText(JoinActivity.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     } else if (state.equals("email fail")) {
-                        Toast.makeText(Join.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JoinActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (Exception e) {

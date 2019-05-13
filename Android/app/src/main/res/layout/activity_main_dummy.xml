@@ -42,12 +42,12 @@
             android:text="@string/success_login" />
 
         <View
-            android:id="@+id/view5"
+            android:id="@+id/toolbar_bottom"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_below="@+id/toolbar"
             android:layout_marginTop="-2dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimaryDark" />
 
     </RelativeLayout>
 

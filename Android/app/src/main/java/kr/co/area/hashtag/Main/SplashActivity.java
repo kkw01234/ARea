@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import kr.co.area.hashtag.Login.Login;
+import kr.co.area.hashtag.Login.LoginActivity;
 import kr.co.area.hashtag.asyncTask.LoginTask;
 
 public class SplashActivity extends Activity {
@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
                     SharedPreferences.Editor editor = auto.edit();
                     editor.clear();
                     editor.commit();
-                    startActivity(new Intent(this, Login.class));
+                    startActivity(new Intent(this, LoginActivity.class));
                     finish();
                 }
             } catch (Exception e) {
@@ -50,7 +50,7 @@ public class SplashActivity extends Activity {
             SharedPreferences.Editor editor = auto.edit();
             editor.clear();
             editor.commit();
-            startActivity(new Intent(this, Login.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }

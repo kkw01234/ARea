@@ -68,9 +68,9 @@ public class Mypage extends AppCompatActivity {
         //-----------------------------------------------------------------------
         // 사진들을 보여줄 GridView 뷰의 어댑터 객체를 정의하고 그것을 이 뷰의 어댑터로 설정.
 
-        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
-        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
-        gridViewImages.setAdapter(imageGridAdapter);
+//        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
+//        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
+//        gridViewImages.setAdapter(imageGridAdapter);
     }
 }
 

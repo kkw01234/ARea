@@ -12,13 +12,13 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import kr.co.area.hashtag.Login.Join;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 
 public class ChangeMypage extends AppCompatActivity {
-    EditText joinPwd, checkPwd, joinMail, joinname;
-    Button changeButton, checkName;
+    TextView idView, emailView;
+    EditText joinPwd, checkPwd, joinname;
+    Button changeButton, checkNamebtn;
     boolean nameCheck = false;
     Activity activity;
 
@@ -26,24 +26,25 @@ public class ChangeMypage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changemypage);
 
-        TextView idView = (TextView) findViewById(R.id.idtextView);
-        TextView emailView = (TextView) findViewById(R.id.emailtextView);
+        activity = this;
+        idView = (TextView) findViewById(R.id.idtextView);
+        emailView = (TextView) findViewById(R.id.emailtextView);
         joinPwd = (EditText) findViewById(R.id.joinpw);
         checkPwd = (EditText) findViewById(R.id.checkjoinpw);
         joinname = (EditText) findViewById(R.id.nickname);
         changeButton = (Button) findViewById(R.id.changeBtn);
-        checkName = (Button) findViewById(R.id.checkbtn2);
+        checkNamebtn = (Button) findViewById(R.id.checkbtn2);
 
         SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
         String userId = auto.getString("userId",null);
         String userName = auto.getString("userName",null);
-        String userEmail = auto.getString("useremail", null);
+        String userEmail = auto.getString("userEmail", null);
 
         idView.setText(userId);
         emailView.setText(userEmail);
         joinname.setText(userName);
 
-        checkName.setOnClickListener(new View.OnClickListener() {
+        checkNamebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String checkName = joinname.getText().toString();

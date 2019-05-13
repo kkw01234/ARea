@@ -1,7 +1,6 @@
 package kr.co.area.hashtag.Main;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,17 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
-
-import kr.co.area.hashtag.Login.Login;
-import kr.co.area.hashtag.asyncTask.LogoutTask;
-import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Recommend.RecommendActivity;
-import kr.co.area.hashtag.Write.WriteActivity;
 
 public class MainActiviy extends AppCompatActivity {
 
@@ -113,7 +102,7 @@ public class MainActiviy extends AppCompatActivity {
 //                    JSONObject jObject = new JSONObject(result);
 //                    String state = jObject.getString("result");
 //                    System.out.println(state);
-//                    Intent intent6 = new Intent(MainActiviy.this, Login.class);
+//                    Intent intent6 = new Intent(MainActiviy.this, LoginActivity.class);
 //                    startActivity(intent6);
 //                } catch (ExecutionException e) {
 //                    e.printStackTrace();

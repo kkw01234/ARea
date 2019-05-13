@@ -3,10 +3,7 @@ package kr.co.area.hashtag.Main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,16 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.ExecutionException;
-
-import kr.co.area.hashtag.Login.Login;
+import kr.co.area.hashtag.Login.LoginActivity;
 import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.RecommendActivity;
@@ -81,33 +73,40 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.ar_search) {
-            startActivity(new Intent(this, AR.class));
-            finish();
-        } else if (id == R.id.map_search) {
-            startActivity(new Intent(this, GoogleMapsActivity.class));
-            finish();
-        } else if (id == R.id.kwd_search) {
-        } else if (id == R.id.rec_path) {
-            startActivity(new Intent(this, RecommendActivity.class));
-            finish();
-        } else if (id == R.id.logout) {
-            String result = null;
-            try {
-                result = new LogoutTask(activity).execute().get();
-                JSONObject jObject = new JSONObject(result);
-                String state = jObject.getString("result");
-                startActivity(new Intent(this, Login.class));
+        switch(id) {
+            case R.id.ar_search:
+                startActivity(new Intent(this, AR.class));
                 finish();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (id == R.id.write) {
-            startActivity(new Intent(this, WriteActivity.class));
-            finish();
+                break;
+            case R.id.map_search:
+                startActivity(new Intent(this, GoogleMapsActivity.class));
+                finish();
+                break;
+            case R.id.kwd_search:
+                startActivity(new Intent(this, RecommendActivity.class));
+                finish();
+                break;
+            case R.id.rec_path:
+                break;
+            case R.id.logout:
+                logout();
+                break;
+            case R.id.write:
+                startActivity(new Intent(this, WriteActivity.class));
+                finish();
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logout() {
+        try {
+            new LogoutTask(activity).execute().get();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

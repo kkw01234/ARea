@@ -32,8 +32,8 @@
         <activity android:name=".Write.WriteActivity" />
         <activity android:name=".Recommend.Recommendlist_2Activity" />
         <activity android:name=".Main.Mypage" />
-        <activity android:name=".Login.Join" />
-        <activity android:name=".Login.Login" />
+        <activity android:name=".Login.JoinActivity" />
+        <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Main.MainActiviy" />
         <activity android:name=".Write.SearchActivity"/>
         <activity android:name=".Main.ChangeMypage"/>
