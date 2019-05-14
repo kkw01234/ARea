@@ -3,8 +3,11 @@ package kr.co.area.hashtag.Main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -34,6 +38,7 @@ public class HomeActivity extends AppCompatActivity
     private View headerView;
     private TextView userHi,userEmail;
     private TextView goMyPage;
+    private ImageView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +57,20 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
+        SharedPreferences pref1 = getSharedPreferences("image",MODE_PRIVATE);
+        String image = pref1.getString("imagestrings","");
+        Bitmap bitmap = StringToBitMap(image);
+
         headerView = navigationView.getHeaderView(0);
         userHi = headerView.findViewById(R.id.userHi);
         userEmail = headerView.findViewById(R.id.useremail);
         userHi.setText(user.getString("userName", "???") + "님 안녕하세요");
         userEmail.setText(user.getString("userEmail",""));
 
+        if(!(image.equals(""))) {
+            profile = headerView.findViewById(R.id.profilView);
+            profile.setImageBitmap(bitmap);
+        }
         goMyPage = headerView.findViewById(R.id.goMyPage);
         goMyPage.setOnClickListener((v) -> {
             startActivity(new Intent(HomeActivity.this, Mypage.class));
@@ -71,6 +84,17 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
         }
     }
 
