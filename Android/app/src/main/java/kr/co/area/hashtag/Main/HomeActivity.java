@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private View headerView;
-    private TextView userHi;
+    private TextView userHi,userEmail;
     private TextView goMyPage;
 
     @Override
@@ -54,7 +54,10 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
         headerView = navigationView.getHeaderView(0);
         userHi = headerView.findViewById(R.id.userHi);
+        userEmail = headerView.findViewById(R.id.useremail);
         userHi.setText(user.getString("userName", "???") + "님 안녕하세요");
+        userEmail.setText(user.getString("userEmail",""));
+
         goMyPage = headerView.findViewById(R.id.goMyPage);
         goMyPage.setOnClickListener((v) -> {
             startActivity(new Intent(HomeActivity.this, Mypage.class));

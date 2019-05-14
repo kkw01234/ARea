@@ -14,7 +14,7 @@
     </style>
 
     <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/image</item>
     </style>
 
     <style name="EditTextStyle" parent="android:style/Widget.EditText">
@@ -25,19 +25,19 @@
 
     <style name="NavigationDrawerStyle">
 
-        <item name="android:textSize">25sp</item><!-- text size in menu-->
+        <!--<item name="android:textSize">25sp</item>&lt;!&ndash; text size in menu&ndash;&gt;-->
 
-        <!-- item size in menu-->
-        <item name="android:listPreferredItemHeightSmall">35dp</item>
-        <item name="listPreferredItemHeightSmall">35dp</item>
+        <!--&lt;!&ndash; item size in menu&ndash;&gt;-->
+        <!--<item name="android:listPreferredItemHeightSmall">35dp</item>-->
+        <!--<item name="listPreferredItemHeightSmall">35dp</item>-->
 
-        <!-- item padding left in menu-->
-        <item name="android:listPreferredItemPaddingLeft">8dp</item>
-        <item name="listPreferredItemPaddingLeft">8dp</item>
+        <!--&lt;!&ndash; item padding left in menu&ndash;&gt;-->
+        <!--<item name="android:listPreferredItemPaddingLeft">8dp</item>-->
+        <!--<item name="listPreferredItemPaddingLeft">8dp</item>-->
 
-        <!-- item padding right in menu-->
-        <item name="android:listPreferredItemPaddingRight">8dp</item>
-        <item name="listPreferredItemPaddingRight">8dp</item>
+        <!--&lt;!&ndash; item padding right in menu&ndash;&gt;-->
+        <!--<item name="android:listPreferredItemPaddingRight">8dp</item>-->
+        <!--<item name="listPreferredItemPaddingRight">8dp</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
