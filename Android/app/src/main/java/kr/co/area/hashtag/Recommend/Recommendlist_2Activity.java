@@ -12,11 +12,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +47,15 @@ public class Recommendlist_2Activity extends AppCompatActivity {
         TextView OpeningHour = (TextView) findViewById(R.id.place_time);
         Place_nameView.setText(title);
         AddressView.setText(address);
-        Place p = getPlaceInformation(id,pos);
-        OpeningHour.setText(p.getOpeningHours().getWeekdayText().get(0));
+        //Place p = getPlaceInformation(id,pos);
+        //OpeningHour.setText(p.getOpeningHours().getWeekdayText().get(0));
 
 
     }
-
+    /*
     public Place getPlaceInformation(String id,LatLng pos){//place의 정보를 받을 수 있는 메소드
         Place place = null;
-        /*
+
         Places.initialize(getApplicationContext(),"AIzaSyDGUj-frLFa_pp5Jer5IKWUfRv1tQ-mrJI");
         PlacesClient places = Places.createClient(getApplicationContext());
         List<Place.Field> fields = new ArrayList<>();
@@ -79,7 +74,7 @@ public class Recommendlist_2Activity extends AppCompatActivity {
         FetchPlaceRequest fetchPlaceRequest = FetchPlaceRequest.builder(id,fields).setCancellationToken(cancellationToken).build();
         places.fetchPlace(fetchPlaceRequest);
         FetchPlaceResponse fetchPlaceResponse = FetchPlaceResponse.
-        */
+
         if(Places.isInitialized()) {
             place = Place.builder().setId(id).build();
             System.out.println(place.getId());
@@ -90,6 +85,7 @@ public class Recommendlist_2Activity extends AppCompatActivity {
 
         return place;
     }
+    */
 }
 
 

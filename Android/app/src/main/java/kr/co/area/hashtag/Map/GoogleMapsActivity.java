@@ -22,12 +22,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.compat.ui.SupportPlaceAutocompleteFragment;
 //import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 
 
@@ -80,6 +84,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     Location mCurrentLocatiion;
     LatLng currentPosition;
+    LatLng searchPoistion;
 
 
     private FusedLocationProviderClient mFusedLocationClient; //어느버전부터는 이거 써야함 (예전버전꺼는 사용불가로바뀜)
@@ -126,6 +131,9 @@ public class GoogleMapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+
+        setupAutoCompleteFragment(mapFragment);
         /*
         AutocompleteSupportFragment autocompleteSupportFragment
                 =(AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -151,7 +159,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     LocationCallback locationCallback = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult) {
+        public void onLocationResult(LocationResult locationResult) { //맵이 실행시 자동적으로 실행되는 코드
             super.onLocationResult(locationResult);
 
             List<Location> locationList = locationResult.getLocations();
@@ -677,5 +685,32 @@ public class GoogleMapsActivity extends AppCompatActivity
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
+    }
+
+    private void setupAutoCompleteFragment(SupportMapFragment mapFragment){
+        SupportPlaceAutocompleteFragment autocompleteFragment = (SupportPlaceAutocompleteFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setFilter(new com.google.android.libraries.places.compat.AutocompleteFilter.Builder().setCountry("KR").build());
+        autocompleteFragment.setOnPlaceSelectedListener(new com.google.android.libraries.places.compat.ui.PlaceSelectionListener() {
+
+
+            @Override
+            public void onPlaceSelected(com.google.android.libraries.places.compat.Place place) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(place.getLatLng());
+                markerOptions.title((String)place.getName());
+                markerOptions.snippet((String)place.getAddress());
+                previous_marker.clear();
+                searchMarker = mGoogleMap.addMarker(markerOptions);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(place.getLatLng());
+                mGoogleMap.animateCamera(cameraUpdate,2000,null);
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.e("Error", status.getStatusMessage());
+            }
+        });
+
     }
 }
