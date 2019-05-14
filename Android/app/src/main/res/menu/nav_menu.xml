@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/menu_01"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/ar_search"
             android:icon="@drawable/ic_ai_button_unchecked_black_24dp"
@@ -12,15 +18,19 @@
             android:id="@+id/kwd_search"
             android:icon="@drawable/ic_search_black_24dp"
             android:title="키워드 검색" />
+    </group>
 
-    <item
-        android:id="@+id/rec_path"
-        android:icon="@drawable/ic_thumb_up_black_24dp"
-        android:title="추천 경로" />
-    <item
+
+        <item
+            android:id="@+id/rec_path"
+            android:icon="@drawable/ic_thumb_up_black_24dp"
+            android:title="추천 경로" />
+        <item
             android:id="@+id/logout"
+            android:icon="@drawable/ic_logout_black_24dp"
             android:title="로그아웃" />
-    <item
+        <item
             android:id="@+id/write"
+            android:icon="@drawable/ic_edit_black_24dp"
             android:title="글쓰기(이따뺄거)" />
 </menu>
