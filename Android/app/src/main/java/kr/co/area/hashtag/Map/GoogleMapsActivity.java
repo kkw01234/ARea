@@ -1,7 +1,6 @@
 package kr.co.area.hashtag.Map;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -29,8 +28,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+
+import com.google.android.libraries.places.compat.Places;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,12 +39,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.ui.SupportPlaceAutocompleteFragment;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 //import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +60,8 @@ import java.util.Locale;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.Recommendlist_2Activity;
+import kr.co.area.hashtag.asyncTask.AltitudeTask;
+import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 import kr.co.area.hashtag.utils.Request_Code;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.Place;
@@ -132,24 +142,12 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         mapFragment.getMapAsync(this);
 
-
+        //Test
         setupAutoCompleteFragment(mapFragment);
-        /*
-        AutocompleteSupportFragment autocompleteSupportFragment
-                =(AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        autocompleteSupportFragment.setOnPlaceSelectedListener(new com.google.android.libraries.places.widget.listener.PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
-                Snackbar.make(mLayout,"Place: " + place.getName() + ", " + place.getId(),1000).show();
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Snackbar.make(mLayout,"Place: " + status.toString(),1000).show();
-            }
-        });
-        */
+        Places.getGeoDataClient(this);
+        Places.getPlaceDetectionClient(this);
+        LocationServices.getFusedLocationProviderClient(this);
+        //=------------
         previous_marker = new ArrayList<>();
 
     }
@@ -185,7 +183,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
                 //현재 위치에 마커 생성하고 이동
-                setCurrentLocation(location, markerTitle, markerSnippet);
+                //setCurrentLocation(location, markerTitle, markerSnippet);
 
                 mCurrentLocatiion = location;
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentPosition);
@@ -313,25 +311,24 @@ public class GoogleMapsActivity extends AppCompatActivity
             }
         });
 
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mGoogleMap.setOnInfoWindowClickListener((marker)-> {
 
-            @Override
-            public void onInfoWindowClick(Marker marker) {
 
                 Intent intent = new Intent(getBaseContext(), Recommendlist_2Activity.class);
 
                 String title = marker.getTitle();
                 //String address = marker.getSnippet();
-                String id = marker.getSnippet();
+                String address = marker.getSnippet();
 
+                Place place = (Place)marker.getTag();
 
                 intent.putExtra("title", title);
                 //intent.putExtra( "address", address);
-                intent.putExtra("id",id);
-                intent.putExtra("pos",marker.getPosition());
+                intent.putExtra("id",place.getPlaceId());
+                intent.putExtra("address",address);
 
                 startActivity(intent);
-            }
+
         });
 
     }
@@ -474,6 +471,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         markerOptions.position(DEFAULT_LOCATION);
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
+
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         currentMarker = mGoogleMap.addMarker(markerOptions);
@@ -633,19 +631,24 @@ public class GoogleMapsActivity extends AppCompatActivity
     @Override
     public void onPlacesSuccess(final List<Place> places) {
         runOnUiThread(()->{
+                if(places == null || places.size()  == 0)
+                    return ;
 
                 for (noman.googleplaces.Place place : places) {
                     LatLng latLng
                             = new LatLng(place.getLatitude()
                             , place.getLongitude());
+                    Log.i(TAG, latLng.latitude+" "+latLng.longitude);
                     String markerSnippet = getCurrentAddress(latLng).get(0).getAddressLine(0);
+                    //String altitude = getAltitude(latLng);
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
                     markerOptions.title(place.getName());
-                    markerOptions.snippet(place.getPlaceId());
+                    markerOptions.snippet(markerSnippet);
 
 
                     Marker item = mGoogleMap.addMarker(markerOptions);
+                    item.setTag(place);
                     previous_marker.add(item);
                 }
 
@@ -679,7 +682,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         new NRPlaces.Builder()
                 .listener(GoogleMapsActivity.this)
-                .key("AIzaSyDGUj-frLFa_pp5Jer5IKWUfRv1tQ-mrJI")
+                .key(getResources().getString(R.string.google_maps_key))
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(1000) //1000 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
@@ -713,4 +716,20 @@ public class GoogleMapsActivity extends AppCompatActivity
         });
 
     }
+
+
+    public String getAltitude(LatLng latLng){ //고도 찾는 코드(Rest API)
+        try {
+            String elevation = new AltitudeTask(this)
+                    .execute(Double.toString(latLng.latitude), Double.toString(latLng.longitude))
+                    .get();
+            return elevation;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "good";
+    }
+
+
 }

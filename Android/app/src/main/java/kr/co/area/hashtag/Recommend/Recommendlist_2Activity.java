@@ -12,12 +12,19 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.libraries.places.compat.Place;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.area.hashtag.Main.Mypage;
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.DetailPlaceTask;
+import kr.co.area.hashtag.utils.Parameter;
+import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 
 public class Recommendlist_2Activity extends AppCompatActivity {
 
@@ -37,9 +44,10 @@ public class Recommendlist_2Activity extends AppCompatActivity {
 
         }else{
             title = extra.getString("title");
-            //address = extra.getString("address");
+            address = extra.getString("address");
             id=extra.getString("id");
             pos = (LatLng)extra.getParcelable("pos");
+
         }
 
         TextView Place_nameView = (TextView) findViewById(R.id.place_name);
@@ -47,45 +55,61 @@ public class Recommendlist_2Activity extends AppCompatActivity {
         TextView OpeningHour = (TextView) findViewById(R.id.place_time);
         Place_nameView.setText(title);
         AddressView.setText(address);
-        //Place p = getPlaceInformation(id,pos);
-        //OpeningHour.setText(p.getOpeningHours().getWeekdayText().get(0));
+        JsonObject object = getPlaceInformation(id);
 
-
-    }
-    /*
-    public Place getPlaceInformation(String id,LatLng pos){//place의 정보를 받을 수 있는 메소드
-        Place place = null;
-
-        Places.initialize(getApplicationContext(),"AIzaSyDGUj-frLFa_pp5Jer5IKWUfRv1tQ-mrJI");
-        PlacesClient places = Places.createClient(getApplicationContext());
-        List<Place.Field> fields = new ArrayList<>();
-        CancellationToken cancellationToken = new CancellationToken() {
-            @Override
-            public boolean isCancellationRequested() {
-                return false;
+        JsonObject opening_hours = (JsonObject) object.get("opening_hours");
+        if(object.has("weekday_text")) {
+            JsonArray weekday_text = (JsonArray) opening_hours.get("weekday_text");
+            OpeningHour.setText("");
+            if (weekday_text != null) {
+                for (int i = 0; i < weekday_text.size(); i++) {
+                    OpeningHour.append(weekday_text.get(i).getAsString());
+                }
             }
-
-            @Override
-            public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
-                return null;
-            }
-        };
-
-        FetchPlaceRequest fetchPlaceRequest = FetchPlaceRequest.builder(id,fields).setCancellationToken(cancellationToken).build();
-        places.fetchPlace(fetchPlaceRequest);
-        FetchPlaceResponse fetchPlaceResponse = FetchPlaceResponse.
-
-        if(Places.isInitialized()) {
-            place = Place.builder().setId(id).build();
-            System.out.println(place.getId());
-            System.out.println(place.getName());
         }
-        else
-            Log.i("헤헤헤헤헤","키 값을 확인하세요");
 
-        return place;
+
     }
-    */
+
+    public JsonObject getPlaceInformation(String id) {
+        try {//place의 정보를 받을 수 있는 메소드
+            String result = new DetailPlaceTask(this).execute(id).get();
+            JsonParser parser = new JsonParser();
+            JsonObject obj = (JsonObject) parser.parse(result);
+            return (JsonObject) obj.get("result");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+        /*
+        JsonObject detailPlace = null;
+        String url = "https://maps.googleapis.com/maps/api/place/details/json";
+        List<Parameter> params = new ArrayList<>();
+        params.add(new Parameter("placeid",id));
+        params.add(new Parameter("key",getResources().getString(R.string.google_maps_key)));
+        new Thread(){
+            public void run(){
+                RequestHttpURLConnection urlConnection = new RequestHttpURLConnection();
+                StringBuffer response = new StringBuffer();
+                int requestCode = urlConnection.GetHttpToServer(url,params,response);
+                if(requestCode ==1) {
+                    Log.d("RECOMMEND", response.toString());
+
+                }else {
+                    detailPlace = null;
+                    return;
+                }
+                JsonParser parser = new JsonParser();
+                JsonObject obj =(JsonObject)parser.parse(response.toString());
+                detailPlace = (JsonObject) obj.get("result");
+                Log.i("dd2",detailPlace.toString());
+
+
+            }
+        }.start();
+        */
+    }
+
 }
 
 

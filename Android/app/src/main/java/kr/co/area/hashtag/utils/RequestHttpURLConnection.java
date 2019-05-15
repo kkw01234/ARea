@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,5 +147,40 @@ public class RequestHttpURLConnection {
             Log.d("LOG", "세션 아이디" + sessionid + "가 요청 헤더에 포함 되었습니다.");
             urlConn.setRequestProperty("Cookie", sessionid);
         }
+    }
+
+    public int GetHttpToServer(String _url,List<Parameter> params ,StringBuffer response){ //Rest API 사용하고 싶을 때 //Json구조로 Return이 됨
+        try{
+            StringBuilder builder = new StringBuilder(_url);
+            builder.append("?");
+            if(params != null) {
+                for (int i = 0; i < params.size(); i++) {
+                    String key = params.get(i).getKey();
+                    String value = params.get(i).getValue();
+                    builder.append(key);
+                    builder.append("=");
+                    builder.append(value);
+                    if (i != params.size() - 1)
+                        builder.append("&");
+                }
+            }
+            Log.d("URL",builder.toString());
+            URL url = new URL(builder.toString());
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            int resonseCode = conn.getResponseCode();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            while((inputLine = br.readLine())!=null){
+                response.append(inputLine);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 }
