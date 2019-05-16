@@ -639,7 +639,12 @@ public class GoogleMapsActivity extends AppCompatActivity
                             = new LatLng(place.getLatitude()
                             , place.getLongitude());
                     Log.i(TAG, latLng.latitude+" "+latLng.longitude);
-                    String markerSnippet = getCurrentAddress(latLng).get(0).getAddressLine(0);
+                    List<Address> address = getCurrentAddress(latLng);
+                    String markerSnippet=null;
+                    if(address != null)
+                         markerSnippet = address.get(0).getAddressLine(0);
+                    else
+                            markerSnippet =latLng.latitude + " " + latLng.longitude;
                     //String altitude = getAltitude(latLng);
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
