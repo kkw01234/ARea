@@ -102,6 +102,9 @@ public class WriteActivity extends AppCompatActivity {
                 reviewPoint = rb.getRating();
                 reviewAddress = address.getText().toString();
 
+                Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+                startActivity(wrintent);
+
 //                try {
 //                    String result = new WriteTask().execute(reviewUser,reviewAddress,reviewText,Double.toString(reviewPoint)).get();
 //

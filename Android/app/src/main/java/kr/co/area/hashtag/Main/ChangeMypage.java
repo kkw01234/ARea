@@ -13,6 +13,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.ChangeNameTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 
 public class ChangeMypage extends AppCompatActivity {
@@ -76,6 +77,28 @@ public class ChangeMypage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*닉네임 수정 서버*/
+//                String checkName = joinname.getText().toString();
+//                if (checkName.equals("")) {
+//                    Toast.makeText(ChangeMypage.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                try {
+//                    String result = new ChangeNameTask(activity).execute(checkName).get();
+//                    /*
+//                     *  제이슨 구조 해독해서, result 값 알기
+//                     * */
+//                    JSONObject jObject = new JSONObject(result);
+//                    String state = jObject.getString("result");
+//                    System.out.println(state);
+//                    if (state.equals("avail")) {
+//                        Toast.makeText(ChangeMypage.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+//                        nameCheck = true;
+//                    } else if (state.equals("dup")) {
+//                        Toast.makeText(ChangeMypage.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 

@@ -1,5 +1,7 @@
 package kr.co.area.hashtag.utils;
 
+import android.graphics.Bitmap;
+
 public class Parameter {
     private String key, value;
 
@@ -7,6 +9,7 @@ public class Parameter {
         this.key = key;
         this.value = value;
     }
+
 
     public String getKey() {
         return key;

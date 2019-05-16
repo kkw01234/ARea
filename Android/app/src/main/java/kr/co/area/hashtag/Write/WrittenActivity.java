@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import kr.co.area.hashtag.R;
@@ -26,8 +27,10 @@ public class WrittenActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.viewText);
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+        TextView adView = (TextView) findViewById(R.id.adView);
         textView.setText(WriteActivity.reviewText);
         ratingBar.setRating(WriteActivity.reviewPoint);
+        adView.setText(WriteActivity.reviewAddress);
         imageView.setImageBitmap(WriteActivity.scaled);
 
         btn2.setOnClickListener(new View.OnClickListener() {
