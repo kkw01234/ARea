@@ -124,7 +124,7 @@ public class LoginActivity extends Activity {
         long intervalTime = tempTime - backPressedTime;
 
         if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-            super.onBackPressed();
+            finishAndRemoveTask();
         }
         else {
             backPressedTime = tempTime;

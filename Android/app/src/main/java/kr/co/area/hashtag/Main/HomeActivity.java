@@ -88,7 +88,8 @@ public class HomeActivity extends AppCompatActivity
             long intervalTime = tempTime - backPressedTime;
 
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-                super.onBackPressed();
+                logout();
+                finishAndRemoveTask();
             }
             else {
                 backPressedTime = tempTime;
@@ -127,6 +128,8 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.logout:
                 logout();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 break;
             case R.id.write:
                 startActivity(new Intent(this, WriteActivity.class));
@@ -140,8 +143,6 @@ public class HomeActivity extends AppCompatActivity
     private void logout() {
         try {
             new LogoutTask(activity).execute().get();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
         } catch (Exception e) {
             e.printStackTrace();
         }
