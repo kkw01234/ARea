@@ -1,6 +1,7 @@
 package kr.co.area.hashtag.Write;
 
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 import kr.co.area.hashtag.utils.Parameter;
 
@@ -127,6 +128,11 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
 
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(WriteActivity.this, HomeActivity.class));
+        finish();
     }
 
     //로드버튼 클릭시 실행

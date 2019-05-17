@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.Main.Mypage;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.DetailPlaceTask;
@@ -69,6 +70,11 @@ public class Recommendlist_2Activity extends AppCompatActivity {
         }
 
 
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(Recommendlist_2Activity.this, HomeActivity.class));
+        finish();
     }
 
     public JsonObject getPlaceInformation(String id) {

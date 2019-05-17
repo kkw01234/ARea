@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Write.WriteActivity;
 
@@ -39,5 +40,10 @@ public class WrittenActivity extends AppCompatActivity {
               finish(); //이전으로 되돌아갈때는 Intent로 옮기면 안되고 finish()로 해주면 됩니다.
             }
         });
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(WrittenActivity.this, HomeActivity.class));
+        finish();
     }
 }

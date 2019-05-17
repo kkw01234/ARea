@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.R;
 
 public class DetailRecommendActivity extends AppCompatActivity {
@@ -24,5 +25,10 @@ public class DetailRecommendActivity extends AppCompatActivity {
                         startActivity(intent); // 다음 화면으로 넘어가기
             }
         });
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(DetailRecommendActivity.this, HomeActivity.class));
+        finish();
     }
 }

@@ -25,20 +25,47 @@
         <activity
             android:name=".Main.HomeActivity"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Main.AR" />
-        <activity android:name=".Recommend.DetailRecommendActivity" />
-        <activity android:name=".Recommend.RecommendActivity" />
-        <activity android:name=".Write.WrittenActivity" />
-        <activity android:name=".Write.WriteActivity" />
-        <activity android:name=".Recommend.Recommendlist_2Activity" />
-        <activity android:name=".Main.Mypage" />
-        <activity android:name=".Login.JoinActivity" />
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".Main.MainActiviy" />
-        <activity android:name=".Write.SearchActivity"/>
-        <activity android:name=".Main.ChangeMypage"/>
-        <activity android:name=".Map.GoogleMapsActivity" />
+        <activity
+            android:name=".Main.AR"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Recommend.DetailRecommendActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Recommend.RecommendActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Write.WrittenActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Write.WriteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Recommend.Recommendlist_2Activity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Main.Mypage"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Login.JoinActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Login.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Main.MainActiviy"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Write.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Main.ChangeMypage"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Map.GoogleMapsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Main.SplashActivity"
             android:screenOrientation="portrait"

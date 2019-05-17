@@ -28,6 +28,8 @@ public class LoginActivity extends Activity {
     Switch autoLogin;
     boolean isAuto;
     Activity activity;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,17 @@ public class LoginActivity extends Activity {
             e.printStackTrace();
         }
     }
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
 
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        }
+        else {
+            backPressedTime = tempTime;
+        }
+    }
     private void logout() {
         try {
             new LogoutTask(activity).execute().get();

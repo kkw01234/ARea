@@ -58,6 +58,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.Recommendlist_2Activity;
 import kr.co.area.hashtag.asyncTask.AltitudeTask;
@@ -106,6 +107,11 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     List<Marker> previous_marker = null; //맛집 마커 저장하는곳
 
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(GoogleMapsActivity.this, HomeActivity.class));
+        finish();
+    }
 
 
     @Override

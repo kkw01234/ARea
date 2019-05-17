@@ -1,6 +1,7 @@
 package kr.co.area.hashtag.Main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -103,6 +104,11 @@ public class ChangeMypage extends AppCompatActivity {
         });
 
 
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(ChangeMypage.this, HomeActivity.class));
+        finish();
     }
 
 }

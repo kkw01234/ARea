@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import kr.co.area.hashtag.Main.HomeActivity;
 import kr.co.area.hashtag.R;
 
 
@@ -24,6 +25,11 @@ public class RecommendActivity extends AppCompatActivity {
                     detailRecommentAction();
             }
         });
+    }
+    //뒤로가기
+    public void onBackPressed() {
+        startActivity(new Intent(RecommendActivity.this, HomeActivity.class));
+        finish();
     }
 
     public void detailRecommentAction(){
