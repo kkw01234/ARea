@@ -28,6 +28,7 @@ import kr.co.area.hashtag.Map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.Recommend.RecommendActivity;
 import kr.co.area.hashtag.Write.WriteActivity;
+import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 
 public class HomeActivity extends AppCompatActivity
@@ -115,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.ar_search:
-                startActivity(new Intent(this, AR.class));
+                startActivity(new Intent(this, ARActivity.class));
                 finish();
                 break;
             case R.id.map_search:
