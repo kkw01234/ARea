@@ -19,9 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONObject;
 
 import kr.co.area.hashtag.Login.LoginActivity;
 import kr.co.area.hashtag.Map.GoogleMapsActivity;
@@ -47,7 +44,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_dummy);
+        setContentView(R.layout.activity_home);
         activity = this;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
