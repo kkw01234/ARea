@@ -26,6 +26,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:backgroundTintMode="add"
+        android:cursorVisible="true"
         android:hint="아이디"
         android:inputType="textPersonName"
         android:paddingStart="10dp"

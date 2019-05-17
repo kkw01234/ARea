@@ -1,12 +1,15 @@
 package kr.co.area.hashtag.Login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -75,6 +78,15 @@ public class JoinActivity extends Activity {
         checkBtn.setOnClickListener(btnListener);
         joinButton.setOnClickListener(btnListener);
         checkName.setOnClickListener(btnListener);
+        joinMail.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        joinMail.setOnEditorActionListener((v, actionId, event) ->
+        {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                join();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -89,6 +101,10 @@ public class JoinActivity extends Activity {
                 String checkId = joinId.getText().toString();
                 if (checkId.equals("")) {
                     Toast.makeText(JoinActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    joinId.setFocusableInTouchMode(true);
+                    joinId.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinId,0);
                     return;
                 }
                 try {
@@ -102,8 +118,16 @@ public class JoinActivity extends Activity {
                     if (state.equals("avail")) {
                         Toast.makeText(JoinActivity.this, "사용가능한 아이디 입니다.", Toast.LENGTH_SHORT).show();
                         idCheck = true;
+                        joinPwd.setFocusableInTouchMode(true);
+                        joinPwd.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(joinPwd,0);
                     } else if (state.equals("dup")) {
                         Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        joinId.setFocusableInTouchMode(true);
+                        joinId.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(joinId,0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -113,6 +137,10 @@ public class JoinActivity extends Activity {
                 String checkName = joinname.getText().toString();
                 if (checkName.equals("")) {
                     Toast.makeText(JoinActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    joinname.setFocusableInTouchMode(true);
+                    joinname.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinname,0);
                     return;
                 }
                 try {
@@ -126,69 +154,112 @@ public class JoinActivity extends Activity {
                     if (state.equals("avail")) {
                         Toast.makeText(JoinActivity.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                         nameCheck = true;
+                        joinMail.setFocusableInTouchMode(true);
+                        joinMail.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(joinMail,0);
                     } else if (state.equals("dup")) {
                         Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        joinname.setFocusableInTouchMode(true);
+                        joinname.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(joinname,0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.joinBtn: // 회원가입
-                String userId = joinId.getText().toString();
-                String userPwd = joinPwd.getText().toString();
-                String checkPw = checkPwd.getText().toString();
-                String username = joinname.getText().toString();
-                String userMail = joinMail.getText().toString();
-
-                try {
-                    if (!userPwd.equals(checkPw)) {
-                        Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (!idCheck) {
-                        Toast.makeText(JoinActivity.this, "확인되지 않은 아이디 입니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (!nameCheck) {
-                        Toast.makeText(JoinActivity.this, "확인되지 않은 닉네임 입니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (username.equals("")) {
-                        Toast.makeText(JoinActivity.this, "닉네임을 적어주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (userPwd.equals("")) {
-                        Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (checkPw.equals("")) {
-                        Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (userMail.equals("")) {
-                        Toast.makeText(JoinActivity.this, "이메일을 적어주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    String result = new JoinTask(activity).execute(userId, userPwd, username, userMail).get();
-
-                    JSONObject jObject = new JSONObject(result);
-                    String state = jObject.getString("result");
-                    System.out.println(state);
-
-                    if (state.equals("success")) {
-                        Toast.makeText(JoinActivity.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else if (state.equals("email fail")) {
-                        Toast.makeText(JoinActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                join();
                 break;
         }
     };
+    private void join(){
+        String userId = joinId.getText().toString();
+        String userPwd = joinPwd.getText().toString();
+        String checkPw = checkPwd.getText().toString();
+        String username = joinname.getText().toString();
+        String userMail = joinMail.getText().toString();
+
+        try {
+            if (!userPwd.equals(checkPw)) {
+                Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
+                joinPwd.setFocusableInTouchMode(true);
+                joinPwd.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinPwd,0);
+                return;
+            }
+            if (!idCheck) {
+                Toast.makeText(JoinActivity.this, "확인되지 않은 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                joinId.setFocusableInTouchMode(true);
+                joinId.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinId,0);
+                return;
+            }
+            if (!nameCheck) {
+                Toast.makeText(JoinActivity.this, "확인되지 않은 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                joinname.setFocusableInTouchMode(true);
+                joinname.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinname,0);
+                return;
+            }
+            if (username.equals("")) {
+                Toast.makeText(JoinActivity.this, "닉네임을 적어주세요.", Toast.LENGTH_SHORT).show();
+                joinname.setFocusableInTouchMode(true);
+                joinname.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinname,0);
+                return;
+            }
+            if (userPwd.equals("")) {
+                Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                joinPwd.setFocusableInTouchMode(true);
+                joinPwd.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinPwd,0);
+                return;
+            }
+            if (checkPw.equals("")) {
+                Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                joinPwd.setFocusableInTouchMode(true);
+                joinPwd.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinPwd,0);
+                return;
+            }
+            if (userMail.equals("")) {
+                Toast.makeText(JoinActivity.this, "이메일을 적어주세요.", Toast.LENGTH_SHORT).show();
+                joinMail.setFocusableInTouchMode(true);
+                joinMail.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinMail,0);
+                return;
+            }
+            String result = new JoinTask(activity).execute(userId, userPwd, username, userMail).get();
+
+            JSONObject jObject = new JSONObject(result);
+            String state = jObject.getString("result");
+            System.out.println(state);
+
+            if (state.equals("success")) {
+                Toast.makeText(JoinActivity.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else if (state.equals("email fail")) {
+                Toast.makeText(JoinActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                joinMail.setFocusableInTouchMode(true);
+                joinMail.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinMail,0);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
