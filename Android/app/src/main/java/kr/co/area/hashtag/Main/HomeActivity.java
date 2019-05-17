@@ -124,10 +124,9 @@ public class HomeActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.kwd_search:
-                startActivity(new Intent(this, RecommendActivity.class));
-                finish();
                 break;
             case R.id.rec_path:
+                startActivity(new Intent(this, RecommendActivity.class));
                 break;
             case R.id.logout:
                 logout();

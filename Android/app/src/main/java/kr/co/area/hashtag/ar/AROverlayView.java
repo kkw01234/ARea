@@ -31,9 +31,9 @@ import noman.googleplaces.PlacesListener;
 public class AROverlayView extends View implements PlacesListener {
     Activity activity;
     private float[] rotatedProjectionMatrix = new float[16];
+    private Location psLocation;
     private Location currentLocation;
     private List<ARPoint> arPoints;
-    private List<ARPoint> bufferPoints;
     private Bitmap bmp; // 식당 이미지 by 비트맵
 
     public AROverlayView(Activity activity) {
@@ -41,18 +41,36 @@ public class AROverlayView extends View implements PlacesListener {
         this.activity = activity;
         bmp = scaleDown(BitmapFactory.decodeResource(getResources(), R.drawable.ar_rest), 200, true); // 이미지 축소시키기
         arPoints = new ArrayList<>();
-        bufferPoints = new ArrayList<>();
+    }
+
+    public void pause() {
+        arPoints.clear();
+    }
+
+    public void resume() {
+        doSearch();
     }
 
     public void doSearch() {
+        if (currentLocation == null) return;
+        psLocation = currentLocation;
         new NRPlaces.Builder()
                 .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(currentLocation.getLatitude(), currentLocation.getLongitude())//현재 위치
-                .radius(30) // param 미터 내에서 검색
+                .radius(40) // param 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) // TYPE : 음식점
                 .build()
                 .execute();
+    }
+
+    public void removePast() {
+        for (int i = 0; i < arPoints.size(); ++i) {
+            ARPoint arPoint = arPoints.get(i);
+            if (currentLocation.distanceTo(arPoint.location) >= 60) { // 이러면 한번에 다 안지워지는거 알지만
+                arPoints.remove(arPoint); // 딱히 좋은 아이디어가 떠오르지 않는다. 어짜피 언젠간 다 지워질 것
+            }
+        }
     }
 
     public Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) { // 사진 축소 함수
@@ -73,8 +91,11 @@ public class AROverlayView extends View implements PlacesListener {
     }
 
     public void updateCurrentLocation(Location currentLocation) {
+        removePast();
+        if (psLocation == null || currentLocation.distanceTo(psLocation) >= 20) // 이동 거리가 20m 이상일 때 구글 플레이스 서치
+            doSearch();
         this.currentLocation = currentLocation; // location 갱신
-        doSearch();
+        this.invalidate();
     }
 
     @Override
@@ -83,7 +104,6 @@ public class AROverlayView extends View implements PlacesListener {
 
     @Override
     public void onPlacesStart() {
-        bufferPoints.clear();
     }
 
     @Override
@@ -92,11 +112,10 @@ public class AROverlayView extends View implements PlacesListener {
             if (places != null) {
                 for (Place place : places) {
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    // String alt = getAltitude(latLng);
-//                    bufferPoints.add(new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
-//                            (alt != null) ? Double.parseDouble(alt) : 0));
-                    bufferPoints.add(new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
-                            currentLocation.getAltitude()));
+                    String alt = getAltitude(latLng);
+                    ARPoint arPoint = new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
+                            ((alt != null) ? Double.parseDouble(alt) : currentLocation.getAltitude()) + 20);
+                    if (!arPoints.contains(arPoint)) arPoints.add(arPoint);
                 }
             }
         });
@@ -104,8 +123,6 @@ public class AROverlayView extends View implements PlacesListener {
 
     @Override
     public void onPlacesFinished() {
-        arPoints.clear();
-        arPoints.addAll(bufferPoints);
     }
 
     public String getAltitude(LatLng latLng) { //고도 찾는 코드(Rest API)

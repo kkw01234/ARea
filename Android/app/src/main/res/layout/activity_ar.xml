@@ -20,16 +20,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textColor="@android:color/white"
-        android:text="GPS is loading..."/>
+        android:text="GPS is loading..."
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/tv_current_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
-        android:textColor="@android:color/white"
-        android:text="GPS is loading..."/>
+        android:layout_marginTop="50dp"
+        android:text="GPS is loading..."
+        android:textColor="@android:color/white" />
 
 </FrameLayout>

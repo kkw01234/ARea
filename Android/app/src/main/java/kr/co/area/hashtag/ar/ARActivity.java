@@ -18,7 +18,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,12 +85,14 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     @Override
     public void onResume() {
         initCamera();
+        arOverlayView.resume();
         super.onResume();
     }
 
     @Override
     public void onPause() {
         releaseCamera();
+        arOverlayView.pause();
         super.onPause();
     }
 
@@ -171,7 +175,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
                 camera.startPreview();
                 arCamera.setCamera(camera);
             } catch (RuntimeException ex) {
-                Toast.makeText(this, "카메라를 킬 수 없습니다", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "카메라 권한이 필요합니다", Toast.LENGTH_LONG).show();
             }
         }
     }
