@@ -25,11 +25,4 @@ public class ARPoint {
     public String getName() {
         return name;
     }
-
-    public boolean equals(Object o) {
-        ARPoint a = (ARPoint) o;
-        return (name == a.name) && (location.getLatitude() == a.location.getLatitude())
-                && (location.getLongitude() == a.location.getLongitude()) &&
-                (location.getAltitude() == a.location.getAltitude());
-    }
 }

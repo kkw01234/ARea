@@ -58,19 +58,10 @@ public class AROverlayView extends View implements PlacesListener {
                 .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(currentLocation.getLatitude(), currentLocation.getLongitude())//현재 위치
-                .radius(40) // param 미터 내에서 검색
+                .radius(50) // param 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) // TYPE : 음식점
                 .build()
                 .execute();
-    }
-
-    public void removePast() {
-        for (int i = 0; i < arPoints.size(); ++i) {
-            ARPoint arPoint = arPoints.get(i);
-            if (currentLocation.distanceTo(arPoint.location) >= 60) { // 이러면 한번에 다 안지워지는거 알지만
-                arPoints.remove(arPoint); // 딱히 좋은 아이디어가 떠오르지 않는다. 어짜피 언젠간 다 지워질 것
-            }
-        }
     }
 
     public Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) { // 사진 축소 함수
@@ -91,8 +82,7 @@ public class AROverlayView extends View implements PlacesListener {
     }
 
     public void updateCurrentLocation(Location currentLocation) {
-        removePast();
-        if (psLocation == null || currentLocation.distanceTo(psLocation) >= 20) // 이동 거리가 20m 이상일 때 구글 플레이스 서치
+        if (psLocation == null || currentLocation.distanceTo(psLocation) >= 15) // 이동 거리가 15m 이상일 때 구글 플레이스 서치
             doSearch();
         this.currentLocation = currentLocation; // location 갱신
         this.invalidate();
@@ -104,6 +94,7 @@ public class AROverlayView extends View implements PlacesListener {
 
     @Override
     public void onPlacesStart() {
+        arPoints.clear();
     }
 
     @Override
@@ -112,10 +103,9 @@ public class AROverlayView extends View implements PlacesListener {
             if (places != null) {
                 for (Place place : places) {
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    String alt = getAltitude(latLng);
                     ARPoint arPoint = new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
-                            ((alt != null) ? Double.parseDouble(alt) : currentLocation.getAltitude()) + 20);
-                    if (!arPoints.contains(arPoint)) arPoints.add(arPoint);
+                            psLocation.getAltitude());
+                    arPoints.add(arPoint);
                 }
             }
         });

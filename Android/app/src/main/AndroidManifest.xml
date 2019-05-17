@@ -55,9 +55,6 @@
             android:name=".Login.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Main.MainActiviy"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".Write.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
