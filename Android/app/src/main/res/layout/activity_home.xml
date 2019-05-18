@@ -49,6 +49,48 @@
             android:layout_marginTop="-2dp"
             android:background="@color/colorPrimaryDark" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#009688"
+            android:src="@drawable/ic_add_black_24dp"
+            app:borderWidth="0dp"
+            app:fabSize="normal"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/map_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fab"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#ffffff"
+            android:src="@drawable/ic_location_on_black_24dp"
+            android:visibility="invisible"
+            app:borderWidth="0dp"
+            app:fabSize="normal"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AR_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/map_Button"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#ffffff"
+            android:src="@drawable/ic_ai_button_unchecked_black_24dp"
+            android:visibility="invisible"
+            app:borderWidth="0dp"
+            app:fabSize="normal"/>
+
     </RelativeLayout>
 
     <!--navigation drawer-->

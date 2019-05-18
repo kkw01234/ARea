@@ -28,18 +28,26 @@ import kr.co.area.hashtag.Write.WriteActivity;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
+
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private Activity activity;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private View headerView;
-    private TextView userHi,userEmail;
+    private TextView userHi, userEmail;
     private TextView goMyPage;
     private ImageView profile;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, map_button, AR_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +66,17 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
-        SharedPreferences pref1 = getSharedPreferences("image",MODE_PRIVATE);
-        String image = pref1.getString("imagestrings","");
+        SharedPreferences pref1 = getSharedPreferences("image", MODE_PRIVATE);
+        String image = pref1.getString("imagestrings", "");
         Bitmap bitmap = StringToBitMap(image);
 
         headerView = navigationView.getHeaderView(0);
         userHi = headerView.findViewById(R.id.userHi);
         userEmail = headerView.findViewById(R.id.useremail);
         userHi.setText(user.getString("userName", "???") + "님 안녕하세요");
-        userEmail.setText(user.getString("userEmail",""));
+        userEmail.setText(user.getString("userEmail", ""));
 
-        if(!(image.equals(""))) {
+        if (!(image.equals(""))) {
             profile = headerView.findViewById(R.id.profilView);
             profile.setImageBitmap(bitmap);
         }
@@ -77,6 +85,18 @@ public class HomeActivity extends AppCompatActivity
             startActivity(new Intent(HomeActivity.this, Mypage.class));
             finish();
         });
+
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        map_button = (FloatingActionButton)findViewById(R.id.map_Button);
+        AR_button = (FloatingActionButton)findViewById(R.id.AR_Button);
+
+        fab.setOnClickListener(this);
+        map_button.setOnClickListener(this);
+        AR_button.setOnClickListener(this);
     }
 
     @Override
@@ -90,8 +110,7 @@ public class HomeActivity extends AppCompatActivity
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
                 logout();
                 finishAndRemoveTask();
-            }
-            else {
+            } else {
                 backPressedTime = tempTime;
             }
         }
@@ -145,6 +164,44 @@ public class HomeActivity extends AppCompatActivity
             new LogoutTask(activity).execute().get();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.fab:
+                anim();
+                //Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.map_Button:
+                anim();
+                startActivity(new Intent(this, GoogleMapsActivity.class));
+                finish();
+                break;
+            case R.id.AR_Button:
+                anim();
+                startActivity(new Intent(this, ARActivity.class));
+                finish();
+                break;
+        }
+    }
+    public void anim() {
+
+        if (isFabOpen) {
+            map_button.startAnimation(fab_close);
+            AR_button.startAnimation(fab_close);
+            map_button.setClickable(false);
+            AR_button.setClickable(false);
+            isFabOpen = false;
+        }
+        else {
+            map_button.startAnimation(fab_open);
+            AR_button.startAnimation(fab_open);
+            map_button.setClickable(true);
+            AR_button.setClickable(true);
+            isFabOpen = true;
         }
     }
 }
