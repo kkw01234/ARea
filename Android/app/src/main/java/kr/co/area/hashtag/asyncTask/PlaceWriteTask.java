@@ -12,20 +12,28 @@ import java.util.List;
 import kr.co.area.hashtag.utils.Parameter;
 import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 
-public class PlaceTask extends AsyncTask<String, Void, String> {
+public class PlaceWriteTask extends AsyncTask<String, Void, String> {
     Activity activity;
 
 
-    public PlaceTask(Activity activity){
+    public PlaceWriteTask(Activity activity){
         this.activity = activity;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         RequestHttpURLConnection urlConnection = new RequestHttpURLConnection();
-        String URL="http://118.220.3.71:13565/find_place";
+        String URL="http://118.220.3.71:13565/insert_place";
         ArrayList<Parameter> params = new ArrayList<>();
-        params.add(new Parameter("google_id",strings[0]));
+        System.out.println(strings[0]);
+        params.add(new Parameter("rest_google_id",strings[0]));
+        params.add(new Parameter("restName",strings[1]));
+        params.add(new Parameter("restAddress",strings[2]));
+        params.add(new Parameter("restlat",strings[3]));
+        params.add(new Parameter("restlng",strings[4]));
+        params.add(new Parameter("restText",strings[5]));
+        params.add(new Parameter("restTime",strings[6]));
+        params.add(new Parameter("restPhone",strings[7]));
         String result = urlConnection.request(URL,params,activity.getApplicationContext());
 
         return result;

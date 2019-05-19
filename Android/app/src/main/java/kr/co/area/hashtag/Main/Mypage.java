@@ -108,7 +108,7 @@ public class Mypage extends AppCompatActivity {
         okbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 이미지
+/*                // 이미지
                 Bitmap bitmap = scaled;
 
  // 기타 필요한 내용
@@ -147,8 +147,7 @@ public class Mypage extends AppCompatActivity {
 // content wrapper시작
                 DataOutputStream request = null;
                 try {
-                    request = new DataOutputStream(
-                            httpUrlConnection.getOutputStream());
+                    request = new DataOutputStream()httpUrlConnection.getOutputStream());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -248,27 +247,27 @@ public class Mypage extends AppCompatActivity {
 
 // connection종료
                 httpUrlConnection.disconnect();
+*/
+  //              System.out.println(userimg);
+ //               Bitmap image = scaled;
+  //              String result = new ProfileTask(activity).execute(String.valueOf(image)).get();
 
-//                System.out.println(userimg);
-//                Bitmap image = scaled;
-//                String result = new ProfileTask(activity).execute(image).get();
 
-
-//                if (!(userimg.equals(image))){
-//                    try {
-//                        String result = new ProfileTask(activity).execute(String.valueOf(bitmap)).get();
-//                        JSONObject jObject = new JSONObject(result);
-//                        String state = jObject.getString("result");
-//                        System.out.println(state);
-//                        if (state.equals("success")) {
-//                            Toast.makeText(Mypage.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else if (state.equals("fail"))
-//                            Toast.makeText(Mypage.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                if (!(userimg.equals(image))){
+                   try {
+                       String result = new ProfileTask(activity).execute(String.valueOf(bitmap)).get();
+                        JSONObject jObject = new JSONObject(result);
+                        String state = jObject.getString("result");
+                        System.out.println(state);
+                        if (state.equals("success")) {
+                            Toast.makeText(Mypage.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (state.equals("fail"))
+                            Toast.makeText(Mypage.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+               }
                 startActivity(new Intent(Mypage.this, HomeActivity.class));
                 finish();
             }

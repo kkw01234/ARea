@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.ar;
+package kr.co.area.hashtag.AR;
 
 import android.location.Location;
 

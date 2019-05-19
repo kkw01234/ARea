@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.ar;
+package kr.co.area.hashtag.AR;
 
 import android.Manifest;
 import android.content.Intent;
@@ -48,9 +48,9 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     final static String TAG = "ARActivity";
     private SurfaceView surfaceView;
     private FrameLayout cameraContainerLayout;
-    private AROverlayView arOverlayView;
+    private kr.co.area.hashtag.ar.AROverlayView arOverlayView;
     private Camera camera;
-    private ARCamera arCamera;
+    private kr.co.area.hashtag.ar.ARCamera arCamera;
     private TextView tvCurrentLocation;
     private TextView tvBearing;
 
@@ -78,7 +78,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         surfaceView = findViewById(R.id.surface_view);
         tvCurrentLocation = findViewById(R.id.tv_current_location);
         tvBearing = findViewById(R.id.tv_bearing);
-        arOverlayView = new AROverlayView(this);
+        arOverlayView = new kr.co.area.hashtag.ar.AROverlayView(this);
         requestLocationPermission();
     }
 
@@ -157,7 +157,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         reloadSurfaceView();
 
         if (arCamera == null) {
-            arCamera = new ARCamera(this, surfaceView);
+            arCamera = new kr.co.area.hashtag.ar.ARCamera(this, surfaceView);
         }
         if (arCamera.getParent() != null) {
             ((ViewGroup) arCamera.getParent()).removeView(arCamera);

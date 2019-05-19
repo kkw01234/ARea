@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.ar;
+package kr.co.area.hashtag.AR;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -33,7 +33,7 @@ public class AROverlayView extends View implements PlacesListener {
     private float[] rotatedProjectionMatrix = new float[16];
     private Location psLocation;
     private Location currentLocation;
-    private List<ARPoint> arPoints;
+    private List<kr.co.area.hashtag.ar.ARPoint> arPoints;
     private Bitmap bmp; // 식당 이미지 by 비트맵
 
     public AROverlayView(Activity activity) {
@@ -103,7 +103,7 @@ public class AROverlayView extends View implements PlacesListener {
             if (places != null) {
                 for (Place place : places) {
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    ARPoint arPoint = new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
+                    kr.co.area.hashtag.ar.ARPoint arPoint = new kr.co.area.hashtag.ar.ARPoint(place.getName(), latLng.latitude, latLng.longitude,
                             psLocation.getAltitude());
                     arPoints.add(arPoint);
                 }
@@ -142,9 +142,9 @@ public class AROverlayView extends View implements PlacesListener {
         paint.setTextSize(60);
 
         for (int i = 0; i < arPoints.size(); i++) { //  각각을 계산해서 현재 화면에 맞게 그려주기
-            float[] currentLocationInECEF = LocationHelper.WSG84toECEF(currentLocation);
-            float[] pointInECEF = LocationHelper.WSG84toECEF(arPoints.get(i).getLocation());
-            float[] pointInENU = LocationHelper.ECEFtoENU(currentLocation, currentLocationInECEF, pointInECEF);
+            float[] currentLocationInECEF = kr.co.area.hashtag.ar.LocationHelper.WSG84toECEF(currentLocation);
+            float[] pointInECEF = kr.co.area.hashtag.ar.LocationHelper.WSG84toECEF(arPoints.get(i).getLocation());
+            float[] pointInENU = kr.co.area.hashtag.ar.LocationHelper.ECEFtoENU(currentLocation, currentLocationInECEF, pointInECEF);
 
             float[] cameraCoordinateVector = new float[4];
             Matrix.multiplyMV(cameraCoordinateVector, 0, rotatedProjectionMatrix, 0, pointInENU, 0);

@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.ar;
+package kr.co.area.hashtag.AR;
 
 import android.app.Activity;
 import android.content.Context;

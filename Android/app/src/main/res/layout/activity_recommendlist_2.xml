@@ -235,12 +235,38 @@
             android:text="00000000"
             android:textSize="20sp"
             />
-    </TableRow>
-        <TableRow>
-            <View>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/place_information_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="정보 :"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/place_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:layout_toRightOf="@id/textView20"
+                android:textSize="20sp" />
+        </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="23dp"
+                android:background="#474545">
 
             </View>
-        </TableRow>
+
 
     <TableRow>
         <TextView
@@ -256,5 +282,6 @@
             android:layout_span="3"
             />
     </TableRow>
+
     </TableLayout>
 </ScrollView>

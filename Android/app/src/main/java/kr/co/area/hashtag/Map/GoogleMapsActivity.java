@@ -331,6 +331,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                 intent.putExtra("title", title);
                 //intent.putExtra( "address", address);
                 intent.putExtra("id",place.getPlaceId());
+                intent.putExtra("pos",marker.getPosition());
                 intent.putExtra("address",address);
 
                 startActivity(intent);
