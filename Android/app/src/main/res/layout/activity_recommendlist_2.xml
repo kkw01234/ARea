@@ -7,14 +7,15 @@
     android:id="@+id/scrollview"
     tools:context=".Recommend.Recommendlist_2Activity">
 
-    <RelativeLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:shrinkColumns="*">
 
         <GridView
             android:id="@+id/gridViewImages"
-            android:layout_width="343dp"
+            android:layout_width="474dp"
             android:layout_height="215dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp"
@@ -35,28 +36,6 @@
 
         </GridView>
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="2sp"
-            android:layout_above="@id/place_name"
-            android:layout_below="@id/gridViewImages"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="23dp"
-            android:background="#474545" />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="2sp"
-            android:layout_above="@id/place_name"
-            android:layout_below="@id/gridViewImages"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="322dp"
-            android:layout_marginBottom="-283dp"
-            android:background="#474545" />
-
         <TextView
             android:id="@+id/place_name"
             android:layout_width="wrap_content"
@@ -75,223 +54,207 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.336" />
+      <TableRow>
 
-        <Button
-            android:id="@+id/favorite_button"
-            android:layout_width="69dp"
-            android:layout_height="49dp"
-            android:layout_below="@id/place_name"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="#00ff0000"
-            android:drawableTop="@drawable/ic_favorite_border_black_24dp"
-            android:gravity="center"
-            android:text="좋아요"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.119"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.417" />
+          <Button
+              android:id="@+id/favorite_button"
+              android:layout_width="69dp"
+              android:layout_height="49dp"
+              android:layout_below="@id/place_name"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="48dp"
+              android:layout_marginTop="8dp"
+              android:layout_marginEnd="8dp"
+              android:layout_marginBottom="8dp"
+              android:background="#00ff0000"
+              android:drawableTop="@drawable/ic_favorite_border_black_24dp"
+              android:gravity="center"
+              android:text="좋아요"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.119"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_bias="0.417"
+              />
 
-        <Button
-            android:id="@+id/evaluate_button"
-            android:layout_width="69dp"
-            android:layout_height="49dp"
-            android:layout_below="@id/place_name"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/favorite_button"
-            android:background="#00ff0000"
-            android:drawableTop="@drawable/ic_edit_black_24dp"
-            android:gravity="center"
-            android:text="평가하기"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.374"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.417" />
+          <Button
+              android:id="@+id/evaluate_button"
+              android:layout_width="69dp"
+              android:layout_height="49dp"
+              android:layout_below="@id/place_name"
+              android:layout_marginTop="8dp"
+              android:layout_marginEnd="8dp"
+              android:layout_marginBottom="8dp"
+              android:layout_toRightOf="@id/favorite_button"
+              android:background="#00ff0000"
+              android:drawableTop="@drawable/ic_edit_black_24dp"
+              android:gravity="center"
+              android:text="평가하기"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.374"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_bias="0.417" />
 
-        <Button
-            android:id="@+id/camera_button"
-            android:layout_width="69dp"
-            android:layout_height="49dp"
-            android:layout_below="@id/place_name"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/evaluate_button"
-            android:background="#00ff0000"
-            android:drawableTop="@drawable/ic_camera_alt_black_24dp"
-            android:gravity="center"
-            android:text="사진올리기"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+          <Button
+              android:id="@+id/camera_button"
+              android:layout_width="69dp"
+              android:layout_height="49dp"
+              android:layout_below="@id/place_name"
+              android:layout_marginTop="8dp"
+              android:layout_marginEnd="8dp"
+              android:layout_marginBottom="8dp"
+              android:layout_toRightOf="@id/evaluate_button"
+              android:background="#00ff0000"
+              android:drawableTop="@drawable/ic_camera_alt_black_24dp"
+              android:gravity="center"
+              android:text="사진올리기"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.511"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_bias="1.0" />
 
-        <Button
-            android:id="@+id/share_button"
-            android:layout_width="71dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/place_name"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="61dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/camera_button"
-            android:background="#00ff0000"
-            android:drawableTop="@drawable/ic_share_black_24dp"
-            android:gravity="center"
-            android:text="공유하기"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.88"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.417" />
+          <Button
+              android:id="@+id/share_button"
+              android:layout_width="71dp"
+              android:layout_height="50dp"
+              android:layout_below="@id/place_name"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="8dp"
+              android:layout_marginEnd="61dp"
+              android:layout_marginBottom="8dp"
+              android:layout_toRightOf="@id/camera_button"
+              android:background="#00ff0000"
+              android:drawableTop="@drawable/ic_share_black_24dp"
+              android:gravity="center"
+              android:text="공유하기"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.88"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_bias="0.417" />
+
+      </TableRow>
+
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/place_address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="위치 :"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/place_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_span="3"
+                android:text="서울 용산구 대사관로34길 38"
+                android:textSize="20sp" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="메뉴 :"
+                android:textSize="20sp"
+           />
+
+            <TextView
+                android:id="@+id/place_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="한방통닭 18000 / "
+                android:layout_span="3"
+                android:textSize="20sp"
+              />
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="시간 :"
+                android:textSize="20sp"
+                 />
+
+            <TextView
+                android:id="@+id/place_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_span="3"
+                android:layout_toRightOf="@id/textView20"
+                android:text="매일 17:00 - 02:00"
+                android:textSize="20sp"
+               />
+        </TableRow>
+        <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/place_phone_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/place_time"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="-7dp"
-            android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="메뉴 :"
+            android:text="번호 :"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.129"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.655" />
+            />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/place_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/place_address_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="-4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="영업시간 :"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.025"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.616" />
-
-        <TextView
-            android:id="@+id/place_address_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/favorite_button"
-            android:layout_alignBaseline="@id/place_address"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="34dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="위치 :"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.129"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.524" />
-
-        <TextView
-            android:id="@+id/place_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/place_time"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="-4dp"
-            android:layout_marginTop="27dp"
-            android:layout_marginEnd="147dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/textView14"
-            android:gravity="center"
-            android:text="한방통닭 18000 / "
-            android:layout_alignBaseline="@id/textView14"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.477"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.655" />
-
-        <TextView
-            android:id="@+id/place_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/evaluate_button"
-            android:layout_alignBaseline="@id/textView20"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_span="3"
             android:layout_toRightOf="@id/textView20"
-            android:text="매일 17:00 - 02:00"
+            android:text="00000000"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.616" />
+            />
+    </TableRow>
+        <TableRow>
+            <View>
 
-        <TextView
-            android:id="@+id/place_address"
-            android:layout_width="243dp"
-            android:layout_height="26dp"
-            android:layout_below="@id/evaluate_button"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="77dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/place_address_text"
-            android:text="서울 용산구 대사관로34길 38"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/place_address_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            </View>
+        </TableRow>
 
+    <TableRow>
         <TextView
             android:id="@+id/wordcloud"
-            android:layout_width="243dp"
-            android:layout_height="26dp"
-            android:layout_below="@id/textView14"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="79dp"
-            android:layout_marginTop="124dp"
             android:gravity="center"
-            android:text="wordcloud"
+            android:text="맛집 후기"
             android:textSize="20sp" />
-
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/wordcloud_date"
+            android:gravity="center"
+            android:text="2017년 1월 13일 업로드"
+            android:textSize="20sp"
+            android:layout_span="3"
+            />
+    </TableRow>
+    </TableLayout>
 </ScrollView>
