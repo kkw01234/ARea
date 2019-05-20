@@ -272,7 +272,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
         try {
             this.locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-
             // Get GPS and network status
             this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             this.isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -313,8 +312,8 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     private void updateLatestLocation() { // location을 AROverlayView에 전달
         if (arOverlayView != null && location != null) {
             arOverlayView.updateCurrentLocation(location);
-            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \naccuracy: %s",
-                    location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
+            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \naccuracy: %s \nprovider: %s",
+                    location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy(), location.getProvider()));
         }
     }
 
