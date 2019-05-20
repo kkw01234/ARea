@@ -23,13 +23,13 @@ import java.io.ByteArrayOutputStream;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.ProfileTask;
+import kr.co.area.hashtag.write.WriteActivity;
 
 
 public class MypageActivity extends AppCompatActivity {
 
-    static TextView userid;
     TextView username;
-    Button change, okbutton;
+    Button change, okbutton, writebutton;
     int PICK_IMAGE_REQUEST = 1;
     static Bitmap scaled;
     ImageView profileView;
@@ -64,19 +64,17 @@ public class MypageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
         activity = this;
-        userid = (TextView) findViewById(R.id.textId);
         username = (TextView) findViewById(R.id.textName);
         change = (Button) findViewById(R.id.changeMy);
         okbutton = (Button) findViewById(R.id.okbtn);
+        writebutton = (Button) findViewById(R.id.writebtn);
 
         SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
-        String userId = auto.getString("userId",null);
         String userName = auto.getString("userName",null);
         String image = auto.getString("userImg","");
         Bitmap bitmap = StringToBitMap(image);
 
-        userid.setText(userId);
-        username.setText(userName);
+        username.setText(auto.getString("userName", "???") + "님 프로필");
         if(!(image.equals(""))) {
             profileView = (ImageView) findViewById(R.id.profilimg);
             profileView.setImageBitmap(bitmap);
@@ -87,6 +85,14 @@ public class MypageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myintent = new Intent(getApplicationContext(), ChangeMypage.class);
                 startActivity(myintent);
+            }
+        });
+
+        writebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
+                startActivity(wrintent);
             }
         });
 

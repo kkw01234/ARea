@@ -220,8 +220,8 @@ public class JoinActivity extends Activity {
             }
             if (checkPw.equals("")) {
                 Toast.makeText(JoinActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
-                joinPwd.setFocusableInTouchMode(true);
-                joinPwd.requestFocus();
+                checkPwd.setFocusableInTouchMode(true);
+                checkPwd.requestFocus();
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(joinPwd,0);
                 return;

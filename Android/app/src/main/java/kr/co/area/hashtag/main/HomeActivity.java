@@ -39,9 +39,8 @@ public class HomeActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private View headerView;
-    private TextView userHi, userEmail;
-    private TextView goMyPage;
-    private ImageView profile;
+    private TextView userHi;
+    private ImageView profile,homeLogo;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private Animation fab_open, fab_close;
@@ -69,21 +68,18 @@ public class HomeActivity extends AppCompatActivity
         String image = pref1.getString("imagestrings", "");
         Bitmap bitmap = StringToBitMap(image);
 
+        //헤더부분
         headerView = navigationView.getHeaderView(0);
         userHi = headerView.findViewById(R.id.userHi);
-        userEmail = headerView.findViewById(R.id.useremail);
-        userHi.setText(user.getString("userName", "???") + "님 안녕하세요");
-        userEmail.setText(user.getString("userEmail", ""));
+        profile = headerView.findViewById(R.id.profilView);
+        homeLogo = headerView.findViewById(R.id.LogoBtn);
+        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
 
         if (!(image.equals(""))) {
-            profile = headerView.findViewById(R.id.profilView);
             profile.setImageBitmap(bitmap);
         }
-        goMyPage = headerView.findViewById(R.id.goMyPage);
-        goMyPage.setOnClickListener((v) -> {
-            startActivity(new Intent(HomeActivity.this, MypageActivity.class));
-            finish();
-        });
+        profile.setOnClickListener(headListener);
+        homeLogo.setOnClickListener(headListener);
 
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
@@ -97,6 +93,18 @@ public class HomeActivity extends AppCompatActivity
         map_button.setOnClickListener(this);
         AR_button.setOnClickListener(this);
     }
+    View.OnClickListener headListener = (view) -> {
+        switch (view.getId()) {
+            case R.id.LogoBtn:
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.profilView:
+                startActivity(new Intent(activity, MypageActivity.class));
+                finish();
+                break;
+
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -144,13 +152,12 @@ public class HomeActivity extends AppCompatActivity
             case R.id.rec_path:
                 startActivity(new Intent(this, RecommendActivity.class));
                 break;
+            case R.id.setting:
+                startActivity(new Intent(this, MypageActivity.class));
+                break;
             case R.id.logout:
                 logout();
                 startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
-            case R.id.write:
-                startActivity(new Intent(this, WriteActivity.class));
                 finish();
                 break;
         }

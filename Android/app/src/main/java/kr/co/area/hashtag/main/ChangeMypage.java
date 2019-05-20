@@ -1,11 +1,13 @@
 package kr.co.area.hashtag.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,6 +53,8 @@ public class ChangeMypage extends AppCompatActivity {
                 String checkName = joinname.getText().toString();
                 if (checkName.equals("")) {
                     Toast.makeText(ChangeMypage.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    joinname.setFocusableInTouchMode(true);
+                    joinname.requestFocus();
                     return;
                 }
                 try {
@@ -66,6 +70,9 @@ public class ChangeMypage extends AppCompatActivity {
                         nameCheck = true;
                     } else if (state.equals("dup")) {
                         Toast.makeText(ChangeMypage.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        joinname.setFocusableInTouchMode(true);
+                        joinname.requestFocus();
+                        return;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -74,8 +81,34 @@ public class ChangeMypage extends AppCompatActivity {
         });
 
         changeButton.setOnClickListener(new View.OnClickListener() {
+            String userPwd = joinPwd.getText().toString();
+            String checkPw = checkPwd.getText().toString();
             @Override
             public void onClick(View v) {
+                if (!userPwd.equals(checkPw)) {
+                    Toast.makeText(ChangeMypage.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
+                    joinPwd.setFocusableInTouchMode(true);
+                    joinPwd.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinPwd,0);
+                    return;
+                }
+                if (userPwd.equals("")) {
+                    Toast.makeText(ChangeMypage.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                    joinPwd.setFocusableInTouchMode(true);
+                    joinPwd.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinPwd,0);
+                    return;
+                }
+                if (checkPw.equals("")) {
+                    Toast.makeText(ChangeMypage.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                    checkPwd.setFocusableInTouchMode(true);
+                    checkPwd.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinPwd,0);
+                    return;
+                }
                 /*닉네임 수정 서버*/
 //                String checkName = joinname.getText().toString();
 //                if (checkName.equals("")) {

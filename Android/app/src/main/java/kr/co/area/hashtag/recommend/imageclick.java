@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.content.Intent;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.main.HomeActivity;
 
 public class imageclick extends AppCompatActivity {
 
@@ -33,7 +34,12 @@ public class imageclick extends AppCompatActivity {
             int imageID = (Integer)receivedIntent.getExtras().get("image ID");
             imageView.setImageResource(imageID);
         }
+    public void onBackPressed() {
+        startActivity(new Intent(imageclick.this, HomeActivity.class));
+        finish();
     }
+    }
+
 
 
 
