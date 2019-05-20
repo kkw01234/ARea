@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scrollview"
-    tools:context=".recommend.Recommendlist_2Activity">
+    tools:context=".main.RestActivity">
 
     <TableLayout
         android:layout_width="match_parent"

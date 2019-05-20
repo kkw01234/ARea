@@ -11,13 +11,12 @@ public class ARPoint {
     String name;
     String id;
 
-    public ARPoint(String id, String name, double lat, double lon, double altitude) {
+    public ARPoint(String id, String name, double lat, double lon) {
         this.id = id;
         this.name = name;
         location = new Location("ARPoint");
         location.setLatitude(lat);
         location.setLongitude(lon);
-        location.setAltitude(altitude);
     }
 
     public Location getLocation() {

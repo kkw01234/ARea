@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.main.RestActivity;
 
 public class DetailRecommendActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class DetailRecommendActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(
-                        getApplicationContext(), Recommendlist_2Activity.class); // 다음 넘어갈 클래스 지정
+                        getApplicationContext(), RestActivity.class); // 다음 넘어갈 클래스 지정
                         startActivity(intent); // 다음 화면으로 넘어가기
             }
         });

@@ -43,7 +43,7 @@
             android:name=".write.WriteActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".recommend.Recommendlist_2Activity"
+            android:name=".main.RestActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".main.MypageActivity"

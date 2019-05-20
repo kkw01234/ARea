@@ -53,7 +53,7 @@ import java.util.Locale;
 
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.recommend.Recommendlist_2Activity;
+import kr.co.area.hashtag.main.RestActivity;
 import kr.co.area.hashtag.asyncTask.AltitudeTask;
 import kr.co.area.hashtag.utils.RequestCode;
 import noman.googleplaces.NRPlaces;
@@ -64,7 +64,7 @@ import noman.googleplaces.PlacesListener;
 
 
 public class GoogleMapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback,PlacesListener {
+        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, PlacesListener {
 
 
     private GoogleMap mGoogleMap = null;
@@ -82,7 +82,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
+    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
 
 
     Location mCurrentLocatiion;
@@ -120,18 +120,16 @@ public class GoogleMapsActivity extends AppCompatActivity
         Log.d(TAG, "onCreate");
 
 
-
         locationRequest = LocationRequest.create(); //new LocationRequest는 지원이 안됨 create로 만들어줘야함
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setSmallestDisplacement(UPDATE_REPLACE);
-                ;
+        ;
 
 
         LocationSettingsRequest.Builder builder =
                 new LocationSettingsRequest.Builder();
 
         builder.addLocationRequest(locationRequest);
-
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -151,8 +149,6 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
 
-
-
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) { //맵이 실행시 자동적으로 실행되는 코드
@@ -169,9 +165,9 @@ public class GoogleMapsActivity extends AppCompatActivity
 
                 List<Address> addresses = getCurrentAddress(currentPosition);
                 String markerTitle = null;
-                if(addresses != null) {
+                if (addresses != null) {
                     markerTitle = addresses.get(0).getAddressLine(0); //위치 받아옴
-                }else
+                } else
                     markerTitle = "오류 발생";
 
                 String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
@@ -195,14 +191,13 @@ public class GoogleMapsActivity extends AppCompatActivity
     };
 
 
-
     private void startLocationUpdates() {
 
         if (!checkLocationServicesStatus()) {
 
             Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
             showDialogForLocationServiceSetting();
-        }else {
+        } else {
 
             int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION);
@@ -210,9 +205,8 @@ public class GoogleMapsActivity extends AppCompatActivity
                     Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
-
             if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
-                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
+                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
 
                 Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
                 return;
@@ -231,7 +225,6 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -245,7 +238,6 @@ public class GoogleMapsActivity extends AppCompatActivity
         setDefaultLocation();
 
 
-
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -254,48 +246,47 @@ public class GoogleMapsActivity extends AppCompatActivity
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED   ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                    hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
 
-            // 2. 이미 퍼미션을 가지고 있다면
-            startLocationUpdates(); // 3. 위치 업데이트 시작
-
-
-        }else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
-
-            // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-
-                // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.",
-                        Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-
-                        // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                        ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
-                                RequestCode.PERMISSIONS_REQUEST_CODE);
-                        ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
-                                RequestCode.PERMISSIONS_REQUEST_CODE);
-
-                    }
-                }).show();
+                // 2. 이미 퍼미션을 가지고 있다면
+                startLocationUpdates(); // 3. 위치 업데이트 시작
 
 
-            } else {
-                // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
-                // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
-                        RequestCode.PERMISSIONS_REQUEST_CODE);
+            } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
+
+                // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
+
+                    // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
+                    Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.",
+                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+
+                            // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                            ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
+                                    RequestCode.PERMISSIONS_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
+                                    RequestCode.PERMISSIONS_REQUEST_CODE);
+
+                        }
+                    }).show();
+
+
+                } else {
+                    // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
+                    // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
+                            RequestCode.PERMISSIONS_REQUEST_CODE);
+                }
             }
-        }
 
-        }else{ //23버전 이하일경우는 퍼미션이 필요없음
+        } else { //23버전 이하일경우는 퍼미션이 필요없음
             startLocationUpdates(); // 3. 위치 업데이트 시작
         }
-
 
 
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -305,34 +296,19 @@ public class GoogleMapsActivity extends AppCompatActivity
             @Override
             public void onMapClick(LatLng latLng) {
 
-                Log.d( TAG, "onMapClick :");
+                Log.d(TAG, "onMapClick :");
             }
         });
 
-        mGoogleMap.setOnInfoWindowClickListener((marker)-> {
+        mGoogleMap.setOnInfoWindowClickListener((marker) -> {
+            Intent intent = new Intent(getBaseContext(), RestActivity.class);
+            Place place = (Place) marker.getTag();
 
-
-                Intent intent = new Intent(getBaseContext(), Recommendlist_2Activity.class);
-
-                String title = marker.getTitle();
-                //String address = marker.getSnippet();
-                String address = marker.getSnippet();
-
-                Place place = (Place)marker.getTag();
-
-                intent.putExtra("title", title);
-                //intent.putExtra( "address", address);
-                intent.putExtra("id",place.getPlaceId());
-                intent.putExtra("pos",marker.getPosition());
-                intent.putExtra("address",address);
-
-                startActivity(intent);
-
+            intent.putExtra("id", place.getPlaceId());
+            startActivity(intent);
         });
 
     }
-
-
 
 
     @Override
@@ -346,7 +322,7 @@ public class GoogleMapsActivity extends AppCompatActivity
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
-            if (mGoogleMap!=null)
+            if (mGoogleMap != null)
                 mGoogleMap.setMyLocationEnabled(true);
 
         }
@@ -366,8 +342,6 @@ public class GoogleMapsActivity extends AppCompatActivity
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
-
-
 
 
     public List<Address> getCurrentAddress(LatLng latlng) { //주소
@@ -432,6 +406,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
     }
+
     public void setSearchLocation(LatLng latLng, String markerTitle, String markerSnippet) {
 
 
@@ -490,16 +465,14 @@ public class GoogleMapsActivity extends AppCompatActivity
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
-
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED   ) {
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
 
         return false;
 
     }
-
 
 
     /*
@@ -510,7 +483,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
 
-        if ( permsRequestCode == RequestCode.PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        if (permsRequestCode == RequestCode.PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
 
@@ -527,12 +500,11 @@ public class GoogleMapsActivity extends AppCompatActivity
             }
 
 
-            if ( check_result ) {
+            if (check_result) {
 
                 // 퍼미션을 허용했다면 위치 업데이트를 시작합니다.
                 startLocationUpdates();
-            }
-            else {
+            } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
@@ -550,7 +522,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                         }
                     }).show();
 
-                }else {
+                } else {
 
 
                     // "다시 묻지 않음"을 사용자가 체크하고 거부를 선택한 경우에는 설정(앱 정보)에서 퍼미션을 허용해야 앱을 사용할 수 있습니다.
@@ -578,14 +550,14 @@ public class GoogleMapsActivity extends AppCompatActivity
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하실래요?");
         builder.setCancelable(true);
-        builder.setPositiveButton("설정", (dialog,id)-> {
-                Intent callGPSSettingIntent
-                        = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, RequestCode.GPS_ENABLE_REQUEST_CODE);
-            }
+        builder.setPositiveButton("설정", (dialog, id) -> {
+                    Intent callGPSSettingIntent
+                            = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(callGPSSettingIntent, RequestCode.GPS_ENABLE_REQUEST_CODE);
+                }
         );
-        builder.setNegativeButton("취소", (dialog,id)-> {
-                dialog.cancel();
+        builder.setNegativeButton("취소", (dialog, id) -> {
+            dialog.cancel();
         });
         builder.create().show();
     }
@@ -629,45 +601,43 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     @Override
     public void onPlacesSuccess(final List<Place> places) {
-        runOnUiThread(()->{
-                if(places == null || places.size()  == 0)
-                    return ;
+        runOnUiThread(() -> {
+            if (places == null || places.size() == 0 )
+                return;
 
-                for (noman.googleplaces.Place place : places) {
-                    LatLng latLng
-                            = new LatLng(place.getLatitude()
-                            , place.getLongitude());
-                    Log.i(TAG, latLng.latitude+" "+latLng.longitude);
-                    List<Address> address = getCurrentAddress(latLng);
-                    String markerSnippet=null;
-                    if(address != null)
-                         markerSnippet = address.get(0).getAddressLine(0);
-                    else
-                            markerSnippet =latLng.latitude + " " + latLng.longitude;
-                    //String altitude = getAltitude(latLng);
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    markerOptions.title(place.getName());
-                    markerOptions.snippet(markerSnippet);
-
-
-                    Marker item = mGoogleMap.addMarker(markerOptions);
-                    item.setTag(place);
-                    previous_marker.add(item);
-                }
+            for (noman.googleplaces.Place place : places) {
+                LatLng latLng
+                        = new LatLng(place.getLatitude()
+                        , place.getLongitude());
+                Log.i(TAG, latLng.latitude + " " + latLng.longitude);
+                List<Address> address = getCurrentAddress(latLng);
+                String markerSnippet = null;
+                if (address != null)
+                    markerSnippet = address.get(0).getAddressLine(0);
+                else
+                    markerSnippet = latLng.latitude + " " + latLng.longitude;
+                //String altitude = getAltitude(latLng);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(place.getName());
+                markerOptions.snippet(markerSnippet);
 
 
-                //중복 마커 제거
-
-                HashSet<Marker> hashSet = new HashSet<Marker>();
-                hashSet.addAll(previous_marker);
-                previous_marker.clear();
-                previous_marker.addAll(hashSet);
+                Marker item = mGoogleMap.addMarker(markerOptions);
+                item.setTag(place);
+                previous_marker.add(item);
+            }
 
 
-            });
+            //중복 마커 제거
+
+            HashSet<Marker> hashSet = new HashSet<Marker>();
+            hashSet.addAll(previous_marker);
+            previous_marker.clear();
+            previous_marker.addAll(hashSet);
 
 
+        });
 
 
     }
@@ -677,8 +647,8 @@ public class GoogleMapsActivity extends AppCompatActivity
     public void onPlacesFinished() {
 
     }
-    public void showPlaceInformation(LatLng location)
-    {
+
+    public void showPlaceInformation(LatLng location) {
         mGoogleMap.clear();//지도 클리어
 
         if (previous_marker != null)
@@ -694,7 +664,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                 .execute();
     }
 
-    private void setupAutoCompleteFragment(SupportMapFragment mapFragment){
+    private void setupAutoCompleteFragment(SupportMapFragment mapFragment) {
         SupportPlaceAutocompleteFragment autocompleteFragment = (SupportPlaceAutocompleteFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setFilter(new com.google.android.libraries.places.compat.AutocompleteFilter.Builder().setCountry("KR").build());
@@ -705,12 +675,12 @@ public class GoogleMapsActivity extends AppCompatActivity
             public void onPlaceSelected(com.google.android.libraries.places.compat.Place place) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(place.getLatLng());
-                markerOptions.title((String)place.getName());
-                markerOptions.snippet((String)place.getAddress());
+                markerOptions.title((String) place.getName());
+                markerOptions.snippet((String) place.getAddress());
                 previous_marker.clear();
                 searchMarker = mGoogleMap.addMarker(markerOptions);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(place.getLatLng());
-                mGoogleMap.animateCamera(cameraUpdate,2000,null);
+                mGoogleMap.animateCamera(cameraUpdate, 2000, null);
             }
 
             @Override
@@ -722,13 +692,13 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
 
-    public String getAltitude(LatLng latLng){ //고도 찾는 코드(Rest API)
+    public String getAltitude(LatLng latLng) { //고도 찾는 코드(Rest API)
         try {
             String elevation = new AltitudeTask(this)
                     .execute(Double.toString(latLng.latitude), Double.toString(latLng.longitude))
                     .get();
             return elevation;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

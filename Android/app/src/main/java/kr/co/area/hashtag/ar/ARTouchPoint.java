@@ -11,7 +11,7 @@ public class ARTouchPoint {
     }
 
     boolean isInTouchPoint(float touchX, float touchY){ // 여분의 길이를 얼마로 둘것인지...
-        if(x - 100 <= touchX && touchX <= x + 100 && y - 100 <= touchY && touchY <= 100) return true;
+        if(x <= touchX && touchX <= x + 250 && y <= touchY && touchY <= y + 350) return true;
         return false;
     }
 }

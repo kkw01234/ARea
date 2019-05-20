@@ -49,8 +49,8 @@ public class AROverlayView extends View implements PlacesListener {
         for(int i = 0; i < arTouchPoints.size() ; ++i){
             ARTouchPoint arTouchPoint = arTouchPoints.get(i);
             if(arTouchPoint.isInTouchPoint(x, y)) {
-                activity.requestRestInfo(arTouchPoint.restID);
-                break;
+                activity.requestRestInfo(arTouchPoint);
+                return;
             }
         }
         // Toast.makeText(activity, "x : " + x + ", y : " + y, Toast.LENGTH_SHORT).show();
@@ -117,8 +117,7 @@ public class AROverlayView extends View implements PlacesListener {
             if (places != null) {
                 for (Place place : places) {
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    ARPoint arPoint = new ARPoint(place.getPlaceId(), place.getName(), latLng.latitude, latLng.longitude,
-                            psLocation.getAltitude());
+                    ARPoint arPoint = new ARPoint(place.getPlaceId(), place.getName(), latLng.latitude, latLng.longitude);
                     arPoints.add(arPoint);
                 }
             }
@@ -153,12 +152,14 @@ public class AROverlayView extends View implements PlacesListener {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-        paint.setTextSize(60);
+        paint.setTextSize(50);
         arTouchPoints.clear(); // 터치 리셋
 
         for (int i = 0; i < arPoints.size(); i++) { //  각각을 계산해서 현재 화면에 맞게 그려주기
+            ARPoint arPoint = arPoints.get(i);
+            arPoint.getLocation().setAltitude(currentLocation.getAltitude());
             float[] currentLocationInECEF = LocationHelper.WSG84toECEF(currentLocation);
-            float[] pointInECEF = LocationHelper.WSG84toECEF(arPoints.get(i).getLocation());
+            float[] pointInECEF = LocationHelper.WSG84toECEF(arPoint.getLocation());
             float[] pointInENU = LocationHelper.ECEFtoENU(currentLocation, currentLocationInECEF, pointInECEF);
 
             float[] cameraCoordinateVector = new float[4];
@@ -170,11 +171,10 @@ public class AROverlayView extends View implements PlacesListener {
                 float x = (0.5f + cameraCoordinateVector[0] / cameraCoordinateVector[3]) * canvas.getWidth();
                 float y = (0.5f - cameraCoordinateVector[1] / cameraCoordinateVector[3]) * canvas.getHeight();
 
-                canvas.drawBitmap(bmp, x, y, null); // 식당 아이콘과
-                canvas.drawText(arPoints.get(i).getName(), x, y + 270, paint); // 식당 이름을 그린다
-                canvas.drawText(Double.toString(arPoints.get(i).getLocation().getAltitude()), x, y + 340, paint);
+                canvas.drawBitmap(bmp, x - bmp.getWidth() / 2, y - bmp.getHeight() / 2, null); // 식당 아이콘과
+                canvas.drawText(arPoint.getName(), x - 20 * arPoint.getName().length(), y + bmp.getHeight() / 2 + 50, paint); // 식당 이름을 그린다
 
-                arTouchPoints.add(new ARTouchPoint(arPoints.get(i).getID(), x, y)); // 터치 포인트 추가
+                arTouchPoints.add(new ARTouchPoint(arPoint.getID(), x - bmp.getWidth() / 2, y - bmp.getHeight() / 2)); // 터치 포인트 추가
             }
         }
     }

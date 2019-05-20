@@ -27,10 +27,9 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 
-import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.recommend.Recommendlist_2Activity;
+import kr.co.area.hashtag.main.RestActivity;
 
 import static android.hardware.SensorManager.AXIS_MINUS_X;
 import static android.hardware.SensorManager.AXIS_MINUS_Y;
@@ -56,6 +55,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     private TextView tvBearing;
 
     private SensorManager sensorManager;
+    private static final int TWO_MINUTES = 1000 * 60 * 2;
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
     public static final int REQUEST_LOCATION_PERMISSIONS_CODE = 0;
 
@@ -67,7 +67,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     boolean isGPSEnabled;
     boolean isNetworkEnabled;
     boolean locationServiceAvailable;
-    boolean perOk;
     private float declination;
 
     @Override
@@ -317,10 +316,12 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         }
     }
 
-    public void requestRestInfo(String id) {
-        Intent intent = new Intent(this, Recommendlist_2Activity.class);
-        intent.putExtra("id", id);
+    public void requestRestInfo(ARTouchPoint tp) {
+        Intent intent = new Intent(this, RestActivity.class);
+        intent.putExtra("id", tp.restID);
+        intent.putExtra("fromVR", true);
         startActivity(intent);
+        // Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
     }
 
     @Override
