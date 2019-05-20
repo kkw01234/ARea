@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Recommend;
+package kr.co.area.hashtag.recommend;
 
 import android.content.Context;
 import android.graphics.Bitmap;

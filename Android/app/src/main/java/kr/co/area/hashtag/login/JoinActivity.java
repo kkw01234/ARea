@@ -1,9 +1,8 @@
-package kr.co.area.hashtag.Login;
+package kr.co.area.hashtag.login;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,13 +15,10 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import kr.co.area.hashtag.Main.HomeActivity;
-import kr.co.area.hashtag.Main.Mypage;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.CheckIdTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 import kr.co.area.hashtag.asyncTask.JoinTask;
-import kr.co.area.hashtag.asyncTask.LoginTask;
 
 public class JoinActivity extends Activity {
     EditText joinId, joinPwd, checkPwd, joinMail, joinname;

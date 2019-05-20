@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Main;
+package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.asyncTask.ChangeNameTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 
 public class ChangeMypage extends AppCompatActivity {

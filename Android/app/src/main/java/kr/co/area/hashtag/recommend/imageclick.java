@@ -1,9 +1,8 @@
-package kr.co.area.hashtag.Recommend;
+package kr.co.area.hashtag.recommend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.app.Activity;
 import android.content.Intent;
 
 import kr.co.area.hashtag.R;

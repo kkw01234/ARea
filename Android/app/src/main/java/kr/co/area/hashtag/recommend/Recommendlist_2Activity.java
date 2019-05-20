@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Recommend;
+package kr.co.area.hashtag.recommend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.concurrent.ExecutionException;
-
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.DetailPlaceTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;

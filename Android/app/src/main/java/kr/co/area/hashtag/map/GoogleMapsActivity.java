@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Map;
+package kr.co.area.hashtag.map;
 
 import android.Manifest;
 import android.content.Intent;
@@ -42,28 +42,20 @@ import com.google.android.gms.maps.model.Marker;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.ui.SupportPlaceAutocompleteFragment;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 //import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Recommend.Recommendlist_2Activity;
+import kr.co.area.hashtag.recommend.Recommendlist_2Activity;
 import kr.co.area.hashtag.asyncTask.AltitudeTask;
-import kr.co.area.hashtag.utils.RequestHttpURLConnection;
-import kr.co.area.hashtag.utils.Request_Code;
+import kr.co.area.hashtag.utils.RequestCode;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.Place;
 import noman.googleplaces.PlaceType;
@@ -284,9 +276,9 @@ public class GoogleMapsActivity extends AppCompatActivity
 
                         // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                         ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
-                                Request_Code.PERMISSIONS_REQUEST_CODE);
+                                RequestCode.PERMISSIONS_REQUEST_CODE);
                         ActivityCompat.requestPermissions(GoogleMapsActivity.this, REQUIRED_PERMISSIONS,
-                                Request_Code.PERMISSIONS_REQUEST_CODE);
+                                RequestCode.PERMISSIONS_REQUEST_CODE);
 
                     }
                 }).show();
@@ -296,7 +288,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
-                        Request_Code.PERMISSIONS_REQUEST_CODE);
+                        RequestCode.PERMISSIONS_REQUEST_CODE);
             }
         }
 
@@ -518,7 +510,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
 
-        if ( permsRequestCode == Request_Code.PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        if ( permsRequestCode == RequestCode.PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
 
@@ -589,7 +581,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         builder.setPositiveButton("설정", (dialog,id)-> {
                 Intent callGPSSettingIntent
                         = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, Request_Code.GPS_ENABLE_REQUEST_CODE);
+                startActivityForResult(callGPSSettingIntent, RequestCode.GPS_ENABLE_REQUEST_CODE);
             }
         );
         builder.setNegativeButton("취소", (dialog,id)-> {
@@ -605,7 +597,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         switch (requestCode) {
 
-            case Request_Code.GPS_ENABLE_REQUEST_CODE:
+            case RequestCode.GPS_ENABLE_REQUEST_CODE:
 
                 //사용자가 GPS 활성 시켰는지 검사
                 if (checkLocationServicesStatus()) {

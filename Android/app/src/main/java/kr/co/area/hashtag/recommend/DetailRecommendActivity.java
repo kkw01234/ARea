@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Recommend;
+package kr.co.area.hashtag.recommend;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 
 public class DetailRecommendActivity extends AppCompatActivity {

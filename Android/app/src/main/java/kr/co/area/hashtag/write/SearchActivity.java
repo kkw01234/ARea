@@ -1,27 +1,18 @@
-package kr.co.area.hashtag.Write;
+package kr.co.area.hashtag.write;
 
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ScheduledExecutorService;
 
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Write.WriteActivity;
-import kr.co.area.hashtag.Write.WrittenActivity;
 
 public class SearchActivity extends AppCompatActivity{
 

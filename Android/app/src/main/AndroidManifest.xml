@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Main.HomeActivity"
+            android:name=".main.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -31,40 +31,40 @@
             android:name=".ar.ARActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Recommend.DetailRecommendActivity"
+            android:name=".recommend.DetailRecommendActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Recommend.RecommendActivity"
+            android:name=".recommend.RecommendActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Write.WrittenActivity"
+            android:name=".write.WrittenActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Write.WriteActivity"
+            android:name=".write.WriteActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Recommend.Recommendlist_2Activity"
+            android:name=".recommend.Recommendlist_2Activity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Main.Mypage"
+            android:name=".main.Mypage"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Login.JoinActivity"
+            android:name=".login.JoinActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Write.SearchActivity"
+            android:name=".write.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Main.ChangeMypage"
+            android:name=".main.ChangeMypage"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Map.GoogleMapsActivity"
+            android:name=".map.GoogleMapsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Main.SplashActivity"
+            android:name=".main.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>

@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Main;
+package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,18 +20,17 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import kr.co.area.hashtag.Login.LoginActivity;
-import kr.co.area.hashtag.Map.GoogleMapsActivity;
+import kr.co.area.hashtag.login.LoginActivity;
+import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Recommend.RecommendActivity;
-import kr.co.area.hashtag.Write.WriteActivity;
+import kr.co.area.hashtag.recommend.RecommendActivity;
+import kr.co.area.hashtag.write.WriteActivity;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {

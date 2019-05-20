@@ -1,7 +1,7 @@
-package kr.co.area.hashtag.Write;
+package kr.co.area.hashtag.write;
 
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 import kr.co.area.hashtag.utils.Parameter;
 

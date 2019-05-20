@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Write;
+package kr.co.area.hashtag.write;
 
 import android.content.Context;
 import android.view.LayoutInflater;

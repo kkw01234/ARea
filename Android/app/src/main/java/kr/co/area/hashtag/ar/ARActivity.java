@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.AR;
+package kr.co.area.hashtag.ar;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,9 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +26,7 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 
 import static android.hardware.SensorManager.AXIS_MINUS_X;
@@ -48,9 +46,9 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     final static String TAG = "ARActivity";
     private SurfaceView surfaceView;
     private FrameLayout cameraContainerLayout;
-    private kr.co.area.hashtag.ar.AROverlayView arOverlayView;
+    private AROverlayView arOverlayView;
     private Camera camera;
-    private kr.co.area.hashtag.ar.ARCamera arCamera;
+    private ARCamera arCamera;
     private TextView tvCurrentLocation;
     private TextView tvBearing;
 
@@ -78,7 +76,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         surfaceView = findViewById(R.id.surface_view);
         tvCurrentLocation = findViewById(R.id.tv_current_location);
         tvBearing = findViewById(R.id.tv_bearing);
-        arOverlayView = new kr.co.area.hashtag.ar.AROverlayView(this);
+        arOverlayView = new AROverlayView(this);
         requestLocationPermission();
     }
 
@@ -157,7 +155,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         reloadSurfaceView();
 
         if (arCamera == null) {
-            arCamera = new kr.co.area.hashtag.ar.ARCamera(this, surfaceView);
+            arCamera = new ARCamera(this, surfaceView);
         }
         if (arCamera.getParent() != null) {
             ((ViewGroup) arCamera.getParent()).removeView(arCamera);

@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Main;
+package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import kr.co.area.hashtag.Login.LoginActivity;
+import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.asyncTask.LoginTask;
 
 public class SplashActivity extends Activity {

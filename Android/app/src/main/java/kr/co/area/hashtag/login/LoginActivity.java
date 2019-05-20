@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Login;
+package kr.co.area.hashtag.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.LoginTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;

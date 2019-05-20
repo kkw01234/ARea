@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.Write;
+package kr.co.area.hashtag.write;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,12 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import kr.co.area.hashtag.Main.HomeActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Write.WriteActivity;
 
 
 public class WrittenActivity extends AppCompatActivity {
