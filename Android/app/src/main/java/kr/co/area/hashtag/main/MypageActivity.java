@@ -25,7 +25,7 @@ import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.ProfileTask;
 
 
-public class Mypage extends AppCompatActivity {
+public class MypageActivity extends AppCompatActivity {
 
     static TextView userid;
     TextView username;
@@ -55,7 +55,7 @@ public class Mypage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(Mypage.this, HomeActivity.class));
+        startActivity(new Intent(MypageActivity.this, HomeActivity.class));
         finish();
     }
 
@@ -245,15 +245,15 @@ public class Mypage extends AppCompatActivity {
                         String state = jObject.getString("result");
                         System.out.println(state);
                         if (state.equals("success")) {
-                            Toast.makeText(Mypage.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MypageActivity.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
                         }
                         else if (state.equals("fail"))
-                            Toast.makeText(Mypage.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MypageActivity.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                }
-                startActivity(new Intent(Mypage.this, HomeActivity.class));
+                startActivity(new Intent(MypageActivity.this, HomeActivity.class));
                 finish();
             }
         });

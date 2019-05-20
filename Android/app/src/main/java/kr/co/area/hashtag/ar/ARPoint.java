@@ -9,8 +9,10 @@ import android.location.Location;
 public class ARPoint {
     Location location;
     String name;
+    String id;
 
-    public ARPoint(String name, double lat, double lon, double altitude) {
+    public ARPoint(String id, String name, double lat, double lon, double altitude) {
+        this.id = id;
         this.name = name;
         location = new Location("ARPoint");
         location.setLatitude(lat);
@@ -24,5 +26,9 @@ public class ARPoint {
 
     public String getName() {
         return name;
+    }
+
+    public String getID() {
+        return id;
     }
 }

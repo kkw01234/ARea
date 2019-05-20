@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,8 +27,10 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 
+import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.recommend.Recommendlist_2Activity;
 
 import static android.hardware.SensorManager.AXIS_MINUS_X;
 import static android.hardware.SensorManager.AXIS_MINUS_Y;
@@ -77,6 +80,14 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         tvCurrentLocation = findViewById(R.id.tv_current_location);
         tvBearing = findViewById(R.id.tv_bearing);
         arOverlayView = new AROverlayView(this);
+        arOverlayView.setOnTouchListener((v, e) -> { // 터치 이벤트 view에 전달
+            switch (e.getAction()) {
+                case MotionEvent.ACTION_UP:
+                    arOverlayView.touch(e.getX(), e.getY());
+                    break;
+            }
+            return true;
+        });
         requestLocationPermission();
     }
 
@@ -305,6 +316,12 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
             tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \naccuracy: %s",
                     location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
         }
+    }
+
+    public void requestRestInfo(String id) {
+        Intent intent = new Intent(this, Recommendlist_2Activity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     @Override

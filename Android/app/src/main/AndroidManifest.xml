@@ -46,7 +46,7 @@
             android:name=".recommend.Recommendlist_2Activity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".main.Mypage"
+            android:name=".main.MypageActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".login.JoinActivity"

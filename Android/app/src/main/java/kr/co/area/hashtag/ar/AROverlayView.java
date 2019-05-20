@@ -29,18 +29,31 @@ import noman.googleplaces.PlacesListener;
  */
 
 public class AROverlayView extends View implements PlacesListener {
-    Activity activity;
+    ARActivity activity;
     private float[] rotatedProjectionMatrix = new float[16];
     private Location psLocation;
     private Location currentLocation;
     private List<ARPoint> arPoints;
+    private List<ARTouchPoint> arTouchPoints;
     private Bitmap bmp; // 식당 이미지 by 비트맵
 
     public AROverlayView(Activity activity) {
         super(activity);
-        this.activity = activity;
+        this.activity = (ARActivity) activity;
         bmp = scaleDown(BitmapFactory.decodeResource(getResources(), R.drawable.ar_rest), 200, true); // 이미지 축소시키기
         arPoints = new ArrayList<>();
+        arTouchPoints = new ArrayList<>();
+    }
+
+    public void touch(float x, float y){
+        for(int i = 0; i < arTouchPoints.size() ; ++i){
+            ARTouchPoint arTouchPoint = arTouchPoints.get(i);
+            if(arTouchPoint.isInTouchPoint(x, y)) {
+                activity.requestRestInfo(arTouchPoint.restID);
+                break;
+            }
+        }
+        // Toast.makeText(activity, "x : " + x + ", y : " + y, Toast.LENGTH_SHORT).show();
     }
 
     public void pause() {
@@ -63,6 +76,7 @@ public class AROverlayView extends View implements PlacesListener {
                 .build()
                 .execute();
     }
+
 
     public Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) { // 사진 축소 함수
         float ratio = Math.min(
@@ -103,7 +117,7 @@ public class AROverlayView extends View implements PlacesListener {
             if (places != null) {
                 for (Place place : places) {
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    ARPoint arPoint = new ARPoint(place.getName(), latLng.latitude, latLng.longitude,
+                    ARPoint arPoint = new ARPoint(place.getPlaceId(), place.getName(), latLng.latitude, latLng.longitude,
                             psLocation.getAltitude());
                     arPoints.add(arPoint);
                 }
@@ -140,6 +154,7 @@ public class AROverlayView extends View implements PlacesListener {
         paint.setColor(Color.WHITE);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         paint.setTextSize(60);
+        arTouchPoints.clear(); // 터치 리셋
 
         for (int i = 0; i < arPoints.size(); i++) { //  각각을 계산해서 현재 화면에 맞게 그려주기
             float[] currentLocationInECEF = LocationHelper.WSG84toECEF(currentLocation);
@@ -157,6 +172,7 @@ public class AROverlayView extends View implements PlacesListener {
 
                 canvas.drawBitmap(bmp, x, y, null); // 식당 아이콘과
                 canvas.drawText(arPoints.get(i).getName(), x, y + 270, paint); // 식당 이름을 그린다
+                arTouchPoints.add(new ARTouchPoint(arPoints.get(i).getID(), x, y)); // 터치 리셋
             }
         }
     }

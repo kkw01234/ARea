@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity
         }
         goMyPage = headerView.findViewById(R.id.goMyPage);
         goMyPage.setOnClickListener((v) -> {
-            startActivity(new Intent(HomeActivity.this, Mypage.class));
+            startActivity(new Intent(HomeActivity.this, MypageActivity.class));
             finish();
         });
 
