@@ -34,7 +34,7 @@ public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
     int cameraWidth;
     int cameraHeight;
     private final static float Z_NEAR = 0.5f;
-    private final static float Z_FAR = 2000;
+    private final static float Z_FAR = 10000;
 
     public ARCamera(Context context, SurfaceView surfaceView) {
         super(context);
@@ -43,6 +43,7 @@ public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
         this.activity = (Activity) context;
         surfaceHolder = this.surfaceView.getHolder();
         surfaceHolder.addCallback(this);
+        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     public void setCamera(Camera camera) {

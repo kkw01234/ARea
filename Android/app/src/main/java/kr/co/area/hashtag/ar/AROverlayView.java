@@ -172,7 +172,9 @@ public class AROverlayView extends View implements PlacesListener {
 
                 canvas.drawBitmap(bmp, x, y, null); // 식당 아이콘과
                 canvas.drawText(arPoints.get(i).getName(), x, y + 270, paint); // 식당 이름을 그린다
-                arTouchPoints.add(new ARTouchPoint(arPoints.get(i).getID(), x, y)); // 터치 리셋
+                canvas.drawText(Double.toString(arPoints.get(i).getLocation().getAltitude()), x, y + 340, paint);
+
+                arTouchPoints.add(new ARTouchPoint(arPoints.get(i).getID(), x, y)); // 터치 포인트 추가
             }
         }
     }
