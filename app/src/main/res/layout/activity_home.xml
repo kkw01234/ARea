@@ -12,6 +12,51 @@
         android:background="#fff"
         >
 
+        <ImageView
+            android:id="@+id/todayimage2"
+            android:layout_width="166dp"
+            android:layout_height="106dp"
+            android:layout_above="@+id/todayname"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/todayname2"
+            android:layout_width="161dp"
+            android:layout_height="47dp"
+            android:layout_above="@+id/evbtn"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="0dp" />
+
+        <Button
+            android:id="@+id/evbtn2"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/divider2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="63dp"
+            android:text="작성하기" />
+
+        <ImageView
+            android:id="@+id/todayimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/todayname"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toStartOf="@+id/todayimage2"
+            app:srcCompat="@mipmap/ic_launcher" />
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -34,12 +79,6 @@
                 android:textStyle="bold" />
 
         </android.support.v7.widget.Toolbar>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/success_login" />
 
         <View
             android:id="@+id/toolbar_bottom"
@@ -90,6 +129,50 @@
             android:visibility="invisible"
             app:borderWidth="0dp"
             app:fabSize="normal"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="111dp"
+            android:layout_height="34dp"
+            android:layout_below="@+id/toolbar_bottom"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="281dp"
+            android:text="오늘의 추천"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="315dp"
+            android:background="?android:attr/listDivider" />
+
+        <Button
+            android:id="@+id/evbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/divider2"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="63dp"
+            android:layout_toStartOf="@+id/evbtn2"
+            android:text="작성하기" />
+
+        <TextView
+            android:id="@+id/todayname"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_above="@+id/evbtn"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toStartOf="@+id/todayname2" />
 
     </RelativeLayout>
 
