@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--parent layout-->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,49 +14,19 @@
         >
 
         <ImageView
-            android:id="@+id/todayimage2"
-            android:layout_width="166dp"
-            android:layout_height="106dp"
-            android:layout_above="@+id/todayname"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/todayname2"
-            android:layout_width="161dp"
-            android:layout_height="47dp"
-            android:layout_above="@+id/evbtn"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="13dp"
-            android:layout_marginBottom="0dp" />
-
-        <Button
-            android:id="@+id/evbtn2"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/divider2"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="63dp"
-            android:text="작성하기" />
-
-        <ImageView
-            android:id="@+id/todayimage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/todayname"
-            android:layout_below="@+id/textView"
+            android:id="@+id/loginLogo3"
+            android:layout_width="253dp"
+            android:layout_height="313dp"
+            android:layout_above="@+id/homear"
+            android:layout_below="@+id/toolbar_bottom"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_toStartOf="@+id/todayimage2"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/logo_dummy"
+            app:layout_constraintBottom_toTopOf="@+id/userId"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -130,49 +101,72 @@
             app:borderWidth="0dp"
             app:fabSize="normal"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="111dp"
-            android:layout_height="34dp"
-            android:layout_below="@+id/toolbar_bottom"
+        <ImageView
+            android:id="@+id/homear"
+            android:layout_width="152dp"
+            android:layout_height="171dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginEnd="281dp"
-            android:text="오늘의 추천"
-            android:textSize="18sp" />
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="315dp"
-            android:background="?android:attr/listDivider" />
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="45dp"
+            android:background="#009688"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
-        <Button
-            android:id="@+id/evbtn"
+        <ImageView
+            android:id="@+id/homeset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/divider2"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="63dp"
-            android:layout_toStartOf="@+id/evbtn2"
-            android:text="작성하기" />
+            android:layout_height="184dp"
+            android:layout_below="@+id/loginLogo3"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="-4dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="45dp"
+            android:layout_toStartOf="@+id/map_Button"
+            android:layout_toEndOf="@+id/homear"
+            android:background="#FF5722"
+            app:srcCompat="@drawable/ic_stat_setting" />
 
-        <TextView
-            android:id="@+id/todayname"
+        <ImageView
+            android:id="@+id/homemap"
             android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_above="@+id/evbtn"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="0dp"
-            android:layout_toStartOf="@+id/todayname2" />
+            android:layout_height="129dp"
+            android:layout_above="@+id/homewrite"
+            android:layout_below="@+id/toolbar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@+id/loginLogo3"
+            android:background="#2196F3"
+            app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
+        <ImageView
+            android:id="@+id/homewrite"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:layout_above="@+id/homegood"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="9dp"
+            android:layout_toEndOf="@+id/loginLogo3"
+            android:background="#FFEB3B"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageView
+            android:id="@+id/homegood"
+            android:layout_width="match_parent"
+            android:layout_height="143dp"
+            android:layout_above="@+id/AR_Button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="23dp"
+            android:layout_toEndOf="@+id/loginLogo3"
+            android:background="#FAF9FC"
+            app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
 
     </RelativeLayout>
 

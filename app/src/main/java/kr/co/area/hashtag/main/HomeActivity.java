@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private View headerView;
     private TextView userHi;
-    private ImageView profile,homeLogo;
+    private ImageView profile,homeLogo,homear,homewr,homemap,homeset,homelike;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private Animation fab_open, fab_close;
@@ -68,6 +69,19 @@ public class HomeActivity extends AppCompatActivity
         String image = pref1.getString("imagestrings", "");
         Bitmap bitmap = StringToBitMap(image);
 
+        //홈화면
+        homear = (ImageView) findViewById(R.id.homear);
+        homewr = (ImageView) findViewById(R.id.homewrite);
+        homelike = (ImageView) findViewById(R.id.homegood);
+        homemap = (ImageView) findViewById(R.id.homemap);
+        homeset = (ImageView) findViewById(R.id.homeset);
+
+        homear.setOnClickListener(homeListener);
+        homewr.setOnClickListener(homeListener);
+        homelike.setOnClickListener(homeListener);
+        homemap.setOnClickListener(homeListener);
+        homeset.setOnClickListener(homeListener);
+
         //헤더부분
         headerView = navigationView.getHeaderView(0);
         userHi = headerView.findViewById(R.id.userHi);
@@ -92,7 +106,35 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(this);
         map_button.setOnClickListener(this);
         AR_button.setOnClickListener(this);
+
     }
+    View.OnClickListener homeListener = (view) -> {
+        switch (view.getId()) {
+            case R.id.homear:
+                startActivity(new Intent(activity, ARActivity.class));
+                finish();
+                break;
+            case R.id.homewrite:
+                startActivity(new Intent(activity, WriteActivity.class));
+                finish();
+                break;
+            case R.id.homemap:
+                startActivity(new Intent(activity, GoogleMapsActivity.class));
+                finish();
+                break;
+            case R.id.homegood:
+                startActivity(new Intent(activity, RecommendActivity.class));
+                finish();
+                break;
+            case R.id.homeset:
+                startActivity(new Intent(activity, MypageActivity.class));
+                finish();
+                break;
+
+
+        }
+    };
+
     View.OnClickListener headListener = (view) -> {
         switch (view.getId()) {
             case R.id.LogoBtn:
@@ -110,6 +152,12 @@ public class HomeActivity extends AppCompatActivity
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (isFabOpen) {
+            map_button.startAnimation(fab_close);
+            AR_button.startAnimation(fab_close);
+            map_button.setClickable(false);
+            AR_button.setClickable(false);
+            isFabOpen = false;
         } else {
             long tempTime = System.currentTimeMillis();
             long intervalTime = tempTime - backPressedTime;
