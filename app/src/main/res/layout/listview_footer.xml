@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/iv_list_footer_loading"/>
+    <TextView
+        android:gravity="center"
+        android:layout_height="50dip"
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_list_footer"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="More item ..."
+        android:layout_marginLeft="10dip"/>
+
+</LinearLayout>
