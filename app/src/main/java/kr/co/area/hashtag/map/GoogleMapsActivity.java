@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
 import com.google.android.libraries.places.compat.ui.SupportPlaceAutocompleteFragment;
 //import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 
@@ -69,7 +70,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
-    private Marker searchMarker = null;
+
 
     private static final String TAG = "Google_Maps_Activity";
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
@@ -97,8 +98,8 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
 
-    List<Marker> previous_marker = null; //맛집 마커 저장하는곳
-
+    List<Marker> previous_marker = null; //주변 맛집 마커 저장하는곳
+    private Marker searchMarker = null;
     //뒤로가기
     public void onBackPressed() {
         startActivity(new Intent(GoogleMapsActivity.this, HomeActivity.class));
@@ -302,9 +303,9 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         mGoogleMap.setOnInfoWindowClickListener((marker) -> {
             Intent intent = new Intent(getBaseContext(), RestActivity.class);
-            Place place = (Place) marker.getTag();
+            String id = (String)marker.getTag();
 
-            intent.putExtra("id", place.getPlaceId());
+            intent.putExtra("id", id);
             startActivity(intent);
         });
 
@@ -596,9 +597,11 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     @Override
     public void onPlacesStart() {
-
+            Log.i(TAG,"start to find Place");
     }
 
+
+    //place를 찾았을 경우 마커찍기
     @Override
     public void onPlacesSuccess(final List<Place> places) {
         runOnUiThread(() -> {
@@ -624,7 +627,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
                 Marker item = mGoogleMap.addMarker(markerOptions);
-                item.setTag(place);
+                item.setTag(place.getPlaceId());
                 previous_marker.add(item);
             }
 
@@ -645,7 +648,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     @Override
     public void onPlacesFinished() {
-
+            Log.i(TAG, "finish to find place");
     }
 
     public void showPlaceInformation(LatLng location) {
@@ -658,17 +661,19 @@ public class GoogleMapsActivity extends AppCompatActivity
                 .listener(GoogleMapsActivity.this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(1000) //1000 미터 내에서 검색
+                .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
     }
 
+
+    //찾은 Place의 마커를 찾는 메소드
     private void setupAutoCompleteFragment(SupportMapFragment mapFragment) {
         SupportPlaceAutocompleteFragment autocompleteFragment = (SupportPlaceAutocompleteFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setFilter(new com.google.android.libraries.places.compat.AutocompleteFilter.Builder().setCountry("KR").build());
-        autocompleteFragment.setOnPlaceSelectedListener(new com.google.android.libraries.places.compat.ui.PlaceSelectionListener() {
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 
 
             @Override
@@ -677,8 +682,15 @@ public class GoogleMapsActivity extends AppCompatActivity
                 markerOptions.position(place.getLatLng());
                 markerOptions.title((String) place.getName());
                 markerOptions.snippet((String) place.getAddress());
+                for(Marker marker : previous_marker){
+                    marker.remove();
+                }
                 previous_marker.clear();
+                if(searchMarker != null)
+                    searchMarker.remove();
+
                 searchMarker = mGoogleMap.addMarker(markerOptions);
+                searchMarker.setTag(place.getId());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(place.getLatLng());
                 mGoogleMap.animateCamera(cameraUpdate, 2000, null);
             }
