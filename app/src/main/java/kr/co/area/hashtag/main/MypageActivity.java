@@ -19,7 +19,18 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.ProfileTask;
@@ -99,166 +110,37 @@ public class MypageActivity extends AppCompatActivity {
         okbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                // 이미지
+               // 이미지
                 Bitmap bitmap = scaled;
-
- // 기타 필요한 내용
-                String attachmentName = "bitmap";
-                String attachmentFileName = "bitmap.bmp";
-                String crlf = "\r\n";
-                String twoHyphens = "--";
-                String boundary =  "*****";
-
-// request 준비
-                HttpURLConnection httpUrlConnection = null;
-                URL url = null;
                 try {
-                    url = new URL("http://118.220.3.71:13565/write_image");
-                } catch (MalformedURLException e) {
+                    String result = new ProfileTask(activity).execute(bitmap).get();
+                    System.out.println(result);
+                } catch (ExecutionException e) {
                     e.printStackTrace();
-                }
-                try {
-                    httpUrlConnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                httpUrlConnection.setUseCaches(false);
-                httpUrlConnection.setDoOutput(true);
-
-                try {
-                    httpUrlConnection.setRequestMethod("POST");
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                }
-                httpUrlConnection.setRequestProperty("Connection", "Keep-Alive");
-                httpUrlConnection.setRequestProperty("Cache-Control", "no-cache");
-                httpUrlConnection.setRequestProperty(
-                        "Content-Type", "multipart/form-data;boundary=" + boundary);
-
-// content wrapper시작
-                DataOutputStream request = null;
-                try {
-                    request = new DataOutputStream()httpUrlConnection.getOutputStream());
-                } catch (IOException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                try {
-                    request.writeBytes(twoHyphens + boundary + crlf);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    request.writeBytes("Content-Disposition: form-data; name=\"" +
-                            attachmentName + "\";filename=\"" +
-                            attachmentFileName + "\"" + crlf);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    request.writeBytes(crlf);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-// Bitmap을 ByteBuffer로 전환
-                byte[] pixels = new byte[bitmap.getWidth() * bitmap.getHeight()];
-                for (int i = 0; i < bitmap.getWidth(); ++i) {
-                    for (int j = 0; j < bitmap.getHeight(); ++j) {
-                        //we're interested only in the MSB of the first byte,
-                        //since the other 3 bytes are identical for B&W images
-                        pixels[i + j] = (byte) ((bitmap.getPixel(i, j) & 0x80) >> 7);
-                    }
-                }
-                try {
-                    request.write(pixels);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-// content wrapper종료
-                try {
-                    request.writeBytes(crlf);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    request.writeBytes(twoHyphens + boundary +
-                            twoHyphens + crlf);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-// buffer flush
-                try {
-                    request.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    request.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-// Response받기
-                InputStream responseStream = null;
-                try {
-                    responseStream = new
-                            BufferedInputStream(httpUrlConnection.getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                BufferedReader responseStreamReader =
-                        new BufferedReader(new InputStreamReader(responseStream));
-                String line = "";
-                StringBuilder stringBuilder = new StringBuilder();
-                while (true) {
-                    try {
-                        if (!((line = responseStreamReader.readLine()) != null)) break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    stringBuilder.append(line).append("\n");
-                }
-                try {
-                    responseStreamReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String response = stringBuilder.toString();
-
-
-//Response stream종료
-                try {
-                    responseStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-// connection종료
-                httpUrlConnection.disconnect();
-*/
-  //              System.out.println(userimg);
+                //              System.out.println(userimg);
  //               Bitmap image = scaled;
   //              String result = new ProfileTask(activity).execute(String.valueOf(image)).get();
 
-
-                if (!(userimg.equals(image))){
-                   try {
-                       String result = new ProfileTask(activity).execute(String.valueOf(bitmap)).get();
-                        JSONObject jObject = new JSONObject(result);
-                        String state = jObject.getString("result");
-                        System.out.println(state);
-                        if (state.equals("success")) {
-                            Toast.makeText(MypageActivity.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (state.equals("fail"))
-                            Toast.makeText(MypageActivity.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-               }
+//Bitmap 방식
+//                if (!(userimg.equals(image))){
+//                   try {
+//                       String result = new ProfileTask(activity).execute(String.valueOf(bitmap)).get();
+//                        JSONObject jObject = new JSONObject(result);
+//                        String state = jObject.getString("result");
+//                        System.out.println(state);
+//                        if (state.equals("success")) {
+//                            Toast.makeText(MypageActivity.this, "이미지가 변경되었습니다.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else if (state.equals("fail"))
+//                            Toast.makeText(MypageActivity.this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//               }
                 startActivity(new Intent(MypageActivity.this, HomeActivity.class));
                 finish();
             }
