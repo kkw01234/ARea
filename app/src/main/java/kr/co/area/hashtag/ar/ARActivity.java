@@ -67,7 +67,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     boolean isGPSEnabled;
     boolean isNetworkEnabled;
     boolean locationServiceAvailable;
-    private float declination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,52 +213,38 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) { // 센서 변화시
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-            float[] rotationMatrixFromVector = new float[16];
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) { // rotation vector는 여러 센서를 합해서 나온 값이라고 함
             float[] rotationMatrix = new float[16];
-            getRotationMatrixFromVector(rotationMatrixFromVector, sensorEvent.values);
-            final int screenRotation = this.getWindowManager().getDefaultDisplay()
-                    .getRotation();
-
-            switch (screenRotation) {
-                case ROTATION_90:
-                    remapCoordinateSystem(rotationMatrixFromVector,
-                            AXIS_Y,
-                            AXIS_MINUS_X, rotationMatrix);
-                    break;
-                case ROTATION_270:
-                    remapCoordinateSystem(rotationMatrixFromVector,
-                            AXIS_MINUS_Y,
-                            AXIS_X, rotationMatrix);
-                    break;
-                case ROTATION_180:
-                    remapCoordinateSystem(rotationMatrixFromVector,
-                            AXIS_MINUS_X, AXIS_MINUS_Y,
-                            rotationMatrix);
-                    break;
-                default:
-                    remapCoordinateSystem(rotationMatrixFromVector,
-                            AXIS_X, AXIS_Y,
-                            rotationMatrix);
-                    break;
-            }
-
+            getRotationMatrixFromVector(rotationMatrix, sensorEvent.values);
             float[] projectionMatrix = arCamera.getProjectionMatrix();
             float[] rotatedProjectionMatrix = new float[16];
             Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
             this.arOverlayView.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
 
-            //Heading
+            //Heading 북쪽으로부터 휴대폰이 몇 도 기울었는지 하는 건디.. 오차 어떻게 줄이지
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
-            double bearing = Math.toDegrees(orientation[0]) + declination;
+            double bearing = Math.toDegrees(orientation[0]);
             tvBearing.setText(String.format("Bearing: %s", bearing));
         }
     }
 
+    public void showCalibrate() {
+        Toast.makeText(this, "정확도를 위해 팔을 8자로 흔들어주세요", Toast.LENGTH_LONG).show();
+    }
+
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-        //do nothing
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        switch (accuracy) {
+            case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
+                showCalibrate();
+                break;
+            case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
+                showCalibrate();
+                break;
+            case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
+                break;
+        }
     }
 
     private void initLocationService() {
