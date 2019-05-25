@@ -1,23 +1,24 @@
 package kr.co.area.hashtag.main;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,23 +37,43 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.recommend.RecommendActivity;
-import kr.co.area.hashtag.write.WriteActivity;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
+import noman.googleplaces.NRPlaces;
+import noman.googleplaces.Place;
+import noman.googleplaces.PlaceType;
+import noman.googleplaces.PlacesException;
+import noman.googleplaces.PlacesListener;
 
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AbsListView.OnScrollListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AbsListView.OnScrollListener, PlacesListener {
+    private static final String TAG = "HomeActivity";
     private Activity activity;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -65,14 +86,27 @@ public class HomeActivity extends AppCompatActivity
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, map_button, AR_button;
-    private ArrayList<MyItem> marItem;
-    private MyListAdapter 	  mMyAdapte;
     private ListView mListView;
-    private MyItem 			  items;
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+    private boolean isPermission = false;
+    // GPSTracker class
+    private GpsInfo gps;
+    double latitude,longitude;
+    LatLng currentPosition;
+    private GoogleMap mGoogleMap = null;
+    private int count = 0;
+
+    List<Marker> previous_marker = null;
+    List<String> idlist = new ArrayList<>();
+    Vector<Layout> layouts = new Vector<>();
 
     // 스크롤 로딩
     private LayoutInflater mInflater;
     private boolean mLockListView;
+    private ListViewAdapter adapter;
 
 
     @Override
@@ -97,9 +131,17 @@ public class HomeActivity extends AppCompatActivity
         Bitmap bitmap = StringToBitMap(image);
 
 
+        callPermission();  // 권한 요청을 해야 함
+
+        position();
+        callPermission();  // 권한 요청을 해야 함
+
+        currentPosition = new LatLng(37.56, 126.97);
+        // = new LatLng(latitude,longitude);
+
+        showPlaceInformation(currentPosition);
 
         mListView = (ListView) findViewById(R.id.morelist);
-        marItem = new ArrayList<MyItem>();
         mLockListView = true;
 
         // 푸터를 등록. setAdapter 이전에 해야함.
@@ -109,10 +151,23 @@ public class HomeActivity extends AppCompatActivity
         // 스크롤 리스너 등록
         mListView.setOnScrollListener(this);
 
-        mMyAdapte = new MyListAdapter(this, R.layout.custom_layout, marItem);
-        mListView.setAdapter((ListAdapter) mMyAdapte);
+        // Adapter 생성
+        adapter = new ListViewAdapter() ;
 
-        addItems(2);
+        // 리스트뷰 참조 및 Adapter달기
+
+        mListView.setAdapter(adapter);
+
+        TextView extext = (TextView) findViewById(R.id.tv_list_footer);
+        extext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(idlist.get(count));
+                String id = idlist.get(count++);
+                getPlace(id);
+            }
+        });
+
 
         //헤더부분
         headerView = navigationView.getHeaderView(0);
@@ -140,6 +195,8 @@ public class HomeActivity extends AppCompatActivity
         AR_button.setOnClickListener(this);
 
     }
+    //사용자의 위치 수신
+
 
 
 
@@ -249,6 +306,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
         }
     }
+
     public void anim() {
 
         if (isFabOpen) {
@@ -267,99 +325,30 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-
-    // 리스트뷰 출력 항목
-    class MyItem
-    {
-        MyItem(String _coustId)
-        {
-            sCustId = _coustId;
-        }
-        String sCustId;
-    }
-
-    // 어댑터 클래스
-    class MyListAdapter extends BaseAdapter
-    {
-        Context cContext;
-        LayoutInflater lInflater;
-        ArrayList<MyItem> alSrc;
-        int layout;
-
-        public MyListAdapter(Context _context, int _layout, ArrayList<MyItem> _arrayList)
-        {
-            cContext  = _context;
-            lInflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            alSrc	  = _arrayList;
-            layout    = _layout;
+    public void position() {
+        // 권한 요청을 해야 함
+        if (!isPermission) {
+            callPermission();
+            return;
         }
 
-        @Override
-        public int getCount()
-        {
-            return alSrc.size();
+        gps = new GpsInfo(HomeActivity.this);
+        // GPS 사용유무 가져오기
+        if (gps.isGetLocation()) {
+
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+
+            Toast.makeText(
+                    getApplicationContext(),
+                    "당신의 위치 - \n위도: " + latitude + "\n경도: " + longitude,
+                    Toast.LENGTH_LONG).show();
+        } else {
+            // GPS 를 사용할수 없으므로
+            gps.showSettingsAlert();
         }
+    };
 
-        @Override
-        public Object getItem(int position)
-        {
-            return alSrc.get(position).sCustId;
-        }
-
-        @Override
-        public long getItemId(int position)
-        {
-            return position;
-        }
-
-
-        // 각 뷰의 항목 생성
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            final int pos = position;
-            if(convertView == null)
-            {
-                convertView = lInflater.inflate(layout, parent, false);
-            }
-
-            final String getCustId = alSrc.get(pos).sCustId;
-
-            ImageView img1 = (ImageView) findViewById(R.id.homeimg1);
-            TextView text1 = (TextView) findViewById(R.id.hometext1);
-
-            return convertView;
-        }
-    }
-
-    // 더미 아이템 추가
-    private void addItems(final int size)
-    {
-        // 아이템을 추가하는 동안 중복 요청을 방지하기 위해 락을 걸어둡니다.
-        mLockListView = true;
-        Runnable run = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                for(int i = 0 ; i < size ; i++)
-                {
-                    items = new MyItem("more " + i);
-                    marItem.add(items);
-                }
-                // 모든 데이터를 로드하여 적용하였다면 어댑터에 알리고
-                // 리스트뷰의 락을 해제합니다.
-                mMyAdapte.notifyDataSetChanged();
-                mLockListView = false;
-            }
-        };
-        // 속도의 딜레이를 구현하기 위한 꼼수
-        Handler handler = new Handler();
-        handler.postDelayed(run, 5000);
-    }
-    // ============================================== //
-    // public Method
-    // ============================================== //
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
     {
@@ -370,11 +359,172 @@ public class HomeActivity extends AppCompatActivity
         if(firstVisibleItem >= count && totalItemCount != 0 && mLockListView == false)
         {
             Log.i("list", "Loading next items");
-            addItems(2);
+            //addItems(1);
         }
     }
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState)
     {
+    }
+
+    //현재위치
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            isAccessFineLocation = true;
+
+        } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            isAccessCoarseLocation = true;
+        }
+
+        if (isAccessFineLocation && isAccessCoarseLocation) {
+            isPermission = true;
+        }
+    }
+
+    // 전화번호 권한 요청
+    private void callPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_ACCESS_FINE_LOCATION);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_ACCESS_COARSE_LOCATION);
+        } else {
+            isPermission = true;
+        }
+    }
+
+    public void getPlace(String id) { //DB에 데이터가 있는지 확인 // 없을경우 REST API 실행, 있을경우 DB 불러옴
+        try {
+            String result = new PlaceTask(this).execute(id).get();
+            Log.i("GetPlace", result);
+            JsonParser parser = new JsonParser();
+            JsonObject obj = (JsonObject) parser.parse(result);
+            JsonElement str = obj.get("result");
+//            if (str.getAsString().equals("fail")) {
+//                inDatabase = false;
+//                getPlaceInformation(id);
+//                getPlace(id);
+//                return;
+//            }
+            JsonElement name = obj.get("rest_name"); // 레스토랑 이름
+            JsonElement addr = obj.get("rest_address"); // 레스토랑 주소
+            JsonElement text = obj.get("rest_text"); // 레스토랑 설명
+            JsonElement time = obj.get("rest_time"); // 레스토랑 오픈 시간
+            JsonElement phone = obj.get("rest_phone"); // 레스토랑 전화번호
+
+            adapter.addItem(null, name.getAsString(), addr.getAsString()) ;
+            mListView.setAdapter(adapter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Address> getCurrentAddress(LatLng latlng) { //주소
+
+        //지오코더... GPS를 주소로 변환
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        List<Address> addresses;
+        try {
+
+            addresses = geocoder.getFromLocation(
+                    latlng.latitude,
+                    latlng.longitude,
+                    1); //위치를 주소로 바꿔줌
+            //geocoder.getFromLocationName() -> 주소를 위치로
+
+        } catch (IOException ioException) {
+            //네트워크 문제
+            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+            return null;
+        } catch (IllegalArgumentException illegalArgumentException) {
+            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+            return null;
+
+        }
+        if (addresses == null || addresses.size() == 0) {
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            return null;
+
+        } else {
+            //Address address = addresses.get(0);
+            return addresses;
+        }
+
+    }
+
+    @Override
+    public void onPlacesFailure(PlacesException e) {
+
+    }
+
+    @Override
+    public void onPlacesStart() {
+
+    }
+
+    @Override
+    public void onPlacesSuccess(final List<Place> places) {
+        runOnUiThread(() -> {
+            if (places == null || places.size() == 0)
+                return;
+
+            for (noman.googleplaces.Place place : places) {
+                LatLng latLng
+                        = new LatLng(place.getLatitude()
+                        , place.getLongitude());
+                Log.i(TAG, latLng.latitude + " " + latLng.longitude);
+                List<Address> address = getCurrentAddress(latLng);
+                String markerSnippet = null;
+                if (address != null)
+                    markerSnippet = address.get(0).getAddressLine(0);
+                else
+                    markerSnippet = latLng.latitude + " " + latLng.longitude;
+                //String altitude = getAltitude(latLng);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(place.getName());
+                markerOptions.snippet(markerSnippet);
+
+                idlist.add(place.getPlaceId());
+            }
+        });
+    }
+
+    @Override
+    public void onPlacesFinished() {
+
+    }
+
+    public void showPlaceInformation(LatLng location) {
+
+        System.out.println(location);
+
+        new NRPlaces.Builder()
+                .listener(HomeActivity.this)
+                .key(getResources().getString(R.string.google_maps_key))
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(500) //500 미터 내에서 검색
+                .type(PlaceType.RESTAURANT) //음식점
+                .build()
+                .execute();
     }
 }
