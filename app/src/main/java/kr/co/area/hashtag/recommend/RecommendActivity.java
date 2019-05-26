@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import kr.co.area.hashtag.Good_rec;
 import kr.co.area.hashtag.Map_recommend;
 import kr.co.area.hashtag.New_rec;
 import kr.co.area.hashtag.main.HomeActivity;
@@ -33,6 +34,12 @@ public class RecommendActivity extends AppCompatActivity{
             }
         });
 
+        Button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goodRecommentAction();
+            }
+        });
 
         ImageButton rec1 = (ImageButton) findViewById(R.id.rec1);
         rec1.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +77,12 @@ public class RecommendActivity extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(),New_rec.class);
         startActivity(intent);
     }
+
+    public void goodRecommentAction(){
+        Intent intent = new Intent(getApplicationContext(), Good_rec.class);
+        startActivity(intent);
+    }
+
     public void MapRcommendAction(){
         Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
         startActivity(intent);

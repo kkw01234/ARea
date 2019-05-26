@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Map_recommend"></activity>
+        <activity android:name=".Good_rec" />
+        <activity android:name=".Map_recommend" />
         <activity android:name=".New_rec" />
         <activity
             android:name=".main.HomeActivity"

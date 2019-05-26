@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -15,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -27,11 +27,6 @@ public class Map_recommend extends FragmentActivity implements OnMapReadyCallbac
 
     // 구글 맵 참조변수 생성
     GoogleMap mMap;
-
-//    //폴리라인
-//    private PolylineOptions polylineOptions;
-//    private ArrayList<LatLng> arrayPoints;
-
 
 
     @Override
@@ -96,24 +91,14 @@ public class Map_recommend extends FragmentActivity implements OnMapReadyCallbac
 
         //========================================
 
-        String coordinates[] = { "37.517180", "127.041268" };
+        //폴리라인 추가
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(37.5335402, 127.00864849999993), new LatLng(37.5315144, 127.0055198))
+                .add(new LatLng(37.5315144, 127.0055198), new LatLng(37.5386494, 127.00208229999998))
+                .add(new LatLng(37.5386494, 127.00208229999998), new LatLng(37.5425156, 127.00245990000007))
+                .width(5)
+                .color(Color.RED));
 
-        double lat = Double.parseDouble(coordinates[0]);
-        double lng = Double.parseDouble(coordinates[1]);
-        LatLng position = new LatLng(lat, lng);
-
-
-
-
-
-//        // 맵셋팅
-//
-//        polylineOptions = new PolylineOptions();
-//        polylineOptions.color(Color.RED);
-//        polylineOptions.width(5);
-//        arrayPoints.add(latLng);
-//        polylineOptions.addAll(arrayPoints);
-//        mMap.addPolyline(polylineOptions);
 
     }
 
@@ -132,3 +117,5 @@ public class Map_recommend extends FragmentActivity implements OnMapReadyCallbac
 
 
 }
+
+
