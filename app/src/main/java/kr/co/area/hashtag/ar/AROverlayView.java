@@ -71,7 +71,7 @@ public class AROverlayView extends View implements PlacesListener {
                 .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(currentLocation.getLatitude(), currentLocation.getLongitude())//현재 위치
-                .radius(50) // param 미터 내에서 검색
+                .radius(50) // 반경 param 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) // TYPE : 음식점
                 .build()
                 .execute();
