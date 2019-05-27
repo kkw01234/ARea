@@ -50,14 +50,14 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             id = extra.getString("id");
             isFromAR = extra.getBoolean("fromVR");
         }
-        Place_nameView = (TextView) findViewById(R.id.place_name);
-        AddressView = (TextView) findViewById(R.id.place_address);
-        OpeningHour = (TextView) findViewById(R.id.place_time);
-        PhoneView = (TextView) findViewById(R.id.place_phone);
+        Place_nameView = findViewById(R.id.place_name);
+        AddressView = findViewById(R.id.place_address);
+        OpeningHour = findViewById(R.id.place_time);
+        PhoneView = findViewById(R.id.place_phone);
 
         getPlace(id);
 
-        reviewlist = (ListView) findViewById(R.id.reviewlist);
+        reviewlist = findViewById(R.id.reviewlist);
         listLockListView = true;
 
         // 푸터를 등록. setAdapter 이전에 해야함.
@@ -125,13 +125,6 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             Log.i("GetPlace", result);
             JsonParser parser = new JsonParser();
             JsonObject obj = (JsonObject) parser.parse(result);
-            JsonElement str = obj.get("result");
-//            if (str.getAsString().equals("fail")) {
-//                inDatabase = false;
-//                getPlaceInformation(id);
-//                getPlace(id);
-//                return;
-//            }
             JsonElement name = obj.get("rest_name"); // 레스토랑 이름
             JsonElement addr = obj.get("rest_address"); // 레스토랑 주소
             JsonElement text = obj.get("rest_text"); // 레스토랑 설명

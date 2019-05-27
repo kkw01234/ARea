@@ -24,7 +24,6 @@ public class LoginTask extends AsyncTask<String, Void, String> {
         params.add(new Parameter("id", strings[0]));
         params.add(new Parameter("pwd", strings[1]));
         String result = conn.request(url, params, activity.getApplicationContext());
-        System.out.println(result);
         return result;
     }
 }

@@ -74,14 +74,15 @@ import java.util.Vector;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AbsListView.OnScrollListener, PlacesListener {
+
     private static final String TAG = "HomeActivity";
     private Activity activity;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private View headerView;
-    private TextView userHi;
-    private ImageView profile,homeLogo;
+    private TextView userHi, posInfo;
+    private ImageView profile, homeLogo;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private Animation fab_open, fab_close;
@@ -95,12 +96,11 @@ public class HomeActivity extends AppCompatActivity
     private boolean isPermission = false;
     // GPSTracker class
     private GpsInfo gps;
-    double latitude,longitude;
+    double lat, lng;
     LatLng currentPosition;
     private GoogleMap mGoogleMap = null;
     private int mcount = 0;
 
-    List<Marker> previous_marker = null;
     List<String> idlist = new ArrayList<>();
     Vector<Layout> layouts = new Vector<>();
 
@@ -131,33 +131,31 @@ public class HomeActivity extends AppCompatActivity
         String image = pref1.getString("imagestrings", "");
         Bitmap bitmap = StringToBitMap(image);
 
-
-        callPermission();  // 권한 요청을 해야 함
-
-        position();
-        callPermission();  // 권한 요청을 해야 함
+        callPermission();  // 권한 요청
+        callPermission();  // 권한 요청
 
         Intent intent = getIntent();
-        double lat = intent.getDoubleExtra("lat", 0);
-        double lng = intent.getDoubleExtra("lng", 0);
+        posInfo = findViewById(R.id.pos_info);
+        lat = intent.getDoubleExtra("lat", 0);
+        lng = intent.getDoubleExtra("lng", 0);
+        if (lat == 0 && lng == 0) position(); // 값을 받아오지 못한 경우
         currentPosition = new LatLng(lat, lng);
-
-        // = new LatLng(latitude,longitude);
+        posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
 
         showPlaceInformation(currentPosition);
 
-        mListView = (ListView) findViewById(R.id.morelist);
+        mListView = findViewById(R.id.morelist);
         mLockListView = true;
 
         // 푸터를 등록. setAdapter 이전에 해야함.
-        mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mListView.addFooterView(mInflater.inflate(R.layout.listview_footer, null));
 
         // 스크롤 리스너 등록
         mListView.setOnScrollListener(this);
 
         // Adapter 생성
-        adapter = new ListViewAdapter() ;
+        adapter = new ListViewAdapter();
 
         // 리스트뷰 참조 및 Adapter달기
         mListView.setAdapter(adapter);
@@ -202,9 +200,9 @@ public class HomeActivity extends AppCompatActivity
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
-        map_button = (FloatingActionButton)findViewById(R.id.map_Button);
-        AR_button = (FloatingActionButton)findViewById(R.id.AR_Button);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        map_button = (FloatingActionButton) findViewById(R.id.map_Button);
+        AR_button = (FloatingActionButton) findViewById(R.id.AR_Button);
 
         fab.setOnClickListener(this);
         map_button.setOnClickListener(this);
@@ -212,9 +210,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
     //사용자의 위치 수신
-
-
-
 
     View.OnClickListener headListener = (view) -> {
         switch (view.getId()) {
@@ -307,7 +302,6 @@ public class HomeActivity extends AppCompatActivity
         switch (id) {
             case R.id.fab:
                 anim();
-                //Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.map_Button:
                 anim();
@@ -330,8 +324,7 @@ public class HomeActivity extends AppCompatActivity
             map_button.setClickable(false);
             AR_button.setClickable(false);
             isFabOpen = false;
-        }
-        else {
+        } else {
             map_button.startAnimation(fab_open);
             AR_button.startAnimation(fab_open);
             map_button.setClickable(true);
@@ -350,38 +343,31 @@ public class HomeActivity extends AppCompatActivity
         gps = new GpsInfo(HomeActivity.this);
         // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
-
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-            Toast.makeText(
-                    getApplicationContext(),
-                    "당신의 위치 - \n위도: " + latitude + "\n경도: " + longitude,
-                    Toast.LENGTH_LONG).show();
+            lat = gps.getLatitude();
+            lng = gps.getLongitude();
         } else {
             // GPS 를 사용할수 없으므로
             gps.showSettingsAlert();
         }
-    };
+    }
+
 
     @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-    {
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
         // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정합니다.
         int count = totalItemCount - visibleItemCount;
 
-        if(firstVisibleItem >= count && totalItemCount != 0 && mLockListView == false)
-        {
+        if (firstVisibleItem >= count && totalItemCount != 0 && mLockListView == false) {
             Log.i("list", "Loading next items");
             String id = idlist.get(mcount++);
             getPlace(id);
             //addItems(1);
         }
     }
+
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState)
-    {
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
 
     //현재위치
@@ -394,7 +380,7 @@ public class HomeActivity extends AppCompatActivity
             isAccessFineLocation = true;
 
         } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             isAccessCoarseLocation = true;
         }
@@ -417,7 +403,7 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -429,28 +415,16 @@ public class HomeActivity extends AppCompatActivity
 
     public void getPlace(String id) { //DB에 데이터가 있는지 확인 // 없을경우 REST API 실행, 있을경우 DB 불러옴
         try {
-            mLockListView = true;
+            // mLockListView = true;
             String result = new PlaceTask(this).execute(id).get();
             Log.i("GetPlace", result);
             JsonParser parser = new JsonParser();
             JsonObject obj = (JsonObject) parser.parse(result);
-            JsonElement str = obj.get("result");
-//            if (str.getAsString().equals("fail")) {
-//                inDatabase = false;
-//                getPlaceInformation(id);
-//                getPlace(id);
-//                return;
-//            }
             JsonElement name = obj.get("rest_name"); // 레스토랑 이름
             JsonElement addr = obj.get("rest_address"); // 레스토랑 주소
-            JsonElement text = obj.get("rest_text"); // 레스토랑 설명
-            JsonElement time = obj.get("rest_time"); // 레스토랑 오픈 시간
-            JsonElement phone = obj.get("rest_phone"); // 레스토랑 전화번호
-
-            adapter.addItem(null, name.getAsString(), addr.getAsString()) ;
+            adapter.addItem(null, name.getAsString(), addr.getAsString());
             mListView.setAdapter(adapter);
-            mLockListView = false;
-
+            // mLockListView = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -463,7 +437,6 @@ public class HomeActivity extends AppCompatActivity
 
         List<Address> addresses;
         try {
-
             addresses = geocoder.getFromLocation(
                     latlng.latitude,
                     latlng.longitude,
@@ -492,12 +465,10 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onPlacesFailure(PlacesException e) {
-
     }
 
     @Override
     public void onPlacesStart() {
-
     }
 
     @Override
@@ -505,24 +476,7 @@ public class HomeActivity extends AppCompatActivity
         runOnUiThread(() -> {
             if (places == null || places.size() == 0)
                 return;
-
-            for (noman.googleplaces.Place place : places) {
-                LatLng latLng
-                        = new LatLng(place.getLatitude()
-                        , place.getLongitude());
-                Log.i(TAG, latLng.latitude + " " + latLng.longitude);
-                List<Address> address = getCurrentAddress(latLng);
-                String markerSnippet = null;
-                if (address != null)
-                    markerSnippet = address.get(0).getAddressLine(0);
-                else
-                    markerSnippet = latLng.latitude + " " + latLng.longitude;
-                //String altitude = getAltitude(latLng);
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(place.getName());
-                markerOptions.snippet(markerSnippet);
-
+            for (Place place : places) {
                 idlist.add(place.getPlaceId());
             }
         });
@@ -530,15 +484,11 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onPlacesFinished() {
-
     }
 
     public void showPlaceInformation(LatLng location) {
-
-        System.out.println(location);
-
         new NRPlaces.Builder()
-                .listener(HomeActivity.this)
+                .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(500) //500 미터 내에서 검색
