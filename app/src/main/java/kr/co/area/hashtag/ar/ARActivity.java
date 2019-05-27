@@ -208,7 +208,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     private void registerSensors() { // sensor manager로 x, y, z축 이동 감지하기 위해 Listener 등록
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
-                SENSOR_DELAY_FASTEST);
+                SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override

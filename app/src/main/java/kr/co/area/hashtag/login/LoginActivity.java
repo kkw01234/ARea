@@ -36,6 +36,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         activity = this;
+        isAuto = true;
         userId = findViewById(R.id.userId);
         userPwd = findViewById(R.id.userPwd);
         loginBtn = findViewById(R.id.loginBtn);
@@ -108,7 +109,10 @@ public class LoginActivity extends Activity {
                 infoEdit.putString("userImage", jObject.getString("userImage"));
                 infoEdit.commit();
                 Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                Intent preIntent = getIntent();
+                Intent newIntent = new Intent(this, HomeActivity.class);
+                newIntent.putExtras(preIntent.getExtras());
+                startActivity(newIntent);
                 finish();
             } else if (state.equals("fail")) {
                 Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸음", Toast.LENGTH_SHORT).show();
@@ -124,7 +128,7 @@ public class LoginActivity extends Activity {
         long intervalTime = tempTime - backPressedTime;
 
         if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-            finishAndRemoveTask();
+            finish();
         }
         else {
             backPressedTime = tempTime;

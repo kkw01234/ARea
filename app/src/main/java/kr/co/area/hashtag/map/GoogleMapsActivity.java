@@ -88,7 +88,6 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     Location mCurrentLocatiion;
     LatLng currentPosition;
-    LatLng searchPoistion;
 
 
     private FusedLocationProviderClient mFusedLocationClient; //어느버전부터는 이거 써야함 (예전버전꺼는 사용불가로바뀜)

@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -79,6 +81,7 @@ public class MypageActivity extends AppCompatActivity {
         change = (Button) findViewById(R.id.changeMy);
         okbutton = (Button) findViewById(R.id.okbtn);
         writebutton = (Button) findViewById(R.id.writebtn);
+        profileView = (ImageView) findViewById(R.id.profilimg);
 
         SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
         String userName = auto.getString("userName",null);
@@ -86,9 +89,12 @@ public class MypageActivity extends AppCompatActivity {
         Bitmap bitmap = StringToBitMap(image);
 
         username.setText(auto.getString("userName", "???") + "님 프로필");
-        if(!(image.equals(""))) {
-            profileView = (ImageView) findViewById(R.id.profilimg);
-            profileView.setImageBitmap(bitmap);
+        if(!image.equals("")) {
+            Glide.with(this).load("http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg").into(profileView);
+            // profileView = (ImageView) findViewById(R.id.profilimg);
+            // profileView.setImageBitmap(bitmap);
+        } else {
+            Glide.with(this).load("http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg").into(profileView);
         }
 
         change.setOnClickListener(new View.OnClickListener() {
