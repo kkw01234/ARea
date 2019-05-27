@@ -1,9 +1,16 @@
 package kr.co.area.hashtag.main;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -18,19 +25,23 @@ import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.asyncTask.PlaceWriteTask;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 
-public class RestActivity extends AppCompatActivity {
+public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
+    private Activity activity;
     boolean isFromAR = false;
-    TextView Place_nameView;
-    TextView AddressView;
-    TextView OpeningHour;
-    TextView PhoneView;
+    TextView Place_nameView,AddressView,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
+    ImageView wordcloud;
+    ListView reviewlist;
     String id = "";
+
+    private LayoutInflater listInflater;
+    private boolean listLockListView;
+    private reviewListViewAdapter listadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest);
-
+        activity = this;
         Bundle extra = getIntent().getExtras();
 
         if (extra == null) {
@@ -45,6 +56,31 @@ public class RestActivity extends AppCompatActivity {
         PhoneView = (TextView) findViewById(R.id.place_phone);
 
         getPlace(id);
+
+        reviewlist = (ListView) findViewById(R.id.reviewlist);
+        listLockListView = true;
+
+        // 푸터를 등록. setAdapter 이전에 해야함.
+        listInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        reviewlist.addFooterView(listInflater.inflate(R.layout.listview_footer, null));
+
+        // 스크롤 리스너 등록
+       // reviewlist.setOnScrollListener(this);
+
+        // Adapter 생성
+        listadapter = new reviewListViewAdapter() ;
+
+        // 리스트뷰 참조 및 Adapter달기
+        reviewlist.setAdapter(listadapter);
+
+        TextView extext1 = (TextView) findViewById(R.id.tv_list_footer);
+        extext1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listadapter.addItem((float) 2.5, "kjy","내용") ;
+                reviewlist.setAdapter(listadapter);
+            }
+        });
     }
 
     //뒤로가기
@@ -108,6 +144,26 @@ public class RestActivity extends AppCompatActivity {
             PhoneView.setText(phone.getAsString());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
+        // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정합니다.
+        int count = totalItemCount - visibleItemCount;
+
+        if(firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false)
+        {
+            Log.i("list", "Loading next items");
+            listadapter.addItem((float) 2.5, "kjy","내용") ;
+            //addItems(1);
         }
     }
 

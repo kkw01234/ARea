@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import kr.co.area.hashtag.write.ListViewAdapter;
+import kr.co.area.hashtag.main.ListViewAdapter;
 
 public class New_rec extends AppCompatActivity {
 

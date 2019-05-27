@@ -44,10 +44,9 @@ public class WriteActivity extends AppCompatActivity {
     //xml
     ImageView img1;
     EditText ed1;
-    static EditText address;
     RatingBar rb;
     Switch share;
-    Button wrbtn, adbtn;
+    Button wrbtn;
 
 
 
@@ -57,19 +56,9 @@ public class WriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_write);
         img1 = (ImageView) findViewById(R.id.imageView);
         ed1 = (EditText) findViewById(R.id.editText);
-        address = (EditText) findViewById(R.id.adText);
         rb = (RatingBar) findViewById(R.id.ratingBar);
         wrbtn = (Button) findViewById(R.id.button5);
-        adbtn = (Button) findViewById(R.id.adbutton);
-        share = (Switch) findViewById(R.id.shareswitch);
 
-        adbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent adintent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(adintent);
-            }
-        });
         class WriteTask extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... strings) {
@@ -101,7 +90,6 @@ public class WriteActivity extends AppCompatActivity {
                 System.out.println(reviewUser);
                 reviewText = ed1.getText().toString() ;
                 reviewPoint = rb.getRating();
-                reviewAddress = address.getText().toString();
 
                 Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
                 startActivity(wrintent);

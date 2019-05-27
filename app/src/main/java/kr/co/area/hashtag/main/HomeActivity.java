@@ -30,6 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -97,7 +98,7 @@ public class HomeActivity extends AppCompatActivity
     double latitude,longitude;
     LatLng currentPosition;
     private GoogleMap mGoogleMap = null;
-    private int count = 0;
+    private int mcount = 0;
 
     List<Marker> previous_marker = null;
     List<String> idlist = new ArrayList<>();
@@ -136,7 +137,9 @@ public class HomeActivity extends AppCompatActivity
         position();
         callPermission();  // 권한 요청을 해야 함
 
-        currentPosition = new LatLng(37.56, 126.97);
+        Intent intent = getIntent();
+        currentPosition = new LatLng(intent.getDoubleExtra("lat", 0),
+                intent.getDoubleExtra("lng", 0));
         // = new LatLng(latitude,longitude);
 
         showPlaceInformation(currentPosition);
@@ -155,16 +158,27 @@ public class HomeActivity extends AppCompatActivity
         adapter = new ListViewAdapter() ;
 
         // 리스트뷰 참조 및 Adapter달기
-
         mListView.setAdapter(adapter);
 
         TextView extext = (TextView) findViewById(R.id.tv_list_footer);
         extext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(idlist.get(count));
-                String id = idlist.get(count++);
+                System.out.println(idlist.get(mcount));
+                String id = idlist.get(mcount++);
                 getPlace(id);
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("성공");
+                Intent intent = new Intent(getBaseContext(), RestActivity.class);
+                String id1 = idlist.get(position);
+
+                intent.putExtra("id", id1);
+                startActivity(intent);
             }
         });
 
@@ -228,8 +242,7 @@ public class HomeActivity extends AppCompatActivity
             long intervalTime = tempTime - backPressedTime;
 
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-                logout();
-                finishAndRemoveTask();
+                finish();
             } else {
                 backPressedTime = tempTime;
             }
@@ -359,6 +372,8 @@ public class HomeActivity extends AppCompatActivity
         if(firstVisibleItem >= count && totalItemCount != 0 && mLockListView == false)
         {
             Log.i("list", "Loading next items");
+            String id = idlist.get(mcount++);
+            getPlace(id);
             //addItems(1);
         }
     }
@@ -412,6 +427,7 @@ public class HomeActivity extends AppCompatActivity
 
     public void getPlace(String id) { //DB에 데이터가 있는지 확인 // 없을경우 REST API 실행, 있을경우 DB 불러옴
         try {
+            mLockListView = true;
             String result = new PlaceTask(this).execute(id).get();
             Log.i("GetPlace", result);
             JsonParser parser = new JsonParser();
@@ -431,6 +447,7 @@ public class HomeActivity extends AppCompatActivity
 
             adapter.addItem(null, name.getAsString(), addr.getAsString()) ;
             mListView.setAdapter(adapter);
+            mLockListView = false;
 
         } catch (Exception e) {
             e.printStackTrace();
