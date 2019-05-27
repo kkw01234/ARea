@@ -85,16 +85,14 @@ public class MypageActivity extends AppCompatActivity {
 
         SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
         String userName = auto.getString("userName",null);
-        String image = auto.getString("userImg","");
-        Bitmap bitmap = StringToBitMap(image);
+//        String image = auto.getString("userImg","");
+        String image = "http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg";
 
         username.setText(auto.getString("userName", "???") + "님 프로필");
         if(!image.equals("")) {
-            Glide.with(this).load("http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg").into(profileView);
-            // profileView = (ImageView) findViewById(R.id.profilimg);
-            // profileView.setImageBitmap(bitmap);
+            Glide.with(this).load(image).into(profileView);
         } else {
-            Glide.with(this).load("http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg").into(profileView);
+            Glide.with(this).load(image).into(profileView);
         }
 
         change.setOnClickListener(new View.OnClickListener() {

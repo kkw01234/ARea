@@ -111,7 +111,7 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
                 Intent preIntent = getIntent();
                 Intent newIntent = new Intent(this, HomeActivity.class);
-                newIntent.putExtras(preIntent.getExtras());
+                if (preIntent.getExtras() != null) newIntent.putExtras(preIntent.getExtras());
                 startActivity(newIntent);
                 finish();
             } else if (state.equals("fail")) {

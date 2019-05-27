@@ -138,8 +138,10 @@ public class HomeActivity extends AppCompatActivity
         callPermission();  // 권한 요청을 해야 함
 
         Intent intent = getIntent();
-        currentPosition = new LatLng(intent.getDoubleExtra("lat", 0),
-                intent.getDoubleExtra("lng", 0));
+        double lat = intent.getDoubleExtra("lat", 0);
+        double lng = intent.getDoubleExtra("lng", 0);
+        currentPosition = new LatLng(lat, lng);
+
         // = new LatLng(latitude,longitude);
 
         showPlaceInformation(currentPosition);

@@ -27,6 +27,7 @@ public class SplashActivity extends Activity implements LocationListener { // ыб
     private LocationManager locationManager;
     private Location location;
     boolean isNetworkEnabled;
+    boolean isGPSEnabled;
     boolean isLogin;
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
@@ -105,6 +106,7 @@ public class SplashActivity extends Activity implements LocationListener { // ыб
             this.locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
             // Get GPS and network status
             this.isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             if (isNetworkEnabled) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
@@ -112,6 +114,14 @@ public class SplashActivity extends Activity implements LocationListener { // ыб
                         MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+            }
+            if (isGPSEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                if (locationManager != null) {
+                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 }
             }
         } catch (Exception ex) {
