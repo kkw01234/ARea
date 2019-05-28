@@ -17,7 +17,7 @@ public class imageclick extends AppCompatActivity {
 
         //----------------------------------------------------------------
         // 확대되는 이미지를 보여주기 위해 ImageView 뷰를 설정.
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) findViewById(R.id.writeimage);
         setImage(imageView);
     }
 
@@ -38,7 +38,7 @@ public class imageclick extends AppCompatActivity {
         startActivity(new Intent(imageclick.this, HomeActivity.class));
         finish();
     }
-    }
+}
 
 
 

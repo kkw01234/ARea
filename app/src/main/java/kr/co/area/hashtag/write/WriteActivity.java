@@ -1,32 +1,28 @@
 package kr.co.area.hashtag.write;
 
 
+import kr.co.area.hashtag.asyncTask.WriteTask;
 import kr.co.area.hashtag.main.HomeActivity;
-import kr.co.area.hashtag.utils.RequestHttpURLConnection;
-import kr.co.area.hashtag.utils.Parameter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
 
@@ -35,67 +31,43 @@ public class WriteActivity extends AppCompatActivity {
     int PICK_IMAGE_REQUEST = 1;
     static Bitmap scaled;
     ImageView imgView;
-    String TAG = "WriteActivity";
-    Image img;
-    static String reviewText, reviewAddress, reviewId, reviewUser;
+    static String reviewText, reviewAddress;
     static float reviewPoint;
     boolean reviewShare = false;
+    Activity activity;
 
     //xml
     ImageView img1;
     EditText ed1;
     RatingBar rb;
-    Switch share;
     Button wrbtn;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
-        img1 = (ImageView) findViewById(R.id.imageView);
-        ed1 = (EditText) findViewById(R.id.editText);
-        rb = (RatingBar) findViewById(R.id.ratingBar);
-        wrbtn = (Button) findViewById(R.id.button5);
 
-        class WriteTask extends AsyncTask<String, Void, String> {
-            @Override
-            protected String doInBackground(String... strings) {
-                RequestHttpURLConnection conn = new RequestHttpURLConnection();
-                String url = "http://118.220.3.71:13565/register_user";
-                ArrayList<Parameter> params = new ArrayList<>();
-                params.add(new Parameter("id", strings[0]));
-                params.add(new Parameter("pwd", strings[1]));
-                params.add(new Parameter("name", strings[2]));
-                params.add(new Parameter("email", strings[3]));
-                String result = conn.request(url, params, getApplicationContext());
-                System.out.println(result);
-                return result;
-            }
-        }
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("rest");
+        System.out.println(id);
 
-        share.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                reviewShare = isChecked;
-            }
+        img1 = (ImageView) findViewById(R.id.writeimage);
+        ed1 = (EditText) findViewById(R.id.wirtetext);
+        rb = (RatingBar) findViewById(R.id.writepoint);
+        wrbtn = (Button) findViewById(R.id.writebtn);
 
-        });
         wrbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
-                reviewUser = auto.getString("userName", null);
-                System.out.println(reviewUser);
+
                 reviewText = ed1.getText().toString() ;
                 reviewPoint = rb.getRating();
 
-                Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
-                startActivity(wrintent);
+//                Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+//                startActivity(wrintent);
 
 //                try {
-//                    String result = new WriteTask().execute(reviewUser,reviewAddress,reviewText,Double.toString(reviewPoint)).get();
+//                    String result = new WriteTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
 //
 //                    JSONObject jObject = new JSONObject(result);
 //                    String state = jObject.getString("result");
@@ -104,6 +76,9 @@ public class WriteActivity extends AppCompatActivity {
 //                    if (state.equals("success")) {
 //                        Toast.makeText(WriteActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 //                        Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+//                        wrintent.putExtra("text",reviewText);
+//                        wrintent.putExtra("point",reviewPoint);
+//                        wrintent.putExtra("image", (Parcelable) imgView);
 //                        startActivity(wrintent);
 //                    }
 //                    else if (state.equals("email fail")) {
@@ -146,7 +121,7 @@ public class WriteActivity extends AppCompatActivity {
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
                 scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
 
-                imgView = (ImageView) findViewById(R.id.imageView);
+                imgView = (ImageView) findViewById(R.id.writeimage);
                 imgView.setImageBitmap(scaled);
 
             } else {
@@ -160,4 +135,6 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 }
+
+
 

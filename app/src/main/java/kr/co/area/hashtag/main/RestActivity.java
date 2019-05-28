@@ -2,16 +2,21 @@ package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonElement;
@@ -24,10 +29,12 @@ import kr.co.area.hashtag.asyncTask.DetailPlaceTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.asyncTask.PlaceWriteTask;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
+import kr.co.area.hashtag.write.WriteActivity;
 
 public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
     private Activity activity;
     boolean isFromAR = false;
+    boolean islike = false;
     TextView Place_nameView,AddressView,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
     ImageView wordcloud;
     ListView reviewlist;
@@ -65,7 +72,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         reviewlist.addFooterView(listInflater.inflate(R.layout.listview_footer, null));
 
         // 스크롤 리스너 등록
-       // reviewlist.setOnScrollListener(this);
+        reviewlist.setOnScrollListener(this);
 
         // Adapter 생성
         listadapter = new reviewListViewAdapter() ;
@@ -79,6 +86,37 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             public void onClick(View v) {
                 listadapter.addItem((float) 2.5, "kjy","내용") ;
                 reviewlist.setAdapter(listadapter);
+            }
+        });
+
+        Button writebtn = (Button) findViewById(R.id.evaluate_button);
+        writebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
+                wrintent.putExtra("rest",id);
+                startActivity(wrintent);
+            }
+        });
+
+        Button about_bt = (Button) findViewById(R.id.favorite_button);
+        about_bt.setOnTouchListener(new View.OnTouchListener() {	//버튼 터치시 이벤트
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) // 버튼을 누르고 있을 때
+                    about_bt.setBackgroundResource(android.R.drawable.ic_dialog_info);
+                if(event.getAction() == MotionEvent.ACTION_UP){ //버튼에서 손을 떼었을 때
+                    if(islike == false) {
+                        about_bt.setBackgroundResource(android.R.drawable.alert_dark_frame);
+                        Toast.makeText(RestActivity.this, "좋아요.", Toast.LENGTH_SHORT).show();
+                        islike = true;
+                    }
+                    else {
+                        about_bt.setBackgroundResource(android.R.drawable.alert_light_frame);
+                        Toast.makeText(RestActivity.this, "좋아요 취소.", Toast.LENGTH_SHORT).show();
+                        islike = false;
+                    }
+                }
+                return false;
             }
         });
     }
@@ -135,6 +173,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             AddressView.setText(addr.getAsString());
             OpeningHour.setText(time.getAsString());
             PhoneView.setText(phone.getAsString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

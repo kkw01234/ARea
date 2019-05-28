@@ -126,10 +126,10 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
-        SharedPreferences pref1 = getSharedPreferences("image", MODE_PRIVATE);
-        String image = pref1.getString("imagestrings", "");
-        Bitmap bitmap = StringToBitMap(image);
+       SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
+//        SharedPreferences pref1 = getSharedPreferences("image", MODE_PRIVATE);
+//        String image = pref1.getString("imagestrings", "");
+//        Bitmap bitmap = StringToBitMap(image);
 
         callPermission();  // 권한 요청
         callPermission();  // 권한 요청
@@ -164,7 +164,6 @@ public class HomeActivity extends AppCompatActivity
         extext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(idlist.get(mcount));
                 String id = idlist.get(mcount++);
                 getPlace(id);
             }
@@ -190,9 +189,9 @@ public class HomeActivity extends AppCompatActivity
         homeLogo = headerView.findViewById(R.id.LogoBtn);
         userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
 
-        if (!(image.equals(""))) {
-            profile.setImageBitmap(bitmap);
-        }
+//        if (!(image.equals(""))) {
+//            profile.setImageBitmap(bitmap);
+//        }
         profile.setOnClickListener(headListener);
         homeLogo.setOnClickListener(headListener);
 

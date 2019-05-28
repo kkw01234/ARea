@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/wirtetext"
         android:layout_width="0dp"
         android:layout_height="166dp"
         android:layout_marginStart="8dp"
@@ -16,52 +16,52 @@
         android:layout_marginEnd="8dp"
         android:hint="문구입력..."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/writeimage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/writeimage"
         android:layout_width="0dp"
         android:layout_height="136dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:onClick="loadImagefromGallery"
-        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintEnd_toStartOf="@+id/wirtetext"
         app:layout_constraintHorizontal_bias="0.32"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/startext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginBottom="8dp"
         android:text="별점"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/writebtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/writeimage"
         app:layout_constraintVertical_bias="0.888" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/writepoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/writebtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/startext"
+        app:layout_constraintTop_toBottomOf="@+id/writeimage"
         app:layout_constraintVertical_bias="0.75" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/writebtn"
         android:layout_width="0dp"
         android:layout_height="62dp"
         android:layout_marginStart="8dp"
