@@ -10,27 +10,39 @@
             android:id="@+id/ar_search"
             android:icon="@drawable/ic_ai_button_unchecked_black_24dp"
             android:title="AR 검색" />
+    </group>
+
+    <group
+        android:id="@+id/menu_02"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/map_search"
             android:icon="@drawable/ic_my_location_black_24dp"
             android:title="지도 검색" />
-        <item
-            android:id="@+id/kwd_search"
-            android:icon="@drawable/ic_search_black_24dp"
-            android:title="키워드 검색" />
     </group>
 
-
+    <group
+        android:id="@+id/menu_04"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/rec_path"
             android:icon="@drawable/ic_thumb_up_black_24dp"
             android:title="추천 경로" />
+    </group>
+    <group
+        android:id="@+id/menu_05"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/setting"
             android:icon="@drawable/ic_stat_setting"
             android:title="설정" />
+    </group>
+    <group
+        android:id="@+id/menu_06"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout_black_24dp"
             android:title="로그아웃" />
+    </group>
 </menu>

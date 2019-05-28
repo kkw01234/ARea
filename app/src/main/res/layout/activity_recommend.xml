@@ -128,21 +128,24 @@
 
             <ImageButton
                 android:id="@+id/rec1"
-                android:layout_width="368dp"
-                android:layout_height="92dp"
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="7dp"
+                android:padding="0sp"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plus"
                 app:srcCompat="@drawable/button1" />
 
             <ImageButton
                 android:id="@+id/rec2"
-                android:layout_width="368dp"
+                android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="9dp"
+                android:padding="0sp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.393"
                 app:layout_constraintStart_toStartOf="parent"
@@ -151,11 +154,23 @@
 
             <ImageButton
                 android:id="@+id/rec3"
-                android:layout_width="366dp"
-                android:layout_height="101dp"
+                android:layout_width="match_parent"
+                android:layout_height="123dp"
+                android:padding="10sp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="7dp"
                 app:srcCompat="@drawable/reclist3"
                 tools:layout_editor_absoluteX="-7dp"
                 tools:layout_editor_absoluteY="520dp" />
+
+            <ImageButton
+                android:id="@+id/rec4"
+                android:layout_width="match_parent"
+                android:layout_height="191dp"
+                android:padding="10sp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/reclist4" />
+
         </LinearLayout>
     </ScrollView>
 
