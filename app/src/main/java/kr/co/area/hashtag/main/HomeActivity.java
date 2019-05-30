@@ -179,6 +179,7 @@ public class HomeActivity extends AppCompatActivity
                 String id1 = idlist.get(position);
 
                 intent.putExtra("id", id1);
+                intent.putExtra("isFrom", "HOME");
                 startActivity(intent);
             }
         });

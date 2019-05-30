@@ -66,7 +66,7 @@ public class MypageActivity extends AppCompatActivity {
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(profileView);
 
         change.setOnClickListener((View v) -> {
-            Intent myintent = new Intent(getApplicationContext(), ChangeMypage.class);
+            Intent myintent = new Intent(getApplicationContext(), ChangeMypageActivity.class);
             startActivity(myintent);
         });
 
