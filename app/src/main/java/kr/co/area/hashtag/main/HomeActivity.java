@@ -75,7 +75,8 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private View headerView;
     private TextView userHi, posInfo;
-    private ImageView profile, homeLogo;
+    private ImageView profile;
+
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private Animation fab_open, fab_close;
@@ -227,17 +228,6 @@ public class HomeActivity extends AppCompatActivity
             } else {
                 backPressedTime = tempTime;
             }
-        }
-    }
-
-    public Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
         }
     }
 

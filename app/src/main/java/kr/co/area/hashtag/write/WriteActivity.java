@@ -1,15 +1,13 @@
 package kr.co.area.hashtag.write;
 
 
-import kr.co.area.hashtag.asyncTask.WriteTask;
+import kr.co.area.hashtag.asyncTask.WriteReviewTask;
 import kr.co.area.hashtag.main.HomeActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +70,7 @@ public class WriteActivity extends AppCompatActivity {
 //                startActivity(wrintent);
 
                 try {
-                    String result = new WriteTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
+                    String result = new WriteReviewTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
 
                     JSONObject jObject = new JSONObject(result);
                     String state = jObject.getString("result");

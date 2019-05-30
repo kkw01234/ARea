@@ -2,15 +2,20 @@ package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
@@ -20,21 +25,32 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.asyncTask.DetailPlaceTask;
+import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
-import kr.co.area.hashtag.asyncTask.PlaceWriteTask;
+import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
+import kr.co.area.hashtag.recommend.RecommendActivity;
 import kr.co.area.hashtag.write.WriteActivity;
 
-public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
+public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener, NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private View headerView;
+    private TextView userHi, posInfo;
+    private ImageView profile;
+
+
     boolean islike = false;
     TextView Place_nameView,AddressView,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
     ImageView wordcloud;
@@ -52,6 +68,31 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest);
         activity = this;
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        drawer = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
+
+        // 네비게이션 헤더부분
+        headerView = navigationView.getHeaderView(0);
+        userHi = headerView.findViewById(R.id.userHi);
+        profile = headerView.findViewById(R.id.profileView);
+        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
+        String userId = user.getString("userId", null);
+        String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
+        Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(profile);
+
+        profile.setOnClickListener(headListener);
+
         Bundle extra = getIntent().getExtras();
 
         if (extra == null) {
@@ -129,6 +170,16 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             }
         });
     }
+
+    View.OnClickListener headListener = (view) -> {
+        switch (view.getId()) {
+            case R.id.profileView:
+                startActivity(new Intent(activity, MypageActivity.class));
+                finish();
+                break;
+
+        }
+    };
 
     //뒤로가기
     @Override
@@ -222,6 +273,43 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 //            e.printStackTrace();
 //        }
 //    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.ar_search:
+                startActivity(new Intent(this, ARActivity.class));
+                finish();
+                break;
+            case R.id.map_search:
+                startActivity(new Intent(this, GoogleMapsActivity.class));
+                finish();
+                break;
+            case R.id.rec_path:
+                startActivity(new Intent(this, RecommendActivity.class));
+                break;
+            case R.id.setting:
+                startActivity(new Intent(this, MypageActivity.class));
+                break;
+            case R.id.logout:
+                logout();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void logout() {
+        try {
+            new LogoutTask(activity).execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
