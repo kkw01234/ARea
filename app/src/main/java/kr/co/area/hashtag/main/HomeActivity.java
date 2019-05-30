@@ -13,8 +13,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.util.Base64;
 import android.util.Log;
@@ -28,13 +26,9 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,15 +50,14 @@ import android.view.animation.AnimationUtils;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,9 +120,18 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
        SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
-//        SharedPreferences pref1 = getSharedPreferences("image", MODE_PRIVATE);
-//        String image = pref1.getString("imagestrings", "");
-//        Bitmap bitmap = StringToBitMap(image);
+
+        // 네비게이션 헤더부분
+        headerView = navigationView.getHeaderView(0);
+        userHi = headerView.findViewById(R.id.userHi);
+        profile = headerView.findViewById(R.id.profileView);
+        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
+        String userId = user.getString("userId", null);
+        String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
+        Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(profile);
+
+        profile.setOnClickListener(headListener);
 
         callPermission();  // 권한 요청
         callPermission();  // 권한 요청
@@ -181,21 +183,6 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
-        //헤더부분
-        headerView = navigationView.getHeaderView(0);
-        userHi = headerView.findViewById(R.id.userHi);
-        profile = headerView.findViewById(R.id.profilView);
-        homeLogo = headerView.findViewById(R.id.LogoBtn);
-        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
-
-//        if (!(image.equals(""))) {
-//            profile.setImageBitmap(bitmap);
-//        }
-        profile.setOnClickListener(headListener);
-        homeLogo.setOnClickListener(headListener);
-
-
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -212,10 +199,7 @@ public class HomeActivity extends AppCompatActivity
 
     View.OnClickListener headListener = (view) -> {
         switch (view.getId()) {
-            case R.id.LogoBtn:
-                drawer.closeDrawer(GravityCompat.START);
-                break;
-            case R.id.profilView:
+            case R.id.profileView:
                 startActivity(new Intent(activity, MypageActivity.class));
                 finish();
                 break;
@@ -268,8 +252,6 @@ public class HomeActivity extends AppCompatActivity
             case R.id.map_search:
                 startActivity(new Intent(this, GoogleMapsActivity.class));
                 finish();
-                break;
-            case R.id.kwd_search:
                 break;
             case R.id.rec_path:
                 startActivity(new Intent(this, RecommendActivity.class));

@@ -29,6 +29,11 @@ import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 public class ProfileTask extends AsyncTask<Bitmap, Void, String> {
     Activity activity;
     HttpURLConnection urlConn;
+    String attachmentName = "bitmap";
+    String attachmentFileName = "bitmap.bmp";
+    String crlf = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "*****BOUNDARY*****";
 
     public ProfileTask(Activity activity) {
         this.activity = activity;
@@ -37,11 +42,7 @@ public class ProfileTask extends AsyncTask<Bitmap, Void, String> {
     @Override
     protected String doInBackground(Bitmap... bitmaps) {
         // 기타 필요한 내용
-        String attachmentName = "bitmap";
-        String attachmentFileName = "bitmap.bmp";
-        String crlf = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****BOUNDARY*****";
+
 
         // request 준비
         urlConn = null;
@@ -68,7 +69,6 @@ public class ProfileTask extends AsyncTask<Bitmap, Void, String> {
         urlConn.setRequestProperty("Cache-Control", "no-cache");
         urlConn.setRequestProperty(
                 "Content-Type", "multipart/form-data;boundary=" + boundary);
-        setCookieHeader();
         // content wrapper시작
         DataOutputStream request = null;
         try {
@@ -161,7 +161,6 @@ public class ProfileTask extends AsyncTask<Bitmap, Void, String> {
         // connection종료
         urlConn.disconnect();
         String result = "성공";
-        getCookieHeader();
         return result;
     }
 
@@ -200,7 +199,7 @@ public class ProfileTask extends AsyncTask<Bitmap, Void, String> {
         String sessionid = pref.getString("sessionid", null);
         if (sessionid != null) {
             Log.d("LOG", "세션 아이디" + sessionid + "가 요청 헤더에 포함 되었습니다.");
-            urlConn.setRequestProperty("Cookie", sessionid);
+            urlConn.setRequestProperty("Cookie", sessionid + ";boundary=\"" + boundary);
         }
     }
 }
