@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,6 +39,7 @@ public class WriteActivity extends AppCompatActivity {
 
     //xml
     ImageView img1;
+    TextView name;
     EditText ed1;
     RatingBar rb;
     Button wrbtn;
@@ -49,12 +51,16 @@ public class WriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("rest");
+        String restname = intent.getStringExtra("name");
         System.out.println(id);
 
+        name = (TextView) findViewById(R.id.restname);
         img1 = (ImageView) findViewById(R.id.writeimage);
         ed1 = (EditText) findViewById(R.id.wirtetext);
         rb = (RatingBar) findViewById(R.id.writepoint);
         wrbtn = (Button) findViewById(R.id.writebtn);
+
+        name.setText(restname);
 
         wrbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,28 +72,28 @@ public class WriteActivity extends AppCompatActivity {
 //                Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
 //                startActivity(wrintent);
 
-//                try {
-//                    String result = new WriteTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
-//
-//                    JSONObject jObject = new JSONObject(result);
-//                    String state = jObject.getString("result");
-//                    System.out.println(state);
-//
-//                    if (state.equals("success")) {
-//                        Toast.makeText(WriteActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-//                        Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
-//                        wrintent.putExtra("text",reviewText);
-//                        wrintent.putExtra("point",reviewPoint);
-//                        wrintent.putExtra("image", (Parcelable) imgView);
-//                        startActivity(wrintent);
-//                    }
-//                    else if (state.equals("email fail")) {
-//                        Toast.makeText(WriteActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    String result = new WriteTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
+
+                    JSONObject jObject = new JSONObject(result);
+                    String state = jObject.getString("result");
+                    System.out.println(state);
+
+                    if (state.equals("success")) {
+                        Toast.makeText(WriteActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+                        wrintent.putExtra("",scaled);
+                        wrintent.putExtra("text",reviewText);
+                        wrintent.putExtra("point",reviewPoint);
+                        startActivity(wrintent);
+                    }
+                    else if (state.equals("email fail")) {
+                        Toast.makeText(WriteActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
