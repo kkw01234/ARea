@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.List;
 
 public class UploadProfileImageTask extends AsyncTask<Object, Void, String> {
-    static final String TAG = "UploadProfileImageTaskk";
+    static final String TAG = "UploadProfileImageTask";
     Activity activity;
     Context context;
     HttpURLConnection httpUrlConnection = null;
