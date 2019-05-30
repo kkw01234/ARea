@@ -8,24 +8,19 @@ import java.util.ArrayList;
 import kr.co.area.hashtag.utils.Parameter;
 import kr.co.area.hashtag.utils.RequestHttpURLConnection;
 
-public class WriteTask extends AsyncTask<String, Void, String> {
+public class CheckEmailTask extends AsyncTask<String, Void, String> {
     Activity activity;
 
-    public WriteTask(Activity activity){
+    public CheckEmailTask(Activity activity) {
         this.activity = activity;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         RequestHttpURLConnection conn = new RequestHttpURLConnection();
-        String url = "http://118.220.3.71:13565/register_user";
+        String url = "http://118.220.3.71:13565/check_dup_mail";
         ArrayList<Parameter> params = new ArrayList<>();
-//        rest id;
-//        img;
-//        review content;
-//        review rate;
-        params.add(new Parameter("text", strings[0]));
-        params.add(new Parameter("point", strings[1]));
+        params.add(new Parameter("mail", strings[0]));
         String result = conn.request(url, params, activity.getApplicationContext());
         System.out.println(result);
         return result;

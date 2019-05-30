@@ -61,7 +61,7 @@
             android:name=".write.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.ChangeMypage"
+            android:name=".main.ChangeMypageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".map.GoogleMapsActivity"

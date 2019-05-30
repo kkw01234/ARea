@@ -16,14 +16,15 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.CheckEmailTask;
 import kr.co.area.hashtag.asyncTask.CheckIdTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 import kr.co.area.hashtag.asyncTask.JoinTask;
 
 public class JoinActivity extends Activity {
     EditText joinId, joinPwd, checkPwd, joinMail, joinname;
-    Button checkBtn, joinButton, checkName;
-    boolean idCheck = false, nameCheck = false;
+    Button checkBtn, joinButton, checkName, checkMail;
+    boolean idCheck = false, nameCheck = false, mailCheck = false;
     Activity activity;
 
     @Override
@@ -36,9 +37,10 @@ public class JoinActivity extends Activity {
         checkPwd = findViewById(R.id.checkjoinpw);
         joinMail = findViewById(R.id.joinmail);
         joinname = findViewById(R.id.nickname);
-        checkBtn = findViewById(R.id.checkbtn);
+        checkBtn = findViewById(R.id.idcheckbtn);
         joinButton = findViewById(R.id.joinBtn);
-        checkName = findViewById(R.id.checkbtn2);
+        checkName = findViewById(R.id.nickcheckbtn);
+        checkMail = findViewById(R.id.mailcheckbtn);
         joinId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -93,7 +95,7 @@ public class JoinActivity extends Activity {
 
     View.OnClickListener btnListener = (view) -> {
         switch (view.getId()) {
-            case R.id.checkbtn: // 중복 버튼 눌렀을 경우
+            case R.id.idcheckbtn: // 아이디중복 버튼 눌렀을 경우
                 String checkId = joinId.getText().toString();
                 if (checkId.equals("")) {
                     Toast.makeText(JoinActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -129,7 +131,7 @@ public class JoinActivity extends Activity {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.checkbtn2: // 중복 버튼 눌렀을 경우
+            case R.id.nickcheckbtn: // 닉네임중복 버튼 눌렀을 경우
                 String checkName = joinname.getText().toString();
                 if (checkName.equals("")) {
                     Toast.makeText(JoinActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -160,6 +162,39 @@ public class JoinActivity extends Activity {
                         joinname.requestFocus();
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(joinname,0);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.mailcheckbtn: //메일중복 버튼을 눌렀을때
+                String checkMail = joinname.getText().toString();
+                if (checkMail.equals("")) {
+                    Toast.makeText(JoinActivity.this, "메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    joinMail.setFocusableInTouchMode(true);
+                    joinMail.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(joinMail,0);
+                    return;
+                }
+                try {
+                    String result = new CheckEmailTask(activity).execute(checkMail).get();
+                    /*
+                     *  제이슨 구조 해독해서, result 값 알기
+                     * */
+                    JSONObject jObject = new JSONObject(result);
+                    String state = jObject.getString("result");
+                    System.out.println(state);
+                    if (state.equals("avail")) {
+                        mailCheck = true;
+                        Toast.makeText(JoinActivity.this, "사용가능한 메일 입니다.", Toast.LENGTH_SHORT).show();
+                        nameCheck = true;
+                    } else if (state.equals("dup")) {
+                        Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        joinMail.setFocusableInTouchMode(true);
+                        joinMail.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(joinMail,0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -200,6 +235,14 @@ public class JoinActivity extends Activity {
                 joinname.requestFocus();
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(joinname,0);
+                return;
+            }
+            if (!mailCheck) {
+                Toast.makeText(JoinActivity.this, "확인되지 않은 메일 입니다.", Toast.LENGTH_SHORT).show();
+                joinMail.setFocusableInTouchMode(true);
+                joinMail.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(joinMail,0);
                 return;
             }
             if (username.equals("")) {

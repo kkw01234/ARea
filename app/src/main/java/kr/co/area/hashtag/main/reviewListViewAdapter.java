@@ -1,11 +1,12 @@
 package kr.co.area.hashtag.main;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class reviewListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
+        ImageView reviewimg = (ImageView) convertView.findViewById(R.id.restimage);
         RatingBar reviewStar = (RatingBar) convertView.findViewById(R.id.reviewrating) ;
         TextView reviewName = (TextView) convertView.findViewById(R.id.reviewuser) ;
         TextView reviewText = (TextView) convertView.findViewById(R.id.reviewtext) ;
@@ -49,6 +51,7 @@ public class reviewListViewAdapter extends BaseAdapter {
         reviewListViewItem reviewlistViewItem = reviewlistViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
+        reviewimg.setImageBitmap(reviewlistViewItem.getIcon());
         reviewStar.setRating(reviewlistViewItem.getStar());
         reviewName.setText(reviewlistViewItem.getName());
         reviewText.setText(reviewlistViewItem.getText());
@@ -69,9 +72,10 @@ public class reviewListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(float star, String name, String text) {
+    public void addItem(Bitmap icon, float star, String name, String text) {
         reviewListViewItem item = new reviewListViewItem();
 
+        item.setIcon(icon);
         item.setStar(star);
         item.setName(name);
         item.setText(text);

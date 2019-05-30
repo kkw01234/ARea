@@ -16,9 +16,10 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.ChangeNameTask;
 import kr.co.area.hashtag.asyncTask.CheckNameTask;
 
-public class ChangeMypage extends AppCompatActivity {
+public class ChangeMypageActivity extends AppCompatActivity {
     TextView idView, emailView;
     EditText joinPwd, checkPwd, joinname;
     Button changeButton, checkNamebtn;
@@ -36,7 +37,7 @@ public class ChangeMypage extends AppCompatActivity {
         checkPwd = (EditText) findViewById(R.id.checkjoinpw);
         joinname = (EditText) findViewById(R.id.nickname);
         changeButton = (Button) findViewById(R.id.changeBtn);
-        checkNamebtn = (Button) findViewById(R.id.checkbtn2);
+        checkNamebtn = (Button) findViewById(R.id.nickcheckbtn);
 
         SharedPreferences auto = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
         String userId = auto.getString("userId",null);
@@ -52,7 +53,7 @@ public class ChangeMypage extends AppCompatActivity {
             public void onClick(View v) {
                 String checkName = joinname.getText().toString();
                 if (checkName.equals("")) {
-                    Toast.makeText(ChangeMypage.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeMypageActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     joinname.setFocusableInTouchMode(true);
                     joinname.requestFocus();
                     return;
@@ -66,10 +67,10 @@ public class ChangeMypage extends AppCompatActivity {
                     String state = jObject.getString("result");
                     System.out.println(state);
                     if (state.equals("avail")) {
-                        Toast.makeText(ChangeMypage.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangeMypageActivity.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                         nameCheck = true;
                     } else if (state.equals("dup")) {
-                        Toast.makeText(ChangeMypage.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangeMypageActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
                         joinname.setFocusableInTouchMode(true);
                         joinname.requestFocus();
                         return;
@@ -86,7 +87,7 @@ public class ChangeMypage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!userPwd.equals(checkPw)) {
-                    Toast.makeText(ChangeMypage.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeMypageActivity.this, "비밀번호가 일치하지않습니다.", Toast.LENGTH_SHORT).show();
                     joinPwd.setFocusableInTouchMode(true);
                     joinPwd.requestFocus();
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -94,7 +95,7 @@ public class ChangeMypage extends AppCompatActivity {
                     return;
                 }
                 if (userPwd.equals("")) {
-                    Toast.makeText(ChangeMypage.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeMypageActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                     joinPwd.setFocusableInTouchMode(true);
                     joinPwd.requestFocus();
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -102,7 +103,7 @@ public class ChangeMypage extends AppCompatActivity {
                     return;
                 }
                 if (checkPw.equals("")) {
-                    Toast.makeText(ChangeMypage.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeMypageActivity.this, "비밀번호를 적어주세요.", Toast.LENGTH_SHORT).show();
                     checkPwd.setFocusableInTouchMode(true);
                     checkPwd.requestFocus();
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -110,28 +111,28 @@ public class ChangeMypage extends AppCompatActivity {
                     return;
                 }
                 /*닉네임 수정 서버*/
-//                String checkName = joinname.getText().toString();
-//                if (checkName.equals("")) {
-//                    Toast.makeText(ChangeMypage.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                try {
-//                    String result = new ChangeNameTask(activity).execute(checkName).get();
-//                    /*
-//                     *  제이슨 구조 해독해서, result 값 알기
-//                     * */
-//                    JSONObject jObject = new JSONObject(result);
-//                    String state = jObject.getString("result");
-//                    System.out.println(state);
-//                    if (state.equals("avail")) {
-//                        Toast.makeText(ChangeMypage.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
-//                        nameCheck = true;
-//                    } else if (state.equals("dup")) {
-//                        Toast.makeText(ChangeMypage.this, "중복입니다.", Toast.LENGTH_SHORT).show();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                String checkName = joinname.getText().toString();
+                if (checkName.equals("")) {
+                    Toast.makeText(ChangeMypageActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    String result = new ChangeNameTask(activity).execute(checkName).get();
+                    /*
+                     *  제이슨 구조 해독해서, result 값 알기
+                     * */
+                    JSONObject jObject = new JSONObject(result);
+                    String state = jObject.getString("result");
+                    System.out.println(state);
+                    if (state.equals("avail")) {
+                        Toast.makeText(ChangeMypageActivity.this, "사용가능한 닉네임 입니다.", Toast.LENGTH_SHORT).show();
+                        nameCheck = true;
+                    } else if (state.equals("dup")) {
+                        Toast.makeText(ChangeMypageActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -139,7 +140,7 @@ public class ChangeMypage extends AppCompatActivity {
     }
     //뒤로가기
     public void onBackPressed() {
-        startActivity(new Intent(ChangeMypage.this, HomeActivity.class));
+        startActivity(new Intent(ChangeMypageActivity.this, MypageActivity.class));
         finish();
     }
 

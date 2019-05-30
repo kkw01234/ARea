@@ -2,7 +2,10 @@ package kr.co.area.hashtag.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -12,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,12 +35,13 @@ import kr.co.area.hashtag.write.WriteActivity;
 
 public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
     private Activity activity;
-    boolean isFromAR = false;
     boolean islike = false;
     TextView Place_nameView,AddressView,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
     ImageView wordcloud;
     ListView reviewlist;
     String id = "";
+    String isFrom,restname;
+    Bitmap drawable;
 
     private LayoutInflater listInflater;
     private boolean listLockListView;
@@ -55,7 +58,10 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             id = "error";
         } else {
             id = extra.getString("id");
-            isFromAR = extra.getBoolean("fromVR");
+            if (extra.getString("isFrom").equals("AR"))
+                isFrom = "AR";
+            else
+                isFrom = "HOME";
         }
         Place_nameView = findViewById(R.id.place_name);
         AddressView = findViewById(R.id.place_address);
@@ -84,7 +90,11 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         extext1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listadapter.addItem((float) 2.5, "kjy","내용") ;
+                if (drawable == null){
+                    listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+                }
+                else
+                    listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
                 reviewlist.setAdapter(listadapter);
             }
         });
@@ -95,6 +105,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             public void onClick(View v) {
                 Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
                 wrintent.putExtra("rest",id);
+                wrintent.putExtra("name",restname);
                 startActivity(wrintent);
             }
         });
@@ -102,11 +113,9 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         Button about_bt = (Button) findViewById(R.id.favorite_button);
         about_bt.setOnTouchListener(new View.OnTouchListener() {	//버튼 터치시 이벤트
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) // 버튼을 누르고 있을 때
-                    about_bt.setBackgroundResource(android.R.drawable.ic_dialog_info);
                 if(event.getAction() == MotionEvent.ACTION_UP){ //버튼에서 손을 떼었을 때
                     if(islike == false) {
-                        about_bt.setBackgroundResource(android.R.drawable.alert_dark_frame);
+                        about_bt.setBackgroundResource(android.R.drawable.gallery_thumb);
                         Toast.makeText(RestActivity.this, "좋아요.", Toast.LENGTH_SHORT).show();
                         islike = true;
                     }
@@ -124,7 +133,8 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     //뒤로가기
     @Override
     public void onBackPressed() { // AR로부터 온 화면인지, 지도에서 온 화면인지...
-        if (isFromAR) startActivity(new Intent(this, ARActivity.class));
+        if (isFrom.equals("AR")) startActivity(new Intent(this, ARActivity.class));
+        else if (isFrom.equals("HOME")) startActivity(new Intent(this, HomeActivity.class));
         else startActivity(new Intent(this, GoogleMapsActivity.class));
         finish();
     }
@@ -174,6 +184,8 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             OpeningHour.setText(time.getAsString());
             PhoneView.setText(phone.getAsString());
 
+            restname = name.getAsString();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,7 +206,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         if(firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false)
         {
             Log.i("list", "Loading next items");
-            listadapter.addItem((float) 2.5, "kjy","내용") ;
+            listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
             //addItems(1);
         }
     }
