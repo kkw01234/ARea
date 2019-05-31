@@ -28,10 +28,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import kr.co.area.hashtag.New_rec;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
@@ -76,6 +79,7 @@ public class HomeActivity extends AppCompatActivity
     private View headerView;
     private TextView userHi, posInfo;
     private ImageView profile;
+    private ImageButton Button1;
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -133,6 +137,13 @@ public class HomeActivity extends AppCompatActivity
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(RequestOptions.circleCropTransform()).into(profile);
 
+        Button1 = (ImageButton)findViewById(R.id.mypageButton);
+        Button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                headerbuttonAction();
+            }
+        });
         profile.setOnClickListener(headListener);
 
         callPermission();  // 권한 요청
@@ -209,6 +220,11 @@ public class HomeActivity extends AppCompatActivity
 
         }
     };
+
+    public void headerbuttonAction(){
+        Intent intent = new Intent(getApplicationContext(), MypageActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onBackPressed() {
