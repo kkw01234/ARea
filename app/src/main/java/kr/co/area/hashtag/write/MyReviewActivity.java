@@ -13,7 +13,7 @@ import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 
 
-public class WrittenActivity extends AppCompatActivity {
+public class MyReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class WrittenActivity extends AppCompatActivity {
     }
     //뒤로가기
     public void onBackPressed() {
-        startActivity(new Intent(WrittenActivity.this, HomeActivity.class));
+        startActivity(new Intent(MyReviewActivity.this, HomeActivity.class));
         finish();
     }
 }
