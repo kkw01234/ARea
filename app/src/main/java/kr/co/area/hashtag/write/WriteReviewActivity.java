@@ -19,12 +19,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
 
-public class WriteActivity extends AppCompatActivity {
+public class WriteReviewActivity extends AppCompatActivity {
 
     int PICK_IMAGE_REQUEST = 1;
     static Bitmap scaled;
@@ -77,7 +76,7 @@ public class WriteActivity extends AppCompatActivity {
                     System.out.println(state);
 
                     if (state.equals("success")) {
-                        Toast.makeText(WriteActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WriteReviewActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                         Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
                         wrintent.putExtra("",scaled);
                         wrintent.putExtra("text",reviewText);
@@ -85,7 +84,7 @@ public class WriteActivity extends AppCompatActivity {
                         startActivity(wrintent);
                     }
                     else if (state.equals("email fail")) {
-                        Toast.makeText(WriteActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WriteReviewActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (Exception e) {
@@ -97,7 +96,7 @@ public class WriteActivity extends AppCompatActivity {
     }
     //뒤로가기
     public void onBackPressed() {
-        startActivity(new Intent(WriteActivity.this, HomeActivity.class));
+        startActivity(new Intent(WriteReviewActivity.this, HomeActivity.class));
         finish();
     }
 

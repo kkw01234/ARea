@@ -39,7 +39,7 @@ import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.recommend.RecommendActivity;
-import kr.co.area.hashtag.write.WriteActivity;
+import kr.co.area.hashtag.write.WriteReviewActivity;
 
 public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener, NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
@@ -144,7 +144,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         writebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
+                Intent wrintent = new Intent(getApplicationContext(), WriteReviewActivity.class);
                 wrintent.putExtra("rest",id);
                 wrintent.putExtra("name",restname);
                 startActivity(wrintent);

@@ -27,10 +27,10 @@ public class WrittenActivity extends AppCompatActivity {
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
         TextView adView = (TextView) findViewById(R.id.adView);
-        textView.setText(WriteActivity.reviewText);
-        ratingBar.setRating(WriteActivity.reviewPoint);
-        adView.setText(WriteActivity.reviewAddress);
-        imageView.setImageBitmap(WriteActivity.scaled);
+        textView.setText(WriteReviewActivity.reviewText);
+        ratingBar.setRating(WriteReviewActivity.reviewPoint);
+        adView.setText(WriteReviewActivity.reviewAddress);
+        imageView.setImageBitmap(WriteReviewActivity.scaled);
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -43,7 +43,7 @@
             android:name=".write.WrittenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".write.WriteActivity"
+            android:name=".write.WriteReviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.RestActivity"

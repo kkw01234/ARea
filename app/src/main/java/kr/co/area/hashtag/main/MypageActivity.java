@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.UploadProfileImageTask;
-import kr.co.area.hashtag.write.WriteActivity;
+import kr.co.area.hashtag.write.WriteReviewActivity;
 
 
 public class MypageActivity extends AppCompatActivity {
@@ -71,7 +71,7 @@ public class MypageActivity extends AppCompatActivity {
         });
 
         writebutton.setOnClickListener((View v) -> {
-            Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
+            Intent wrintent = new Intent(getApplicationContext(), WriteReviewActivity.class);
             startActivity(wrintent);
         });
 

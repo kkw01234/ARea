@@ -130,7 +130,8 @@ public class HomeActivity extends AppCompatActivity
         String userId = user.getString("userId", null);
         String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(profile);
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .apply(RequestOptions.circleCropTransform()).into(profile);
 
         profile.setOnClickListener(headListener);
 
