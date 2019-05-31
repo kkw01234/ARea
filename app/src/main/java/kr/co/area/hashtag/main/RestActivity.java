@@ -48,15 +48,15 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     private NavigationView navigationView;
     private View headerView;
     private TextView userHi, posInfo;
-    private ImageView profile;
+    private ImageView profile, goMyPageImg;
 
 
     boolean islike = false;
-    TextView Place_nameView,AddressView,Place_Text_View,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
+    TextView Place_nameView, AddressView, Place_Text_View, OpeningHour, PhoneView, dataPoint, myPoint, reviewPoint;
     ImageView wordcloud;
     ListView reviewlist;
     String id = "";
-    String isFrom,restname;
+    String isFrom, restname;
     Bitmap drawable;
 
     private LayoutInflater listInflater;
@@ -83,15 +83,24 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 
         // 네비게이션 헤더부분
         headerView = navigationView.getHeaderView(0);
-        userHi = headerView.findViewById(R.id.userHi);
+        userHi = headerView.findViewById(R.id.user_name);
+        goMyPageImg = headerView.findViewById(R.id.go_mypage_img);
         profile = headerView.findViewById(R.id.profileView);
-        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
+        userHi.setText(user.getString("userName", "???") + " 님,");
         String userId = user.getString("userId", null);
         String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(profile);
 
-        profile.setOnClickListener(headListener);
+        profile.setOnClickListener((view) -> {
+            startActivity(new Intent(activity, MypageActivity.class));
+            finish();
+        });
+        goMyPageImg.setOnClickListener((view) -> {
+            startActivity(new Intent(activity, MypageActivity.class));
+            finish();
+        });
+
 
         Bundle extra = getIntent().getExtras();
 
@@ -99,12 +108,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             id = "error";
         } else {
             id = extra.getString("id");
-            if (extra.getString("From").equals("AR"))
-                isFrom = "AR";
-            else if(extra.getString("From").equals("MAP"))
-                isFrom = "Map";
-            else
-                isFrom = "HOME";
+            isFrom = extra.getString("From");
         }
         Place_nameView = findViewById(R.id.place_name);
         AddressView = findViewById(R.id.place_address);
@@ -117,8 +121,8 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         listLockListView = true;
 
         // 푸터를 등록. setAdapter 이전에 해야함.
-        listInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        reviewlist.addFooterView(listInflater.inflate(R.layout.moreview_footer, null));
+        listInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        reviewlist.addFooterView(listInflater.inflate(R.layout.listview_footer, null));
 
         // 스크롤 리스너 등록
         reviewlist.setOnScrollListener(this);
@@ -132,7 +136,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
-        TextView extext1 = (TextView) findViewById(R.id.tv_more_footer);
+        TextView extext1 = (TextView) findViewById(R.id.tv_list_footer);
         extext1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,8 +158,8 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             @Override
             public void onClick(View v) {
                 Intent wrintent = new Intent(getApplicationContext(), WriteReviewActivity.class);
-                wrintent.putExtra("rest",id);
-                wrintent.putExtra("name",restname);
+                wrintent.putExtra("rest", id);
+                wrintent.putExtra("name", restname);
                 startActivity(wrintent);
             }
         });
@@ -193,10 +197,17 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     //뒤로가기
     @Override
     public void onBackPressed() { // AR로부터 온 화면인지, 지도에서 온 화면인지...
-        if (isFrom.equals("AR")) startActivity(new Intent(this, ARActivity.class));
-        else if (isFrom.equals("HOME")) startActivity(new Intent(this, HomeActivity.class));
-        else if (isFrom.equals("MAP")) startActivity(new Intent(this, GoogleMapsActivity.class));
-        else startActivity(new Intent(this, GoogleMapsActivity.class));
+        switch (isFrom) {
+            case "AR":
+                startActivity(new Intent(this, ARActivity.class));
+                break;
+            case "HOME":
+                startActivity(new Intent(this, HomeActivity.class));
+                break;
+            case "MAP":
+                startActivity(new Intent(this, GoogleMapsActivity.class));
+                break;
+        }
         finish();
     }
 

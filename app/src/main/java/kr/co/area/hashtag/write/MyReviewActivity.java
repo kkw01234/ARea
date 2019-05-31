@@ -19,14 +19,15 @@ public class MyReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_written);
-        Button btn2 = (Button) findViewById(R.id.button6);
+        Button btn2 = findViewById(R.id.button6);
 
         Intent intent = getIntent();
+        String google_id = intent.getStringExtra("google_id");
 
-        TextView textView = (TextView) findViewById(R.id.viewText);
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-        TextView adView = (TextView) findViewById(R.id.adView);
+        TextView textView = findViewById(R.id.viewText);
+        RatingBar ratingBar = findViewById(R.id.ratingBar1);
+        ImageView imageView = findViewById(R.id.imageView1);
+        TextView adView = findViewById(R.id.adView);
         textView.setText(WriteReviewActivity.reviewText);
         ratingBar.setRating(WriteReviewActivity.reviewPoint);
         adView.setText(WriteReviewActivity.reviewAddress);

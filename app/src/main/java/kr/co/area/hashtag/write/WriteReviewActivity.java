@@ -30,7 +30,6 @@ public class WriteReviewActivity extends AppCompatActivity {
     ImageView imgView;
     static String reviewText, reviewAddress;
     static float reviewPoint;
-    boolean reviewShare = false;
     Activity activity;
 
     //xml
@@ -44,17 +43,18 @@ public class WriteReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
+        activity = this;
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("rest");
         String restname = intent.getStringExtra("name");
         System.out.println(id);
 
-        name = (TextView) findViewById(R.id.restname);
-        img1 = (ImageView) findViewById(R.id.writeimage);
-        ed1 = (EditText) findViewById(R.id.wirtetext);
-        rb = (RatingBar) findViewById(R.id.writepoint);
-        wrbtn = (Button) findViewById(R.id.writebtn);
+        name = findViewById(R.id.restname);
+        img1 = findViewById(R.id.writeimage);
+        ed1 = findViewById(R.id.wirtetext);
+        rb = findViewById(R.id.writepoint);
+        wrbtn = findViewById(R.id.writebtn);
 
         name.setText(restname);
 
@@ -62,30 +62,23 @@ public class WriteReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                reviewText = ed1.getText().toString() ;
+                reviewText = ed1.getText().toString();
                 reviewPoint = rb.getRating();
 
-//                Intent wrintent = new Intent(getApplicationContext(), MyReviewActivity.class);
-//                startActivity(wrintent);
-
                 try {
-                    String result = new WriteReviewTask(activity).execute(reviewText,Float.toString(reviewPoint)).get();
+                    String result = new WriteReviewTask(activity).execute(scaled, id, reviewText, Float.toString(reviewPoint)).get();
 
                     JSONObject jObject = new JSONObject(result);
                     String state = jObject.getString("result");
-                    System.out.println(state);
+                    if (state.equals("success")) { // 작성된 리뷰의 아이디를 받는다.
 
-                    if (state.equals("success")) {
-                        Toast.makeText(WriteReviewActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent wrintent = new Intent(getApplicationContext(), MyReviewActivity.class);
-                        wrintent.putExtra("",scaled);
-                        wrintent.putExtra("text",reviewText);
-                        wrintent.putExtra("point",reviewPoint);
-                        startActivity(wrintent);
-                    }
-                    else if (state.equals("email fail")) {
-                        Toast.makeText(WriteReviewActivity.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
-                        return;
+                        Toast.makeText(activity.getApplicationContext(), "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activity, MyReviewActivity.class);
+                        intent.putExtra("", scaled);
+                        intent.putExtra("text", reviewText);
+                        intent.putExtra("point", reviewPoint);
+                        startActivity(intent);
+                        finish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -94,6 +87,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         });
 
     }
+
     //뒤로가기
     public void onBackPressed() {
         startActivity(new Intent(WriteReviewActivity.this, HomeActivity.class));
@@ -118,7 +112,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                 //data에서 절대경로로 이미지를 가져옴
                 Uri uri = data.getData();
 
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 //이미지가 한계이상(?) 크면 불러 오지 못하므로 사이즈를 줄여 준다.
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
                 scaled = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);

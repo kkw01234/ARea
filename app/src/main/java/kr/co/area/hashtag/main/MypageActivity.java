@@ -1,10 +1,16 @@
 package kr.co.area.hashtag.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -27,6 +33,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
@@ -43,16 +52,20 @@ public class MypageActivity extends AppCompatActivity
     private NavigationView navigationView;
     private View headerView;
     private TextView userHi;
-    private ImageView profile;
+    private ImageView profile, goMyPageImg; // 네비게이션 창
 
     private TextView idView, nickView, emailView, gradeView;
-    private ImageView changeImage;
+    private ImageView changeImage; // 개인정보 창
+
+    private TextView reviewTab, resTab;
+    private boolean isReviewClick;
 
     final int PICK_IMAGE_REQUEST = 1;
     static Bitmap scaled;
     static Bitmap bitmap;
     String userId;
     ImageView profileView;
+    ColorStateList oldColors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +87,25 @@ public class MypageActivity extends AppCompatActivity
 
         // 네비게이션 헤더부분
         headerView = navigationView.getHeaderView(0);
-        userHi = headerView.findViewById(R.id.userHi);
+        userHi = headerView.findViewById(R.id.user_name);
         profile = headerView.findViewById(R.id.profileView);
-        userHi.setText(user.getString("userName", "???") + "님\n안녕하세요");
+        goMyPageImg = headerView.findViewById(R.id.go_mypage_img);
+        userHi.setText(user.getString("userName", "???") + " 님,");
         userId = user.getString("userId", null);
         String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(RequestOptions.circleCropTransform()).into(profile);
 
-        profile.setOnClickListener(headListener);
+        profile.setOnClickListener((view) -> {
+            startActivity(new Intent(activity, MypageActivity.class));
+            finish();
+        });
+        goMyPageImg.setOnClickListener((view) -> {
+            startActivity(new Intent(activity, MypageActivity.class));
+            finish();
+        });
+
 
         profileView = findViewById(R.id.profile_img);
         idView = findViewById(R.id.id_value);
@@ -103,16 +125,43 @@ public class MypageActivity extends AppCompatActivity
         idView.setText(auto.getString("userId", "???"));
         nickView.setText(auto.getString("userName", "???"));
         emailView.setText(auto.getString("userEmail", "???"));
+
+        reviewTab = findViewById(R.id.review_tab);
+        resTab = findViewById(R.id.res_tab);
+        reviewTab.setOnClickListener(tabClickListener);
+        resTab.setOnClickListener(tabClickListener);
+        oldColors = resTab.getTextColors();
+        isReviewClick = true;
     }
 
-    View.OnClickListener headListener = (view) -> {
-        switch (view.getId()) {
-            case R.id.profileView:
-                startActivity(new Intent(activity, MypageActivity.class));
-                finish();
+    View.OnClickListener tabClickListener = (v) -> {
+        switch (v.getId()) {
+            case R.id.review_tab:
+                if(isReviewClick) return;
+                showReview();
+                break;
+            case R.id.res_tab:
+                if(!isReviewClick) return;
+                showRes();
                 break;
         }
+        isReviewClick = !isReviewClick;
+        if(isReviewClick) {
+            reviewTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+            resTab.setTextColor(oldColors);
+        } else {
+            reviewTab.setTextColor(oldColors);
+            resTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }
     };
+
+    private void showReview() {
+        return;
+    }
+
+    private void showRes() {
+        return;
+    }
 
     @Override
     public void onBackPressed() {

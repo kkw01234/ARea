@@ -44,7 +44,7 @@ public class WriteReviewTask extends AsyncTask<Object, Void, String> {
         String rate = (String) objects[3];
         attachmentFileName = rest_id + ".jpg";
         try {
-            URL url = new URL("http://118.220.3.71:13565/upload_file");
+            URL url = new URL("http://118.220.3.71:13565/create_review");
             httpUrlConnection = (HttpURLConnection) url.openConnection();
             httpUrlConnection.setUseCaches(false);
             httpUrlConnection.setDoOutput(true);
@@ -64,16 +64,18 @@ public class WriteReviewTask extends AsyncTask<Object, Void, String> {
             request.writeBytes("upload_review_image" + this.crlf);
 
             request.writeBytes(this.twoHyphens + boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"r_id\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"google_id\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
             request.writeBytes(rest_id + this.crlf);
 
             request.writeBytes(this.twoHyphens + boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"content\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"review_content\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
-            request.writeBytes(content + this.crlf);request.writeBytes(this.twoHyphens + boundary + this.crlf);
+            request.write(content.getBytes("UTF-8"));
+            request.writeBytes(this.crlf);
 
-            request.writeBytes("Content-Disposition: form-data; name=\"rate\"" + this.crlf);
+            request.writeBytes(this.twoHyphens + boundary + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"review_rate\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
             request.writeBytes(rate + this.crlf);
 

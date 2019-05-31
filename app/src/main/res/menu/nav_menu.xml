@@ -8,7 +8,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/ar_search"
-            android:icon="@drawable/ic_ai_button_unchecked_black_24dp"
+            android:icon="@drawable/ic_menu_camera"
             android:title="AR 검색" />
     </group>
 

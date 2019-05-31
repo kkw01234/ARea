@@ -16,7 +16,7 @@ import kr.co.area.hashtag.R;
 
 public class reviewListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<reviewListViewItem> reviewlistViewItemList = new ArrayList<reviewListViewItem>() ;
+    private ArrayList<reviewListViewItem> reviewlistViewItemList = new ArrayList<>() ;
 
     // ListViewAdapter의 생성자
     public reviewListViewAdapter() {

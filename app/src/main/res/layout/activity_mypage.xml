@@ -255,16 +255,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_bottom">
 
-                <LinearLayout
+                <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:id="@+id/static_review"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
             </ScrollView>
 
         </android.support.constraint.ConstraintLayout>

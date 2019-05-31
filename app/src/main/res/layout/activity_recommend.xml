@@ -60,7 +60,7 @@
 
 
     <TextView
-        android:id="@+id/userHi"
+        android:id="@+id/user_name"
         android:layout_width="214dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
