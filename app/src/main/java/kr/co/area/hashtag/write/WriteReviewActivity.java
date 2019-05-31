@@ -65,7 +65,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                 reviewText = ed1.getText().toString() ;
                 reviewPoint = rb.getRating();
 
-//                Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+//                Intent wrintent = new Intent(getApplicationContext(), MyReviewActivity.class);
 //                startActivity(wrintent);
 
                 try {
@@ -77,7 +77,7 @@ public class WriteReviewActivity extends AppCompatActivity {
 
                     if (state.equals("success")) {
                         Toast.makeText(WriteReviewActivity.this, "글작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent wrintent = new Intent(getApplicationContext(), WrittenActivity.class);
+                        Intent wrintent = new Intent(getApplicationContext(), MyReviewActivity.class);
                         wrintent.putExtra("",scaled);
                         wrintent.putExtra("text",reviewText);
                         wrintent.putExtra("point",reviewPoint);

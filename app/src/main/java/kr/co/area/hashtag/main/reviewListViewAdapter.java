@@ -45,7 +45,7 @@ public class reviewListViewAdapter extends BaseAdapter {
         ImageView reviewimg = (ImageView) convertView.findViewById(R.id.restimage);
         RatingBar reviewStar = (RatingBar) convertView.findViewById(R.id.reviewrating) ;
         TextView reviewName = (TextView) convertView.findViewById(R.id.reviewuser) ;
-        TextView reviewText = (TextView) convertView.findViewById(R.id.reviewtext) ;
+        TextView reviewText = (TextView) convertView.findViewById(R.id.reviewrestname) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         reviewListViewItem reviewlistViewItem = reviewlistViewItemList.get(position);

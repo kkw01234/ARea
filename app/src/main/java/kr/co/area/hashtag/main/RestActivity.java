@@ -125,18 +125,25 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         listadapter = new reviewListViewAdapter() ;
 
         // 리스트뷰 참조 및 Adapter달기
+        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
         TextView extext1 = (TextView) findViewById(R.id.tv_list_footer);
         extext1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawable == null){
+                if (listadapter.getCount() < 3){
                     listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+                    reviewlist.setAdapter(listadapter);
                 }
-                else
-                    listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
-                reviewlist.setAdapter(listadapter);
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ReviewpageActivity.class);
+                    intent.putExtra("name",restname);
+                    startActivity(intent);
+                }
+
             }
         });
 

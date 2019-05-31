@@ -40,7 +40,7 @@
             android:name=".recommend.RecommendActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".write.WrittenActivity"
+            android:name=".write.MyReviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".write.WriteReviewActivity"
@@ -58,7 +58,7 @@
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".write.SearchActivity"
+            android:name=".main.ReviewpageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.ChangeMypageActivity"
