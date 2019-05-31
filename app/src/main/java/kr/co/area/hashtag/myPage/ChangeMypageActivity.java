@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.main;
+package kr.co.area.hashtag.myPage;
 
 import android.app.Activity;
 import android.content.Context;

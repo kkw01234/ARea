@@ -49,7 +49,7 @@
             android:name=".main.RestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.MypageActivity"
+            android:name=".myPage.MypageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.JoinActivity"
@@ -61,7 +61,7 @@
             android:name=".main.ReviewpageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.ChangeMypageActivity"
+            android:name=".myPage.ChangeMypageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".map.GoogleMapsActivity"

@@ -1,16 +1,11 @@
-package kr.co.area.hashtag.main;
+package kr.co.area.hashtag.myPage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -21,8 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,16 +28,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.ar.ARActivity;
+import kr.co.area.hashtag.asyncTask.GetAllReviewByIdTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.UploadProfileImageTask;
 import kr.co.area.hashtag.login.LoginActivity;
+import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.recommend.RecommendActivity;
 
@@ -66,6 +63,8 @@ public class MypageActivity extends AppCompatActivity
     String userId;
     ImageView profileView;
     ColorStateList oldColors;
+    ListView listview;
+    MyReviewListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,21 +131,49 @@ public class MypageActivity extends AppCompatActivity
         resTab.setOnClickListener(tabClickListener);
         oldColors = resTab.getTextColors();
         isReviewClick = true;
+
+
+        listview = findViewById(R.id.my_review_list);
+        listview.setOnTouchListener((v, event) -> {
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+        adapter = new MyReviewListViewAdapter(this);
+
+        try {
+            String result = new GetAllReviewByIdTask(this).execute().get();
+            JSONArray jsonArray = new JSONArray(result);
+            int len = jsonArray.length();
+            for (int i = 0; i < len; ++i) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String img = jsonObject.getString("img");
+                String rest_name = jsonObject.getString("rest_name");
+                String content = jsonObject.getString("content");
+                String rate = jsonObject.getString("rate");
+                String date = jsonObject.getString("date");
+
+                adapter.addItem(img, rest_name, content, rate, date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        listview.setAdapter(adapter);
     }
 
     View.OnClickListener tabClickListener = (v) -> {
         switch (v.getId()) {
             case R.id.review_tab:
-                if(isReviewClick) return;
+                if (isReviewClick) return;
                 showReview();
                 break;
             case R.id.res_tab:
-                if(!isReviewClick) return;
+                if (!isReviewClick) return;
                 showRes();
                 break;
         }
         isReviewClick = !isReviewClick;
-        if(isReviewClick) {
+        if (isReviewClick) {
             reviewTab.setTextColor(getResources().getColor(R.color.colorPrimary));
             resTab.setTextColor(oldColors);
         } else {

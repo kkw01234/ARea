@@ -38,6 +38,7 @@ import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
+import kr.co.area.hashtag.myPage.MypageActivity;
 import kr.co.area.hashtag.recommend.RecommendActivity;
 import kr.co.area.hashtag.write.WriteReviewActivity;
 
