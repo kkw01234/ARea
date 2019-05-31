@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="monospace"
-                android:text="ARea"
+                android:text="식당 이름"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="26sp"
                 android:textStyle="bold" />
