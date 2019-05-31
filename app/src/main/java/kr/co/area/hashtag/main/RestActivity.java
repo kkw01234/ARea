@@ -52,7 +52,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 
 
     boolean islike = false;
-    TextView Place_nameView,AddressView,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
+    TextView Place_nameView,AddressView,Place_Text_View,OpeningHour,PhoneView,dataPoint,myPoint,reviewPoint;
     ImageView wordcloud;
     ListView reviewlist;
     String id = "";
@@ -110,7 +110,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         AddressView = findViewById(R.id.place_address);
         OpeningHour = findViewById(R.id.place_time);
         PhoneView = findViewById(R.id.place_phone);
-
+        Place_Text_View = findViewById(R.id.place_price);
         getPlace(id);
 
         reviewlist = findViewById(R.id.reviewlist);
@@ -244,6 +244,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             AddressView.setText(addr.getAsString());
             OpeningHour.setText(time.getAsString());
             PhoneView.setText(phone.getAsString());
+            Place_Text_View.setText(text.getAsString());
 
             restname = name.getAsString();
 
