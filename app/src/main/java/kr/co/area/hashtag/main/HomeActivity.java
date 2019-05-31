@@ -137,13 +137,13 @@ public class HomeActivity extends AppCompatActivity
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(RequestOptions.circleCropTransform()).into(profile);
 
-//        Button1 = (ImageButton)findViewById(R.id.mypageButton);
-////        Button1.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                headerbuttonAction();
-////            }
-////        });
+        Button1 = (ImageButton)findViewById(R.id.mypageButton);
+//        Button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                headerbuttonAction();
+//            }
+//        });
         profile.setOnClickListener(headListener);
 
         callPermission();  // 권한 요청

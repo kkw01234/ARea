@@ -99,8 +99,10 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             id = "error";
         } else {
             id = extra.getString("id");
-            if (extra.getString("isFrom").equals("AR"))
+            if (extra.getString("From").equals("AR"))
                 isFrom = "AR";
+            else if(extra.getString("From").equals("MAP"))
+                isFrom = "Map";
             else
                 isFrom = "HOME";
         }
@@ -193,6 +195,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     public void onBackPressed() { // AR로부터 온 화면인지, 지도에서 온 화면인지...
         if (isFrom.equals("AR")) startActivity(new Intent(this, ARActivity.class));
         else if (isFrom.equals("HOME")) startActivity(new Intent(this, HomeActivity.class));
+        else if (isFrom.equals("MAP")) startActivity(new Intent(this, GoogleMapsActivity.class));
         else startActivity(new Intent(this, GoogleMapsActivity.class));
         finish();
     }

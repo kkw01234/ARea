@@ -39,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.asyncTask.FileTask;
 import kr.co.area.hashtag.asyncTask.ProfileTask;
-import kr.co.area.hashtag.write.WriteActivity;
+import kr.co.area.hashtag.write.WriteReviewActivity;
 
 
 public class MypageActivity extends AppCompatActivity {
@@ -100,7 +100,7 @@ public class MypageActivity extends AppCompatActivity {
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myintent = new Intent(getApplicationContext(), ChangeMypage.class);
+                Intent myintent = new Intent(getApplicationContext(), ChangeMypageActivity.class);
                 startActivity(myintent);
             }
         });
@@ -108,7 +108,7 @@ public class MypageActivity extends AppCompatActivity {
         writebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent wrintent = new Intent(getApplicationContext(), WriteActivity.class);
+                Intent wrintent = new Intent(getApplicationContext(), WriteReviewActivity.class);
                 startActivity(wrintent);
             }
         });

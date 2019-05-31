@@ -302,8 +302,8 @@ public class GoogleMapsActivity extends AppCompatActivity
         mGoogleMap.setOnInfoWindowClickListener((marker) -> {
             Intent intent = new Intent(getBaseContext(), RestActivity.class);
             String id = (String)marker.getTag();
-
             intent.putExtra("id", id);
+            intent.putExtra("From", "Map");
             startActivity(intent);
         });
 
