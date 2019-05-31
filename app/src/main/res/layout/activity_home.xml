@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?><!--parent layout-->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawerLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <!-- main layout-->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-        <!-- main layout-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff"
-            >
+        android:background="#fff">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -78,18 +77,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="#009688"
-                android:src="@drawable/ic_search_black_24dp"
-                app:borderWidth="0dp"
-                app:fabSize="normal" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#009688"
+            android:src="@drawable/ic_search_black_24dp"
+            app:borderWidth="0dp"
+            app:fabSize="normal" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/map_Button"
@@ -97,28 +96,28 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/fab"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="15dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="#ffffff"
             android:src="@drawable/ic_location_on_black_24dp"
             android:visibility="invisible"
             app:borderWidth="0dp"
-            app:fabSize="normal"/>
+            app:fabSize="normal" />
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/AR_Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/map_Button"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="#ffffff"
-                android:src="@drawable/ic_camera_alt_black_24dp"
-                android:visibility="invisible"
-                app:borderWidth="0dp"
-                app:fabSize="normal" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AR_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/map_Button"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#ffffff"
+            android:src="@drawable/ic_camera_alt_black_24dp"
+            android:visibility="invisible"
+            app:borderWidth="0dp"
+            app:fabSize="normal" />
 
         <TextView
             android:id="@+id/textView5"
@@ -133,18 +132,18 @@
             android:text="주변 식당"
             android:textSize="24sp" />
 
-            <ListView
-                android:id="@+id/morelist"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/textView5"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="17dp" />
+        <ListView
+            android:id="@+id/morelist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView5"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="17dp" />
 
     </RelativeLayout>
 
@@ -154,9 +153,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:theme="@style/NavigationDrawerStyle"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        />
+        app:theme="@style/NavigationDrawerStyle" />
 
 </android.support.v4.widget.DrawerLayout>
