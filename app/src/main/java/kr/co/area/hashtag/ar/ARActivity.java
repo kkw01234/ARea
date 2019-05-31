@@ -304,7 +304,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     public void requestRestInfo(ARTouchPoint tp) {
         Intent intent = new Intent(this, RestActivity.class);
         intent.putExtra("id", tp.restID);
-        intent.putExtra("from", "AR");
+        intent.putExtra("From", "AR");
         startActivity(intent);
         // Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
     }

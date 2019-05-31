@@ -45,7 +45,8 @@ public class reviewListViewAdapter extends BaseAdapter {
         ImageView reviewimg = (ImageView) convertView.findViewById(R.id.restimage);
         RatingBar reviewStar = (RatingBar) convertView.findViewById(R.id.reviewrating) ;
         TextView reviewName = (TextView) convertView.findViewById(R.id.reviewuser) ;
-        TextView reviewText = (TextView) convertView.findViewById(R.id.reviewrestname) ;
+        TextView reviewText = (TextView) convertView.findViewById(R.id.reviewrest_text) ;
+        TextView reviewDate = (TextView) convertView.findViewById(R.id.reviewdate);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         reviewListViewItem reviewlistViewItem = reviewlistViewItemList.get(position);
@@ -55,6 +56,7 @@ public class reviewListViewAdapter extends BaseAdapter {
         reviewStar.setRating(reviewlistViewItem.getStar());
         reviewName.setText(reviewlistViewItem.getName());
         reviewText.setText(reviewlistViewItem.getText());
+        reviewDate.setText(reviewlistViewItem.getDate());
 
         return convertView;
     }
@@ -72,9 +74,10 @@ public class reviewListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Bitmap icon, float star, String name, String text) {
+    public void addItem(String date, Bitmap icon, float star, String name, String text) {
         reviewListViewItem item = new reviewListViewItem();
 
+        item.setDate(date);
         item.setIcon(icon);
         item.setStar(star);
         item.setName(name);

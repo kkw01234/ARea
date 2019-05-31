@@ -50,15 +50,14 @@
             android:layout_below="@id/toolbar_bottom"
             tools:context=".main.RestActivity">
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:shrinkColumns="*">
+                android:orientation="vertical">
 
                 <GridView
                     android:id="@+id/gridViewImages"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="8dp"
@@ -81,216 +80,195 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="23dp"
-                    android:background="#474545">
-
-                </View>
-
-                <TextView
-                    android:id="@+id/place_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/gridViewImages"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="162dp"
-                    android:layout_marginBottom="8dp"
-                    android:text='"한방통닭"'
-                    android:textSize="27sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.274"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.336" />
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/place_address_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="위치 :"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/place_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="서울시"
-                        android:textSize="20sp" />
-
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="메뉴 :"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/place_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="한방통닭 18000 / "
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView20"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="시간 :"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/place_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/textView20"
-                        android:text="매일 17:00 - 02:00"
-                        android:textSize="20sp" />
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/place_phone_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="번호 :"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/place_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="3"
-                        android:layout_toRightOf="@id/textView20"
-                        android:text="00000000"
-                        android:textSize="20sp" />
-
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="23dp"
-                    android:background="#474545">
+                    android:background="#11474545">
 
                 </View>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/favorite_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/place_name"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="110dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="#FF11C5A1"
-                        android:drawableTop="@drawable/ic_favorite_border_black_24dp"
-                        android:gravity="center"
-                        android:text="좋아요"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.119"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.417" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/evaluate_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/place_name"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_toRightOf="@id/favorite_button"
-                        android:background="#FF11C5A1"
-                        android:drawableTop="@drawable/ic_edit_black_24dp"
-                        android:gravity="center"
-                        android:text="평가하기"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.374"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.417" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/place_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginEnd="0dp"
+                                android:layout_marginBottom="0dp"
+                                android:text='"한방통닭"'
+                                android:textSize="27sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/update"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2019.05.31" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/favorite_button"
+                            android:layout_width="49dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="180dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:background="#FFFFFF"
+                            android:drawableTop="@drawable/ic_favorite_border_black_24dp" />
+
+                        <Button
+                            android:id="@+id/evaluate_button"
+                            android:layout_width="49dp"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:drawableTop="@drawable/ic_edit_black_24dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/place_address_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="위치 :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/place_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="서울시"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/place_time_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="시간 :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/place_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="매일 17:00 - 02:00"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/place_phone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="번호 :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/place_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="00000000"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="메뉴 :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/place_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="한방통닭 18000 / "
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="23dp"
-                    android:background="#474545">
+                    android:background="#11474545">
 
                 </View>
 
                 <ImageView
                     android:id="@+id/wordcloudimg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_menu_gallery" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="23dp"
-                    android:background="#474545">
+                    android:background="#11474545">
 
                 </View>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/datascore_text"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="빅데이터 점수"
                             android:textStyle="bold" />
@@ -302,7 +280,7 @@
 
                             <TextView
                                 android:id="@+id/datascorepoint"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
                                 android:text="88점"
@@ -310,7 +288,7 @@
 
                             <TextView
                                 android:id="@+id/myscorepoint"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
                                 android:paddingLeft="10dp"
@@ -324,10 +302,10 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="23dp"
-                    android:background="#474545">
+                    android:background="#11474545">
 
                 </View>
 
@@ -337,16 +315,16 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/reviewrestname"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/reviewrest_text"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:text="맛집 후기"
+                            android:textAlignment="viewStart"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -355,38 +333,40 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
+                            <TextView
+                                android:id="@+id/reviewscore"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_span="3"
+                                android:gravity="center"
+                                android:paddingLeft="10dp"
+                                android:text="4.4점"
+                                android:textSize="20sp" />
+
                             <RatingBar
                                 android:id="@+id/agstar"
                                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:isIndicator="false"
-                                android:numStars="5" />
+                                android:numStars="5"
+                                android:rating="4.4"
+                                android:stepSize="0.1" />
 
-                            <TextView
-                                android:id="@+id/reviewscore"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_span="3"
-                                android:gravity="center"
-                                android:paddingLeft="10dp"
-                                android:text="4.4점"
-                                android:textSize="20sp" />
                         </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
 
 
-
                 <ListView
                     android:id="@+id/reviewlist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="269dp"
                     android:scrollbars="none" />
 
+            </LinearLayout>
 
-            </TableLayout>
         </ScrollView>
     </RelativeLayout>
 
@@ -396,6 +376,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:layout_marginLeft="50dp"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
         app:theme="@style/NavigationDrawerStyle" />

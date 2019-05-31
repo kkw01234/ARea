@@ -9,6 +9,7 @@ public class reviewListViewItem {
     private String reviewname ;
     private String reviewtext ;
     private Bitmap iconDrawable ;
+    private String reviewdate;
 
     public void setIcon(Bitmap icon) { iconDrawable = icon ; }
     public void setStar(float point) {
@@ -17,6 +18,9 @@ public class reviewListViewItem {
     public void setName(String name) { reviewname = name ;  }
     public void setText(String text) {
         reviewtext = text ;
+    }
+    public void setDate(String date) {
+        reviewdate = date ;
     }
 
     public Bitmap getIcon() {return  this.iconDrawable ; }
@@ -28,5 +32,8 @@ public class reviewListViewItem {
     }
     public String getText() {
         return this.reviewtext ;
+    }
+    public String getDate() {
+        return this.reviewdate ;
     }
 }

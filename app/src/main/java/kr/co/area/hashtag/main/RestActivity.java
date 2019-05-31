@@ -118,7 +118,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 
         // 푸터를 등록. setAdapter 이전에 해야함.
         listInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        reviewlist.addFooterView(listInflater.inflate(R.layout.listview_footer, null));
+        reviewlist.addFooterView(listInflater.inflate(R.layout.moreview_footer, null));
 
         // 스크롤 리스너 등록
         reviewlist.setOnScrollListener(this);
@@ -127,17 +127,17 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         listadapter = new reviewListViewAdapter() ;
 
         // 리스트뷰 참조 및 Adapter달기
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
-        TextView extext1 = (TextView) findViewById(R.id.tv_list_footer);
+        TextView extext1 = (TextView) findViewById(R.id.tv_more_footer);
         extext1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listadapter.getCount() < 3){
-                    listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+                    listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
                     reviewlist.setAdapter(listadapter);
                 }
                 else {
@@ -268,7 +268,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         if(firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false)
         {
             Log.i("list", "Loading next items");
-            listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+            listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
             //addItems(1);
         }
     }

@@ -1,7 +1,5 @@
 package kr.co.area.hashtag.main;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -29,7 +27,7 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
 
         Intent intent = getIntent();
         String restname = intent.getStringExtra("name");
-        TextView rtname = findViewById(R.id.reviewrestname);
+        TextView rtname = findViewById(R.id.reviewrest_text);
         rtname.setText(restname);
 
         reviewlist = findViewById(R.id.review);
@@ -45,9 +43,9 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
         // Adapter 생성
         listadapter = new reviewListViewAdapter() ;
 
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
     }
@@ -71,7 +69,7 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
 
         if (firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false) {
             Log.i("list", "Loading next items");
-            listadapter.addItem(drawable,(float) 2.5, "kjy","내용") ;
+            listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
             reviewlist.setAdapter(listadapter);
             listLockListView = true;
         }
