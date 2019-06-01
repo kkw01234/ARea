@@ -30,12 +30,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import kr.co.area.hashtag.Recommend_change;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.myPage.MypageActivity;
-import kr.co.area.hashtag.recommend.RecommendActivity;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import noman.googleplaces.NRPlaces;
@@ -244,7 +244,7 @@ public class HomeActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.rec_path:
-                startActivity(new Intent(this, RecommendActivity.class));
+                startActivity(new Intent(this, Recommend_change.class));
                 break;
             case R.id.setting:
                 startActivity(new Intent(this, MypageActivity.class));
