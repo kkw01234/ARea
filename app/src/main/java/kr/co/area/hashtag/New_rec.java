@@ -29,19 +29,19 @@ public class New_rec extends AppCompatActivity {
 
         // 첫 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_one_black_24dp),
-                "행궁동 카페투어", "#루프탑 #디저트 #파스타") ;
+                "행궁동 카페투어", "#루프탑 #디저트 #파스타", "2") ;
         // 두 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_two_black_24dp),
-                "광교 데이트코스", "#애견카페 #보드게임 #영화") ;
+                "광교 데이트코스", "#애견카페 #보드게임 #영화", "3") ;
         // 세 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_3_black_24dp),
-                "한식투어", "#동대문 떡볶이 #비빔밥 ") ;
+                "한식투어", "#동대문 떡볶이 #비빔밥 ", "4") ;
         // 네 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_4_black_24dp),
-                "모듬곱창", "#강남 #대창 #신촌 #화사");
+                "모듬곱창", "#강남 #대창 #신촌 #화사", "5");
         // 다섯 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_5_black_24dp),
-                "보드게임카페", "#서울 #홍대 ");
+                "보드게임카페", "#서울 #홍대 ", "6");
 
     }
 }

@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,8 +53,9 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     private AROverlayView arOverlayView;
     private Camera camera;
     private ARCamera arCamera;
-    private TextView tvCurrentLocation;
-    private TextView tvBearing;
+    private EditText meterText;
+    private Button meterChange;
+    private int meter;
 
     private SensorManager sensorManager;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
@@ -75,9 +78,10 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
-        tvCurrentLocation = findViewById(R.id.tv_current_location);
-        tvBearing = findViewById(R.id.tv_bearing);
-        arOverlayView = new AROverlayView(this);
+        meter = 30;
+        arOverlayView = new AROverlayView(this, meter);
+        meterText = findViewById(R.id.inputMeter);
+        meterChange = findViewById(R.id.freshButton);
         arOverlayView.setOnTouchListener((v, e) -> { // 터치 이벤트 view에 전달
             switch (e.getAction()) {
                 case MotionEvent.ACTION_UP:
@@ -85,6 +89,11 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
                     break;
             }
             return true;
+        });
+        meterChange.setOnClickListener((v) -> {
+            meter = Integer.parseInt(meterText.getText().toString());
+            arOverlayView.setMeter(meter);
+            Toast.makeText(this, meter + "M 내부의 식당 검색합니다.", Toast.LENGTH_LONG).show();
         });
         requestLocationPermission();
     }
@@ -220,12 +229,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
             float[] rotatedProjectionMatrix = new float[16];
             Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
             this.arOverlayView.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
-
-            //Heading 북쪽으로부터 휴대폰이 몇 도 기울었는지 하는 건디.. 오차 어떻게 줄이지
-            float[] orientation = new float[3];
-            getOrientation(rotatedProjectionMatrix, orientation);
-            double bearing = Math.toDegrees(orientation[0]);
-            tvBearing.setText(String.format("Bearing: %s", bearing));
         }
     }
 
@@ -294,11 +297,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     }
 
     private void updateLatestLocation() { // location을 AROverlayView에 전달
-        if (arOverlayView != null && location != null) {
-            arOverlayView.updateCurrentLocation(location);
-            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \naccuracy: %s \nprovider: %s",
-                    location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy(), location.getProvider()));
-        }
+        if (arOverlayView != null && location != null) arOverlayView.updateCurrentLocation(location);
     }
 
     public void requestRestInfo(ARTouchPoint tp) {
@@ -306,7 +305,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         intent.putExtra("id", tp.restID);
         intent.putExtra("From", "AR");
         startActivity(intent);
-        // Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
     }
 
     @Override

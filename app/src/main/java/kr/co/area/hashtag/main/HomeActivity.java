@@ -65,7 +65,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AbsListView.OnScrollListener, PlacesListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, PlacesListener {
 
     private static final String TAG = "HomeActivity";
     private Activity activity;
@@ -82,26 +82,20 @@ public class HomeActivity extends AppCompatActivity
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, map_button, AR_button;
-    private ListView mListView;
     private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
     private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
     private boolean isAccessFineLocation = false;
     private boolean isAccessCoarseLocation = false;
     private boolean isPermission = false;
+
     // GPSTracker class
     private GpsInfo gps;
     double lat, lng;
     LatLng currentPosition;
-    private GoogleMap mGoogleMap = null;
-    private int mcount = 0;
 
-    List<String> idlist = new ArrayList<>();
-    Vector<Layout> layouts = new Vector<>();
-
-    // 스크롤 로딩
-    private LayoutInflater mInflater;
-    private boolean mLockListView;
+    private ListView mListView;
     private ListViewAdapter adapter;
+    private int count;
 
 
     @Override
@@ -109,6 +103,7 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         activity = this;
+        count = 0;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -120,7 +115,7 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-       SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
+        SharedPreferences user = getSharedPreferences("userInfo", Activity.MODE_PRIVATE);
 
         // 네비게이션 헤더부분
         headerView = navigationView.getHeaderView(0);
@@ -133,7 +128,6 @@ public class HomeActivity extends AppCompatActivity
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(RequestOptions.circleCropTransform()).into(profile);
-
         profile.setOnClickListener((view) -> {
             startActivity(new Intent(activity, MypageActivity.class));
             finish();
@@ -157,14 +151,10 @@ public class HomeActivity extends AppCompatActivity
         showPlaceInformation(currentPosition);
 
         mListView = findViewById(R.id.morelist);
-        mLockListView = true;
-
-        // 푸터를 등록. setAdapter 이전에 해야함.
-        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mListView.addFooterView(mInflater.inflate(R.layout.listview_footer, null));
-
-        // 스크롤 리스너 등록
-        mListView.setOnScrollListener(this);
+        mListView.setOnTouchListener((v, event) -> {
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
 
         // Adapter 생성
         adapter = new ListViewAdapter();
@@ -172,23 +162,12 @@ public class HomeActivity extends AppCompatActivity
         // 리스트뷰 참조 및 Adapter달기
         mListView.setAdapter(adapter);
 
-        TextView extext = (TextView) findViewById(R.id.tv_list_footer);
-        extext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = idlist.get(mcount++);
-                getPlace(id);
-            }
-        });
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("성공");
                 Intent intent = new Intent(getBaseContext(), RestActivity.class);
-                String id1 = idlist.get(position);
-
-                intent.putExtra("id", id1);
+                ListViewItem item = (ListViewItem) adapter.getItem(position);
+                intent.putExtra("id", item.getPlaceId());
                 intent.putExtra("From", "HOME");
                 startActivity(intent);
             }
@@ -197,9 +176,9 @@ public class HomeActivity extends AppCompatActivity
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        map_button = (FloatingActionButton) findViewById(R.id.map_Button);
-        AR_button = (FloatingActionButton) findViewById(R.id.AR_Button);
+        fab = findViewById(R.id.fab);
+        map_button = findViewById(R.id.map_Button);
+        AR_button = findViewById(R.id.AR_Button);
 
         fab.setOnClickListener(this);
         map_button.setOnClickListener(this);
@@ -245,9 +224,6 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.rec_path:
                 startActivity(new Intent(this, Recommend_change.class));
-                break;
-            case R.id.setting:
-                startActivity(new Intent(this, MypageActivity.class));
                 break;
             case R.id.logout:
                 logout();
@@ -322,25 +298,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
-        // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정합니다.
-        int count = totalItemCount - visibleItemCount;
-
-        if (firstVisibleItem >= count && totalItemCount != 0 && mLockListView == false) {
-            Log.i("list", "Loading next items");
-            String id = idlist.get(mcount++);
-            getPlace(id);
-            //addItems(1);
-        }
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
-
     //현재위치
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -386,16 +343,14 @@ public class HomeActivity extends AppCompatActivity
 
     public void getPlace(String id) { //DB에 데이터가 있는지 확인 // 없을경우 REST API 실행, 있을경우 DB 불러옴
         try {
-            // mLockListView = true;
             String result = new PlaceTask(this).execute(id).get();
             Log.i("GetPlace", result);
             JsonParser parser = new JsonParser();
             JsonObject obj = (JsonObject) parser.parse(result);
             JsonElement name = obj.get("rest_name"); // 레스토랑 이름
             JsonElement addr = obj.get("rest_address"); // 레스토랑 주소
-            adapter.addItem(null, name.getAsString(), addr.getAsString());
-            mListView.setAdapter(adapter);
-            // mLockListView = false;
+            adapter.addItem(null, name.getAsString(), addr.getAsString(), id);
+            adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -445,10 +400,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onPlacesSuccess(final List<Place> places) {
         runOnUiThread(() -> {
-            if (places == null || places.size() == 0)
+            if (places == null || places.size() == 0 || count >= 10)
                 return;
             for (Place place : places) {
-                idlist.add(place.getPlaceId());
+                if(count++ >= 10) return;
+                getPlace(place.getPlaceId());
             }
         });
     }

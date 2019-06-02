@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -64,7 +63,8 @@ public class MypageActivity extends AppCompatActivity
     ImageView profileView;
     ColorStateList oldColors;
     ListView listview;
-    MyReviewListViewAdapter adapter;
+    MyReviewListViewAdapter reviewAdapter;
+    MyReviewListViewAdapter likeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +138,7 @@ public class MypageActivity extends AppCompatActivity
             v.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
-        adapter = new MyReviewListViewAdapter(this);
+        reviewAdapter = new MyReviewListViewAdapter(this);
 
         try {
             String result = new GetAllReviewByIdTask(this).execute().get();
@@ -153,12 +153,12 @@ public class MypageActivity extends AppCompatActivity
                 String rate = jsonObject.getString("rate");
                 String date = jsonObject.getString("date");
 
-                adapter.addItem(img, rest_name, content, rate, date);
+                reviewAdapter.addItem(img, rest_name, content, rate, date);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        listview.setAdapter(adapter);
+        listview.setAdapter(reviewAdapter);
     }
 
     View.OnClickListener tabClickListener = (v) -> {
@@ -183,11 +183,11 @@ public class MypageActivity extends AppCompatActivity
     };
 
     private void showReview() {
-        return;
+        listview.setAdapter(reviewAdapter);
     }
 
     private void showRes() {
-        return;
+        listview.setAdapter(likeAdapter);
     }
 
     @Override
@@ -211,9 +211,6 @@ public class MypageActivity extends AppCompatActivity
                 break;
             case R.id.rec_path:
                 startActivity(new Intent(this, RecommendActivity.class));
-                break;
-            case R.id.setting:
-                startActivity(new Intent(this, MypageActivity.class));
                 break;
             case R.id.logout:
                 logout();

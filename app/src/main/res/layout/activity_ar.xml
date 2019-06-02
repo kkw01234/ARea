@@ -12,24 +12,40 @@
             android:id="@+id/surface_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </FrameLayout>
 
 
-    <TextView
-        android:id="@+id/tv_bearing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="GPS is loading..."
-        android:textColor="@android:color/white" />
+    <EditText
+        android:id="@+id/inputMeter"
+        android:layout_width="61dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorPrimaryDark"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingEnd="5dp"
+        android:password="false"
+        android:text="30"
+        android:textAlignment="textEnd" />
 
     <TextView
-        android:id="@+id/tv_current_location"
+        android:id="@+id/meterLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:text="GPS is loading..."
-        android:textColor="@android:color/white" />
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+        android:text="M"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/freshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90dp"
+        android:text="Refresh"
+        android:textSize="12sp" />
 
 </FrameLayout>

@@ -30,14 +30,6 @@
             android:title="추천 경로" />
     </group>
     <group
-        android:id="@+id/menu_05"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/setting"
-            android:icon="@drawable/ic_stat_setting"
-            android:title="설정" />
-    </group>
-    <group
         android:id="@+id/menu_06"
         android:checkableBehavior="single">
         <item
