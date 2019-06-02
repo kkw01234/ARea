@@ -111,7 +111,7 @@ public class Map_recommend extends FragmentActivity implements OnMapReadyCallbac
 
 
     public void onBackPressed() {
-        startActivity(new Intent(Map_recommend.this, RecommendActivity.class));
+        startActivity(new Intent(Map_recommend.this, Recommend_change.class));
         finish();
     }
 
