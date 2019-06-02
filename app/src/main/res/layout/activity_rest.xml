@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="monospace"
-                android:text="식당 이름"
+                android:text="ARea"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar_bottom"
+            android:layout_marginTop="64dp"
             tools:context=".main.RestActivity">
 
             <LinearLayout
@@ -88,8 +89,8 @@
                 </View>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -123,18 +124,19 @@
 
                         <Button
                             android:id="@+id/favorite_button"
-                            android:layout_width="49dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="180dp"
+
+                            android:layout_marginStart="130dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="0dp"
                             android:layout_marginBottom="0dp"
                             android:background="#FFFFFF"
-                            android:drawableTop="@drawable/ic_favorite_border_black_24dp" />
+                            android:drawableTop="@drawable/chagestar" />
 
                         <Button
                             android:id="@+id/evaluate_button"
-                            android:layout_width="49dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="#FFFFFFFF"
                             android:drawableTop="@drawable/ic_edit_black_24dp" />
@@ -214,7 +216,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView14"
+                            android:id="@+id/place_price_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -224,11 +226,19 @@
                         <TextView
                             android:id="@+id/place_price"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="한방통닭 18000 / "
                             android:textSize="20sp" />
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/place_price_more"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="더보기>"
+                        android:textAlignment="viewEnd"
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -362,8 +372,7 @@
                 <ListView
                     android:id="@+id/reviewlist"
                     android:layout_width="match_parent"
-                    android:layout_height="269dp"
-                    android:scrollbars="none" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

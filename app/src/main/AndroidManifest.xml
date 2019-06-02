@@ -49,6 +49,9 @@
             android:name=".main.RestActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.MenupageActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".myPage.MypageActivity"
             android:screenOrientation="portrait" />
         <activity

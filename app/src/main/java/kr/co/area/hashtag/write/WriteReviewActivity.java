@@ -19,8 +19,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonParser;
-
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
@@ -52,7 +50,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         String restname = intent.getStringExtra("name");
         System.out.println(id);
 
-        name = findViewById(R.id.restname);
+        name = findViewById(R.id.restname_text);
         img1 = findViewById(R.id.writeimage);
         ed1 = findViewById(R.id.wirtetext);
         rb = findViewById(R.id.writepoint);

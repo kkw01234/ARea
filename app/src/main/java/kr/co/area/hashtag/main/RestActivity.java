@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +44,8 @@ import kr.co.area.hashtag.myPage.MypageActivity;
 import kr.co.area.hashtag.recommend.RecommendActivity;
 import kr.co.area.hashtag.write.WriteReviewActivity;
 
-public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener, NavigationView.OnNavigationItemSelectedListener {
+public class RestActivity extends AppCompatActivity implements AbsListView.OnScrollListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
+{
     private Activity activity;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -59,6 +62,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     String id = "";
     String isFrom, restname;
     Bitmap drawable;
+    Button about_bt;
 
     private LayoutInflater listInflater;
     private boolean listLockListView;
@@ -118,12 +122,17 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         Place_Text_View = findViewById(R.id.place_price);
         getPlace(id);
 
+        ScrollView reviewscroll = findViewById(R.id.scrollview);
         reviewlist = findViewById(R.id.reviewlist);
         listLockListView = true;
 
+        //날짜
+//        TextView date = findViewById(R.id.update);
+//        date.setText(+ "기준");
+
         // 푸터를 등록. setAdapter 이전에 해야함.
         listInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        reviewlist.addFooterView(listInflater.inflate(R.layout.listview_footer, null));
+        reviewlist.addFooterView(listInflater.inflate(R.layout.moreview_footer, null));
 
         // 스크롤 리스너 등록
         reviewlist.setOnScrollListener(this);
@@ -132,13 +141,23 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         listadapter = new reviewListViewAdapter() ;
 
         // 리스트뷰 참조 및 Adapter달기
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter.addItem("2019.05.31",BitmapFactory.decodeResource(getResources(),R.drawable.splash),(float) 2.5, "kjy","내용") ;
         listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
-        TextView extext1 = (TextView) findViewById(R.id.tv_list_footer);
-        extext1.setOnClickListener(new View.OnClickListener() {
+        //후기 리스트 스크롤
+        reviewlist.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                reviewscroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        // 후기 더보기
+        TextView reviewmore = (TextView) findViewById(R.id.tv_more_footer);
+        reviewmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listadapter.getCount() < 3){
@@ -154,6 +173,17 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             }
         });
 
+        //메뉴 더보기
+        TextView menumore = (TextView) findViewById(R.id.place_price_more);
+        menumore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MenupageActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
         Button writebtn = (Button) findViewById(R.id.evaluate_button);
         writebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,24 +195,9 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             }
         });
 
-        Button about_bt = (Button) findViewById(R.id.favorite_button);
-        about_bt.setOnTouchListener(new View.OnTouchListener() {	//버튼 터치시 이벤트
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){ //버튼에서 손을 떼었을 때
-                    if(islike == false) {
-                        about_bt.setBackgroundResource(android.R.drawable.gallery_thumb);
-                        Toast.makeText(RestActivity.this, "좋아요.", Toast.LENGTH_SHORT).show();
-                        islike = true;
-                    }
-                    else {
-                        about_bt.setBackgroundResource(android.R.drawable.alert_light_frame);
-                        Toast.makeText(RestActivity.this, "좋아요 취소.", Toast.LENGTH_SHORT).show();
-                        islike = false;
-                    }
-                }
-                return false;
-            }
-        });
+        about_bt = (Button) findViewById(R.id.favorite_button);
+        about_bt.setOnClickListener(this);	//버튼 터치시 이벤트
+
     }
 
     View.OnClickListener headListener = (view) -> {
@@ -313,9 +328,6 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             case R.id.rec_path:
                 startActivity(new Intent(this, RecommendActivity.class));
                 break;
-            case R.id.setting:
-                startActivity(new Intent(this, MypageActivity.class));
-                break;
             case R.id.logout:
                 logout();
                 startActivity(new Intent(this, LoginActivity.class));
@@ -331,6 +343,20 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             new LogoutTask(activity).execute().get();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.favorite_button :
+                if (islike == false){
+                    islike = true;
+                }
+                else
+                    islike = false;
+                about_bt.setSelected(islike);
+                break;
         }
     }
 }
