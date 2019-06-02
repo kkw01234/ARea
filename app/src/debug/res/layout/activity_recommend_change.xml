@@ -48,14 +48,16 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="167dp"
                 android:layout_height="205dp"
+                android:layout_marginRight="7dp"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="148dp"
+                <ImageButton
+                    android:id="@+id/favorite1"
+                    android:layout_width="match_parent"
                     android:layout_height="144dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/image3" />
-
                 <TextView
                     android:id="@+id/textView32"
                     android:layout_width="match_parent"
@@ -80,12 +82,15 @@
                 android:id="@+id/linearLayout3"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="7dp"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="132dp"
+                <ImageButton
+                    android:id="@+id/favorite2"
+                    android:layout_width="match_parent"
                     android:layout_height="144dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/image98" />
 
                 <TextView
@@ -112,12 +117,15 @@
                 android:id="@+id/linearLayout2"
                 android:layout_width="162dp"
                 android:layout_height="202dp"
+                android:layout_marginRight="7dp"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="147dp"
-                    android:layout_height="146dp"
+                <ImageButton
+                    android:id="@+id/favorite3"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/image1" />
 
                 <TextView
@@ -146,10 +154,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="144dp"
-                    android:layout_height="146dp"
+                <ImageButton
+                    android:id="@+id/favorite4"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/list5" />
 
                 <TextView
@@ -177,42 +187,50 @@
     <TextView
         android:id="@+id/res_tab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="21dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="344dp"
         android:text="최신순"
-        android:textSize="18sp"
         android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
-    <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="381dp"
-        android:layout_height="330dp"
+    <!--<ScrollView-->
+        <!--android:id="@+id/scrollView3"-->
+        <!--android:layout_width="402dp"-->
+        <!--android:layout_height="356dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="4dp"-->
+        <!--android:fadeScrollbars="false"-->
+        <!--android:fillViewport="true"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="1.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/res_tab">-->
+
+
+    <ListView
+        android:id="@+id/listview1"
+        android:layout_width="380dp"
+        android:layout_height="303dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="19dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/res_tab">
-
-        <ListView
-            android:id="@+id/listview1"
-            android:layout_width="387dp"
-            android:layout_height="329dp"
-            tools:layout_editor_absoluteX="12dp"
-            tools:layout_editor_absoluteY="386dp" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/res_tab"
+        app:layout_constraintVertical_bias="0.0" />
+    <!--</ScrollView>-->
 
 
 </android.support.constraint.ConstraintLayout>

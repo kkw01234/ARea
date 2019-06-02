@@ -1,11 +1,21 @@
 package kr.co.area.hashtag;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import kr.co.area.hashtag.main.ListViewAdapter;
+import kr.co.area.hashtag.main.ListViewItem;
+import kr.co.area.hashtag.main.RestActivity;
+import kr.co.area.hashtag.recommend.Recommendlist_adapter;
+import kr.co.area.hashtag.recommend.Recommendlist_item;
 
 public class Recommend_change extends AppCompatActivity {
 
@@ -13,15 +23,26 @@ public class Recommend_change extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend_change);
+
         ListView listview ;
-        ListViewAdapter adapter;
+        Recommendlist_adapter adapter;
+
+        ImageButton rec1 = (ImageButton) findViewById(R.id.favorite1);
+        rec1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapRcommendAction();
+            }
+        });
 
         // Adapter 생성
-        adapter = new ListViewAdapter() ;
+        adapter = new Recommendlist_adapter() ;
 
         // 리스트뷰 참조 및 Adapter달기
         listview = (ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
+
+
 
         // 첫 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_one_black_24dp),
@@ -38,6 +59,34 @@ public class Recommend_change extends AppCompatActivity {
         // 다섯 번째 아이템 추가.
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_5_black_24dp),
                 "보드게임카페", "#서울 #홍대 ");
+        // 여섯 번째 아이템 추가.
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_looks_6_black_24dp),
+                "24시카페", "#아주대 #탐탐 ");
 
+
+        // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                // get item
+                Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position) ;
+
+                String titleStr = item.getTitle() ;
+                String descStr = item.getDesc() ;
+                Drawable iconDrawable = item.getIcon() ;
+
+                //intent
+                Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
+                startActivity(intent);
+
+
+            }
+        }) ;
+
+    }
+
+    public void MapRcommendAction(){
+        Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
+        startActivity(intent);
     }
 }
