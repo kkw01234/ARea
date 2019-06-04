@@ -15,7 +15,7 @@
     </style>
 
     <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/image</item>
+        <item name="android:windowBackground">@drawable/splashimage</item>
     </style>
 
     <style name="EditTextStyle" parent="android:style/Widget.EditText">

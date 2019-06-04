@@ -22,18 +22,15 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:titleTextColor="@color/cardview_dark_background">
 
-            <TextView
-                android:id="@+id/toolbar_title"
+            <ImageView
+                android:id="@+id/logo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="monospace"
-                android:text="ARea"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="26sp"
-                android:textStyle="bold" />
+                android:layout_height="53dp"
+                android:layout_marginStart="10dp"
+                app:srcCompat="@drawable/logo1" />
 
         </android.support.v7.widget.Toolbar>
+
 
         <View
             android:id="@+id/toolbar_bottom"
