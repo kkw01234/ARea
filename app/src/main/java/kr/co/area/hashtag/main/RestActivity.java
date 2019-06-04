@@ -56,7 +56,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 
 
     boolean islike = false;
-    TextView Place_nameView, AddressView, Place_Text_View, OpeningHour, PhoneView, dataPoint, myPoint, reviewPoint;
+    TextView Place_nameView, AddressView, Place_Text_View, OpeningHour, PhoneView, dataPoint, myPoint, reviewPoint, updateData;
     ImageView wordcloud;
     ListView reviewlist;
     String id = "";
@@ -120,8 +120,14 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         OpeningHour = findViewById(R.id.place_time);
         PhoneView = findViewById(R.id.place_phone);
         Place_Text_View = findViewById(R.id.place_price);
+        dataPoint = findViewById(R.id.datascorepoint);
+        updateData = findViewById(R.id.update);
         getPlace(id);
-
+        wordcloud = findViewById(R.id.wordcloudimg);
+        String cloudImg = "http://118.220.3.71:13565/download_file?category=load_wordcloud&u_id=" + userId+"&google_id="+id;
+        Glide.with(this).load(cloudImg).apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .into(wordcloud);
         ScrollView reviewscroll = findViewById(R.id.scrollview);
         reviewlist = findViewById(R.id.reviewlist);
         listLockListView = true;
@@ -266,12 +272,20 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
             JsonElement text = obj.get("rest_text"); // 레스토랑 설명
             JsonElement time = obj.get("rest_time"); // 레스토랑 오픈 시간
             JsonElement phone = obj.get("rest_phone"); // 레스토랑 전화번호
+            JsonElement point = obj.get("rest_point");
+            JsonElement rest_crawling_date = obj.get("rest_crawling_date");
 
             Place_nameView.setText(name.getAsString());
             AddressView.setText(addr.getAsString());
             OpeningHour.setText(time.getAsString());
             PhoneView.setText(phone.getAsString());
             Place_Text_View.setText(text.getAsString());
+            if (point != null) {
+                dataPoint.setText(point.getAsString());
+            }
+            if(rest_crawling_date != null){
+                updateData.setText(rest_crawling_date.getAsString());
+            }
 
             restname = name.getAsString();
 
