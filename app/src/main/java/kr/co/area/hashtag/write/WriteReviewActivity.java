@@ -47,8 +47,8 @@ public class WriteReviewActivity extends AppCompatActivity {
         activity = this;
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("rest");
-        String restname = intent.getStringExtra("name");
+        String id = intent.getStringExtra("rest_id");
+        String restname = intent.getStringExtra("rest_name");
         System.out.println(id);
 
         name = findViewById(R.id.restname_text);
@@ -70,7 +70,9 @@ public class WriteReviewActivity extends AppCompatActivity {
                         String result = new WriteReviewWithImageTask(activity).execute(scaled, id, reviewText, Float.toString(reviewPoint)).get();
                         JSONObject jObject = new JSONObject(result);
                         String state = jObject.getString("result");
-                        if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
+                        if (state.equals("duplicate")) {
+                            Toast.makeText(activity.getApplicationContext(), "이미 이 식당에 대해 리뷰를 작성하셨습니다.", Toast.LENGTH_SHORT).show();
+                        } else if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
                             String review_id = jObject.getString("review_id");
                             Toast.makeText(activity.getApplicationContext(), "리뷰 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(activity, MyReviewActivity.class);
@@ -86,7 +88,9 @@ public class WriteReviewActivity extends AppCompatActivity {
                         String result = new WriteReviewTask(activity).execute(id, reviewText, Float.toString(reviewPoint)).get();
                         JSONObject jObject = new JSONObject(result);
                         String state = jObject.getString("result");
-                        if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
+                        if (state.equals("duplicate")) {
+                            Toast.makeText(activity.getApplicationContext(), "이미 이 식당에 대해 리뷰를 작성하셨습니다.", Toast.LENGTH_SHORT).show();
+                        } else if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
                             String review_id = jObject.getString("review_id");
                             Toast.makeText(activity.getApplicationContext(), "리뷰 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(activity, MyReviewActivity.class);

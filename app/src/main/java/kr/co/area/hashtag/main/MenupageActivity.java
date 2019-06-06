@@ -28,7 +28,7 @@ public class MenupageActivity extends AppCompatActivity {
         Place_menu = findViewById(R.id.menulist);
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        String id = intent.getStringExtra("rest_id");
         getPlace(id);
 
     }

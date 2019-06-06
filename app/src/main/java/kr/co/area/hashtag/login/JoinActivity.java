@@ -188,7 +188,6 @@ public class JoinActivity extends Activity {
                     if (state.equals("avail")) {
                         mailCheck = true;
                         Toast.makeText(JoinActivity.this, "사용가능한 메일 입니다.", Toast.LENGTH_SHORT).show();
-                        nameCheck = true;
                     } else if (state.equals("dup")) {
                         Toast.makeText(JoinActivity.this, "중복입니다.", Toast.LENGTH_SHORT).show();
                         joinMail.setFocusableInTouchMode(true);
