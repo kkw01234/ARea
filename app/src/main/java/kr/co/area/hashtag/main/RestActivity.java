@@ -34,8 +34,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.GetAllReviewByRestTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
@@ -61,7 +65,6 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     ListView reviewlist;
     String id = "";
     String isFrom, restname;
-    Bitmap drawable;
     Button about_bt;
 
     private LayoutInflater listInflater;
@@ -144,12 +147,10 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         reviewlist.setOnScrollListener(this);
 
         // Adapter 생성
-        listadapter = new reviewListViewAdapter() ;
+        listadapter = new reviewListViewAdapter(this) ;
 
+        getReviews();
         // 리스트뷰 참조 및 Adapter달기
-        listadapter.addItem("2019.05.31",BitmapFactory.decodeResource(getResources(),R.drawable.splash),(float) 2.5, "kjy","내용") ;
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
         //후기 리스트 스크롤
@@ -163,21 +164,21 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
 
         // 후기 더보기
         TextView reviewmore = (TextView) findViewById(R.id.tv_more_footer);
-        reviewmore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listadapter.getCount() < 3){
-                    listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
-                    reviewlist.setAdapter(listadapter);
-                }
-                else {
-                    Intent intent = new Intent(getApplicationContext(), ReviewpageActivity.class);
-                    intent.putExtra("name",restname);
-                    startActivity(intent);
-                }
-
-            }
-        });
+//        reviewmore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (listadapter.getCount() < 3){
+//                    listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+//                    reviewlist.setAdapter(listadapter);
+//                }
+//                else {
+//                    Intent intent = new Intent(getApplicationContext(), ReviewpageActivity.class);
+//                    intent.putExtra("name",restname);
+//                    startActivity(intent);
+//                }
+//
+//            }
+//        });
 
         //메뉴 더보기
         TextView menumore = (TextView) findViewById(R.id.place_price_more);
@@ -261,6 +262,25 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
     // saveDB(id, title, address, pos, null, OpeningHour.getText().toString(), phone.getAsString());
 //    }
 
+    private void getReviews(){
+        try {
+            String result = new GetAllReviewByRestTask(this).execute(id).get();
+            System.out.println(result);
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0 ; i < jsonArray.length() ; ++i) {
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                String date = jsonObject.getString("date");
+                String img = jsonObject.getString("img");
+                float rate = Float.parseFloat(jsonObject.getString("rate"));
+                String name = jsonObject.getString("user_name");
+                String text = jsonObject.getString("content");
+                listadapter.addItem(date, img, rate, name, text);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getPlace(String id) { //DB에 데이터가 있는지 확인 // 없을경우 REST API 실행, 있을경우 DB 불러옴
         try {
             String result = new PlaceTask(this).execute(id).get();
@@ -309,7 +329,7 @@ public class RestActivity extends AppCompatActivity implements AbsListView.OnScr
         if(firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false)
         {
             Log.i("list", "Loading next items");
-            listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+            //listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
             //addItems(1);
         }
     }

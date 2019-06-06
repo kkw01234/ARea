@@ -2,6 +2,7 @@ package kr.co.area.hashtag.write;
 
 
 import kr.co.area.hashtag.asyncTask.WriteReviewTask;
+import kr.co.area.hashtag.asyncTask.WriteReviewWithImageTask;
 import kr.co.area.hashtag.main.HomeActivity;
 
 import android.app.Activity;
@@ -64,26 +65,42 @@ public class WriteReviewActivity extends AppCompatActivity {
 
                 reviewText = ed1.getText().toString();
                 reviewPoint = rb.getRating();
-
-                try {
-                    String result = new WriteReviewTask(activity).execute(scaled, id, reviewText, Float.toString(reviewPoint)).get();
-                    System.out.println(result);
-                    JSONObject jObject = new JSONObject(result);
-                    String state = jObject.getString("result");
-                    if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
-                        String review_id = jObject.getString("review_id");
-                        Toast.makeText(activity.getApplicationContext(), "리뷰 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(activity, MyReviewActivity.class);
-                        intent.putExtra("review_id", review_id);
-                        startActivity(intent);
-                        finish();
+                if (scaled != null) {
+                    try {
+                        String result = new WriteReviewWithImageTask(activity).execute(scaled, id, reviewText, Float.toString(reviewPoint)).get();
+                        JSONObject jObject = new JSONObject(result);
+                        String state = jObject.getString("result");
+                        if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
+                            String review_id = jObject.getString("review_id");
+                            Toast.makeText(activity.getApplicationContext(), "리뷰 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(activity, MyReviewActivity.class);
+                            intent.putExtra("review_id", review_id);
+                            startActivity(intent);
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    try {
+                        String result = new WriteReviewTask(activity).execute(id, reviewText, Float.toString(reviewPoint)).get();
+                        JSONObject jObject = new JSONObject(result);
+                        String state = jObject.getString("result");
+                        if (state.equals("success")) { // success인 경우 작성된 리뷰의 아이디를 받는다.
+                            String review_id = jObject.getString("review_id");
+                            Toast.makeText(activity.getApplicationContext(), "리뷰 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(activity, MyReviewActivity.class);
+                            intent.putExtra("review_id", review_id);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
-
     }
 
     //뒤로가기

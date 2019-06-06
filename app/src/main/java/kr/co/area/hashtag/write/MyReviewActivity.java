@@ -8,12 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import kr.co.area.hashtag.asyncTask.GetOneReviewTask;
-import kr.co.area.hashtag.asyncTask.WriteReviewTask;
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 

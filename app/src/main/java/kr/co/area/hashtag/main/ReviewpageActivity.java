@@ -10,7 +10,11 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.asyncTask.GetAllReviewByRestTask;
 
 public class ReviewpageActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
     Bitmap drawable;
@@ -19,6 +23,7 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
     private LayoutInflater listInflater;
     private boolean listLockListView;
     private reviewListViewAdapter listadapter;
+    private String id, restname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,8 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
         setContentView(R.layout.activity_review);
 
         Intent intent = getIntent();
-        String restname = intent.getStringExtra("name");
+        id = intent.getStringExtra("rest");
+        restname = intent.getStringExtra("name");
         TextView rtname = findViewById(R.id.reviewrest_text);
         rtname.setText(restname);
 
@@ -41,13 +47,33 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
         reviewlist.setOnScrollListener(this);
 
         // Adapter 생성
-        listadapter = new reviewListViewAdapter() ;
-
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
-        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+        listadapter = new reviewListViewAdapter(this) ;
+        getReviews();
+//        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+//        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+//        listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
         reviewlist.setAdapter(listadapter);
 
+    }
+
+
+
+    private void getReviews(){
+        try {
+            String result = new GetAllReviewByRestTask(this).execute(id).get();
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0 ; i < jsonArray.length() ; ++i) {
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                String date = jsonObject.getString("date");
+                String img = jsonObject.getString("img");
+                float rate = Float.parseFloat(jsonObject.getString("rate"));
+                String name = jsonObject.getString("user_name");
+                String text = jsonObject.getString("content");
+                listadapter.addItem(date, img, rate, name, text);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //뒤로가기
@@ -69,7 +95,7 @@ public class ReviewpageActivity extends AppCompatActivity implements AbsListView
 
         if (firstVisibleItem >= count && totalItemCount != 0 && listLockListView == false) {
             Log.i("list", "Loading next items");
-            listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
+//            listadapter.addItem("2019.05.31",drawable,(float) 2.5, "kjy","내용") ;
             reviewlist.setAdapter(listadapter);
             listLockListView = true;
         }
