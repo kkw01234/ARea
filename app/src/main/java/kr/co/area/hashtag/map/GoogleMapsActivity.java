@@ -386,56 +386,13 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
 
-    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
-
-
-        if (currentMarker != null) currentMarker.remove();
-
-
-        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-
-
-        currentMarker = mGoogleMap.addMarker(markerOptions);
-
-
-    }
-
-    public void setSearchLocation(LatLng latLng, String markerTitle, String markerSnippet) {
-
-
-        if (searchMarker != null) searchMarker.remove();
-
-
-        LatLng currentLatLng = new LatLng(latLng.latitude, latLng.longitude);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-
-
-        searchMarker = mGoogleMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mGoogleMap.moveCamera(cameraUpdate);
-
-    }
-
-
+    //위치정보를 받아오지못할 때 기본 값
     public void setDefaultLocation() {
-
 
         //디폴트 위치, Seoul
         LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97); //서울역
         String markerTitle = "위치정보 가져올 수 없음";
-        String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
+        String markerSnippet = "위치 퍼미션과 GPS 활성 여부 확인하세요";
 
 
         if (currentMarker != null) currentMarker.remove();
@@ -701,19 +658,6 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     }
 
-
-    public String getAltitude(LatLng latLng) { //고도 찾는 코드(Rest API)
-        try {
-            String elevation = new AltitudeTask(this)
-                    .execute(Double.toString(latLng.latitude), Double.toString(latLng.longitude))
-                    .get();
-            return elevation;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "good";
-    }
 
 
 }
