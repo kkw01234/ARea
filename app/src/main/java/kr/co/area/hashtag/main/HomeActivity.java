@@ -75,7 +75,6 @@ public class HomeActivity extends AppCompatActivity
     private View headerView;
     private TextView userHi, posInfo;
     private ImageView profile, goMyPageImg;
-    private ImageButton Button1;
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;

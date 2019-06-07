@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -32,6 +33,17 @@ public class Recommend_change extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MapRcommendAction();
+            }
+        });
+
+        Button recwrite = (Button)findViewById(R.id.Mypick);
+        recwrite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(
+                        getApplicationContext(), Recommend_write.class); // 다음 넘어갈 클래스 지정
+                startActivity(intent); // 다음 화면으로 넘어가기
             }
         });
 
