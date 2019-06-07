@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -55,7 +57,6 @@ import java.util.Locale;
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.main.RestActivity;
-import kr.co.area.hashtag.asyncTask.AltitudeTask;
 import kr.co.area.hashtag.utils.RequestCode;
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.Place;
@@ -70,14 +71,12 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
-
+    private TextView test;
 
     private static final String TAG = "Google_Maps_Activity";
-    private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
+    private static final int UPDATE_INTERVAL_MS = 30000;  // 30초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
-    private static final int UPDATE_REPLACE = 10;
-
-
+    private static final int UPDATE_REPLACE = 5; //위치정보 갱신 최소거리
     // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용
     boolean needRequest = false;
 
@@ -86,19 +85,18 @@ public class GoogleMapsActivity extends AppCompatActivity
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
 
 
-    Location mCurrentLocatiion;
-    LatLng currentPosition;
-
-
     private FusedLocationProviderClient mFusedLocationClient; //어느버전부터는 이거 써야함 (예전버전꺼는 사용불가로바뀜)
     private LocationRequest locationRequest;
     private Location location;
+    private Location currentLocation;
+    LatLng currentPosition;
 
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
 
     List<Marker> previous_marker = null; //주변 맛집 마커 저장하는곳
     private Marker searchMarker = null;
+
     //뒤로가기
     public void onBackPressed() {
         startActivity(new Intent(GoogleMapsActivity.this, HomeActivity.class));
@@ -115,15 +113,16 @@ public class GoogleMapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_google_maps);
 
         mLayout = findViewById(R.id.layout_map); //여기가 해결이 안됨
-
+        test = findViewById(R.id.testLocation);
 
         Log.d(TAG, "onCreate");
 
 
         locationRequest = LocationRequest.create(); //new LocationRequest는 지원이 안됨 create로 만들어줘야함
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setInterval(UPDATE_INTERVAL_MS)
                 .setSmallestDisplacement(UPDATE_REPLACE);
-        ;
+
 
 
         LocationSettingsRequest.Builder builder =
@@ -131,19 +130,12 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         builder.addLocationRequest(locationRequest);
 
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
 
-        //Test
-        setupAutoCompleteFragment(mapFragment);
-        Places.getGeoDataClient(this);
-        Places.getPlaceDetectionClient(this);
-        LocationServices.getFusedLocationProviderClient(this);
-        //=------------
         previous_marker = new ArrayList<>();
 
     }
@@ -158,31 +150,13 @@ public class GoogleMapsActivity extends AppCompatActivity
 
             if (locationList.size() > 0) {
                 location = locationList.get(locationList.size() - 1);
-                //location = locationList.get(0);
-
+                Log.d(TAG, "onLocationResult : " + location.getLatitude() + " " + location.getLongitude());
                 currentPosition
                         = new LatLng(location.getLatitude(), location.getLongitude());
-
-                List<Address> addresses = getCurrentAddress(currentPosition);
-                String markerTitle = null;
-                if (addresses != null) {
-                    markerTitle = addresses.get(0).getAddressLine(0); //위치 받아옴
-                } else
-                    markerTitle = "오류 발생";
-
-                String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
-                        + " 경도:" + String.valueOf(location.getLongitude());
-
-                Log.d(TAG, "onLocationResult : " + markerSnippet);
-
-
-                //현재 위치에 마커 생성하고 이동
-                //setCurrentLocation(location, markerTitle, markerSnippet);
-
-                mCurrentLocatiion = location;
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentPosition);
                 mGoogleMap.moveCamera(cameraUpdate);
-                showPlaceInformation(currentPosition); //우선 임시로 여기에 놔두었습니다.
+                showPlaceInformation(location); //우선 임시로 여기에 놔두었습니다.
+                currentLocation = location;
             }
 
 
@@ -230,12 +204,11 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         Log.d(TAG, "onMapReady :");
 
-        mGoogleMap = googleMap; 
+        mGoogleMap = googleMap;
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
         setDefaultLocation();
-
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
@@ -248,20 +221,15 @@ public class GoogleMapsActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
                     hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-
                 // 2. 이미 퍼미션을 가지고 있다면
                 startLocationUpdates(); // 3. 위치 업데이트 시작
-
-
             } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
 
                 // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-
                     // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
                     Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.",
                             Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
                         @Override
                         public void onClick(View view) {
 
@@ -287,21 +255,16 @@ public class GoogleMapsActivity extends AppCompatActivity
             startLocationUpdates(); // 3. 위치 업데이트 시작
         }
 
-
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng latLng) {
-
-                Log.d(TAG, "onMapClick :");
-            }
-        });
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+        mGoogleMap.setOnMapClickListener((latlng) -> {
+                    Log.d(TAG, "onMapClick :");
+                }
+        );
 
         mGoogleMap.setOnInfoWindowClickListener((marker) -> {
             Intent intent = new Intent(getBaseContext(), RestActivity.class);
-            String id = (String)marker.getTag();
+            String id = (String) marker.getTag();
             intent.putExtra("id", id);
             intent.putExtra("From", "Map");
             startActivity(intent);
@@ -317,10 +280,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         Log.d(TAG, "onStart");
 
         if (checkPermission()) {
-
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-
             if (mGoogleMap != null)
                 mGoogleMap.setMyLocationEnabled(true);
 
@@ -336,7 +296,6 @@ public class GoogleMapsActivity extends AppCompatActivity
         super.onStop();
 
         if (mFusedLocationClient != null) {
-
             Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
@@ -466,28 +425,20 @@ public class GoogleMapsActivity extends AppCompatActivity
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
 
-
                     // 사용자가 거부만 선택한 경우에는 앱을 다시 실행하여 허용을 선택하면 앱을 사용할 수 있습니다.
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
+                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             finish();
                         }
                     }).show();
-
                 } else {
-
 
                     // "다시 묻지 않음"을 사용자가 체크하고 거부를 선택한 경우에는 설정(앱 정보)에서 퍼미션을 허용해야 앱을 사용할 수 있습니다.
                     Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
                             Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
                         @Override
                         public void onClick(View view) {
-
                             finish();
                         }
                     }).show();
@@ -522,24 +473,16 @@ public class GoogleMapsActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode) {
-
             case RequestCode.GPS_ENABLE_REQUEST_CODE:
-
                 //사용자가 GPS 활성 시켰는지 검사
                 if (checkLocationServicesStatus()) {
                     if (checkLocationServicesStatus()) {
-
                         Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
-
-
                         needRequest = true;
-
                         return;
                     }
                 }
-
                 break;
         }
     }
@@ -552,7 +495,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     @Override
     public void onPlacesStart() {
-            Log.i(TAG,"start to find Place");
+        Log.i(TAG, "start to find Place");
     }
 
 
@@ -560,14 +503,14 @@ public class GoogleMapsActivity extends AppCompatActivity
     @Override
     public void onPlacesSuccess(final List<Place> places) {
         runOnUiThread(() -> {
-            if (places == null || places.size() == 0 )
+            if (places == null || places.size() == 0)
                 return;
 
             for (noman.googleplaces.Place place : places) {
                 LatLng latLng
                         = new LatLng(place.getLatitude()
                         , place.getLongitude());
-                Log.i(TAG, latLng.latitude + " " + latLng.longitude);
+                Log.i(TAG, "onPlaceSuccess" + latLng.latitude + " " + latLng.longitude);
                 List<Address> address = getCurrentAddress(latLng);
                 String markerSnippet = null;
                 if (address != null)
@@ -585,8 +528,6 @@ public class GoogleMapsActivity extends AppCompatActivity
                 item.setTag(place.getPlaceId());
                 previous_marker.add(item);
             }
-
-
             //중복 마커 제거
 
             HashSet<Marker> hashSet = new HashSet<Marker>();
@@ -596,30 +537,29 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
         });
-
-
     }
 
 
     @Override
     public void onPlacesFinished() {
-            Log.i(TAG, "finish to find place");
+        Log.i(TAG, "finish to find place");
     }
 
-    public void showPlaceInformation(LatLng location) {
-        mGoogleMap.clear();//지도 클리어
-
-        if (previous_marker != null)
-            previous_marker.clear();//지역정보 마커 클리어
-
-        new NRPlaces.Builder()
-                .listener(GoogleMapsActivity.this)
-                .key(getResources().getString(R.string.google_maps_key))
-                .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
-                .type(PlaceType.RESTAURANT) //음식점
-                .build()
-                .execute();
+    public void showPlaceInformation(Location location) {
+        Log.i(TAG,"테스트 중");
+        if(currentLocation ==null || this.currentLocation.distanceTo(location)>10) {
+            mGoogleMap.clear();//지도 클리어
+            if (previous_marker != null)
+                previous_marker.clear();//지역정보 마커 클리어
+            new NRPlaces.Builder()
+                    .listener(GoogleMapsActivity.this)
+                    .key(getResources().getString(R.string.google_maps_key))
+                    .latlng(location.getLatitude(), location.getLongitude())//현재 위치
+                    .radius(300) //500 미터 내에서 검색
+                    .type(PlaceType.RESTAURANT) //음식점
+                    .build()
+                    .execute();
+        }
     }
 
 
@@ -637,11 +577,11 @@ public class GoogleMapsActivity extends AppCompatActivity
                 markerOptions.position(place.getLatLng());
                 markerOptions.title((String) place.getName());
                 markerOptions.snippet((String) place.getAddress());
-                for(Marker marker : previous_marker){
+                for (Marker marker : previous_marker) {
                     marker.remove();
                 }
                 previous_marker.clear();
-                if(searchMarker != null)
+                if (searchMarker != null)
                     searchMarker.remove();
 
                 searchMarker = mGoogleMap.addMarker(markerOptions);
@@ -657,7 +597,6 @@ public class GoogleMapsActivity extends AppCompatActivity
         });
 
     }
-
 
 
 }
