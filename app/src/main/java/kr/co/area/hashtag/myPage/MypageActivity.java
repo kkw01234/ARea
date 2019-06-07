@@ -212,7 +212,6 @@ public class MypageActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MypageActivity.this, HomeActivity.class));
         finish();
     }
 

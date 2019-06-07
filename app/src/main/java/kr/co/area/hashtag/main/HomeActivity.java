@@ -129,11 +129,9 @@ public class HomeActivity extends AppCompatActivity
                 .apply(RequestOptions.circleCropTransform()).into(profile);
         profile.setOnClickListener((view) -> {
             startActivity(new Intent(activity, MypageActivity.class));
-            finish();
         });
         goMyPageImg.setOnClickListener((view) -> {
             startActivity(new Intent(activity, MypageActivity.class));
-            finish();
         });
 
         callPermission();  // 권한 요청
@@ -186,6 +184,22 @@ public class HomeActivity extends AppCompatActivity
     }
     //사용자의 위치 수신
 
+
+    @Override
+    public void onResume(){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        if (isFabOpen) {
+            map_button.startAnimation(fab_close);
+            AR_button.startAnimation(fab_close);
+            map_button.setClickable(false);
+            AR_button.setClickable(false);
+            isFabOpen = false;
+        }
+        super.onResume();
+    }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -215,11 +229,9 @@ public class HomeActivity extends AppCompatActivity
         switch (id) {
             case R.id.ar_search:
                 startActivity(new Intent(this, ARActivity.class));
-                finish();
                 break;
             case R.id.map_search:
                 startActivity(new Intent(this, GoogleMapsActivity.class));
-                finish();
                 break;
             case R.id.rec_path:
                 startActivity(new Intent(this, Recommend_change.class));
@@ -252,12 +264,10 @@ public class HomeActivity extends AppCompatActivity
             case R.id.map_Button:
                 anim();
                 startActivity(new Intent(this, GoogleMapsActivity.class));
-                finish();
                 break;
             case R.id.AR_Button:
                 anim();
                 startActivity(new Intent(this, ARActivity.class));
-                finish();
                 break;
         }
     }

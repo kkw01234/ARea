@@ -101,7 +101,6 @@ public class GoogleMapsActivity extends AppCompatActivity
     private Marker searchMarker = null;
     //뒤로가기
     public void onBackPressed() {
-        startActivity(new Intent(GoogleMapsActivity.this, HomeActivity.class));
         finish();
     }
 
@@ -303,7 +302,6 @@ public class GoogleMapsActivity extends AppCompatActivity
             Intent intent = new Intent(getBaseContext(), RestActivity.class);
             String id = (String)marker.getTag();
             intent.putExtra("id", id);
-            intent.putExtra("From", "Map");
             startActivity(intent);
         });
 

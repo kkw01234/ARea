@@ -115,7 +115,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     @Override
     public void onBackPressed() {
         releaseCamera();
-        startActivity(new Intent(ARActivity.this, HomeActivity.class));
         finish();
     }
 
@@ -303,7 +302,6 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     public void requestRestInfo(ARTouchPoint tp) {
         Intent intent = new Intent(this, RestActivity.class);
         intent.putExtra("id", tp.restID);
-        intent.putExtra("From", "AR");
         startActivity(intent);
     }
 
