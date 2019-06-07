@@ -1,4 +1,4 @@
-package kr.co.area.hashtag;
+package kr.co.area.hashtag.recommendation_path;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.main.RestActivity;
 
 public class Good_rec extends AppCompatActivity implements View.OnClickListener{

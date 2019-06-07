@@ -1,10 +1,11 @@
-package kr.co.area.hashtag;
+package kr.co.area.hashtag.recommendation_path;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.main.ListViewAdapter;
 
 public class New_rec extends AppCompatActivity {

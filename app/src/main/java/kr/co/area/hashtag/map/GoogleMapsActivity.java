@@ -137,7 +137,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         previous_marker = new ArrayList<>();
-
+        setupAutoCompleteFragment(mapFragment);
     }
 
 

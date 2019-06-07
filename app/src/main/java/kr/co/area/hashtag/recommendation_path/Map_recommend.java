@@ -1,4 +1,4 @@
-package kr.co.area.hashtag;
+package kr.co.area.hashtag.recommendation_path;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -17,11 +16,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
-
-import kr.co.area.hashtag.main.HomeActivity;
-import kr.co.area.hashtag.map.GoogleMapsActivity;
-import kr.co.area.hashtag.recommend.RecommendActivity;
+import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.Recommend_change;
 
 public class Map_recommend extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
