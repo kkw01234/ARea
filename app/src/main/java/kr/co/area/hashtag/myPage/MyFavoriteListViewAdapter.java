@@ -2,12 +2,12 @@ package kr.co.area.hashtag.myPage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,19 +17,20 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import kr.co.area.hashtag.R;
+import kr.co.area.hashtag.main.RestActivity;
 
-public class MyReviewListViewAdapter extends BaseAdapter {
-    private ArrayList<MyReviewListViewItem> items;
+public class MyFavoriteListViewAdapter extends BaseAdapter {
+    private ArrayList<MyFavoriteListViewItem> items;
     Activity activity;
 
-    public MyReviewListViewAdapter(Activity activity) {
+    public MyFavoriteListViewAdapter(Activity activity) {
         items = new ArrayList<>();
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return items.size() ;
+        return items.size();
     }
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
@@ -41,29 +42,33 @@ public class MyReviewListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.my_review_layout, parent, false);
+            convertView = inflater.inflate(R.layout.my_favorite_layout, parent, false);
         }
+        convertView.setTag(pos);
+        convertView.setOnClickListener((v) -> {
+            int index = (Integer) v.getTag();
+            MyFavoriteListViewItem item = items.get(index);
+            activity.startActivity(new Intent(activity, RestActivity.class).putExtra("id", item.getRestId()));
+        });
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         ImageView imageView = convertView.findViewById(R.id.my_review_img);
         TextView restNameView = convertView.findViewById(R.id.rest_name_value);
-        TextView contentView = convertView.findViewById(R.id.content_value);
-        TextView dateView = convertView.findViewById(R.id.date_value);
-        RatingBar ratingBar = convertView.findViewById(R.id.my_review_rating);
+        TextView addressView = convertView.findViewById(R.id.address_value);
+        TextView scoreView = convertView.findViewById(R.id.score_value);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        MyReviewListViewItem myReviewListViewItem = items.get(position);
+        MyFavoriteListViewItem myFavoriteListViewItem = items.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
 
-        String url = "http://118.220.3.71:13565/download_file?category=download_review_image&u_id=" + myReviewListViewItem.getImg();
+        String url = "http://118.220.3.71:13565/download_file?category=download_review_image&u_id=" + myFavoriteListViewItem.getImg() + "&google_id=x";
         Glide.with(activity).load(url).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(imageView);
-        restNameView.setText(myReviewListViewItem.getRestName());
-        contentView.setText(myReviewListViewItem.getContent());
-        ratingBar.setRating(myReviewListViewItem.getRate());
-        dateView.setText(myReviewListViewItem.getDate());
+        restNameView.setText(myFavoriteListViewItem.getRestName());
+        addressView.setText(myFavoriteListViewItem.getAddress());
+        scoreView.setText(myFavoriteListViewItem.getScore() + "점");
 
         return convertView;
     }
@@ -74,19 +79,22 @@ public class MyReviewListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) { return items.get(position) ;
+    public Object getItem(int position) {
+        return items.get(position);
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String img, String restName, String content, String rate, String date) {
-        MyReviewListViewItem item = new MyReviewListViewItem();
+    public void addItem(String img, String restId, String restName, String address, String score) {
+        MyFavoriteListViewItem item = new MyFavoriteListViewItem();
 
         item.setimg(img);
-        if (restName.length() > 6) restName = restName.substring(0, 6) + "..";
+        item.setRestId(restId);
+        if(restName.length() > 6) restName = restName.substring(0, 12) + "..";
         item.setRestName(restName);
-        item.setContent(content);
-        item.setRate(Float.parseFloat(rate));
-        item.setDate(date);
+        item.setAddress(address);
+        double sco = Double.parseDouble(score);
+        sco = Math.round(sco * 100) / 100.0;
+        item.setScore(Double.toString(sco));
 
         items.add(item);
     }

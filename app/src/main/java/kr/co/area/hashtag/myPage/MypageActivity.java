@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.ar.ARActivity;
+import kr.co.area.hashtag.asyncTask.GetAllFavoriteTask;
 import kr.co.area.hashtag.asyncTask.GetAllReviewByIdTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.UploadProfileImageTask;
@@ -64,7 +65,7 @@ public class MypageActivity extends AppCompatActivity
     ColorStateList oldColors;
     ListView listview;
     MyReviewListViewAdapter reviewAdapter;
-    MyReviewListViewAdapter likeAdapter;
+    MyFavoriteListViewAdapter favoriteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +140,9 @@ public class MypageActivity extends AppCompatActivity
             return false;
         });
         reviewAdapter = new MyReviewListViewAdapter(this);
+        favoriteAdapter = new MyFavoriteListViewAdapter(this);
 
-        try {
+        try { // 리뷰 받아오기
             String result = new GetAllReviewByIdTask(this).execute().get();
             JSONArray jsonArray = new JSONArray(result);
             int len = jsonArray.length();
@@ -159,6 +161,24 @@ public class MypageActivity extends AppCompatActivity
             e.printStackTrace();
         }
         listview.setAdapter(reviewAdapter);
+        try {
+            String result = new GetAllFavoriteTask(this).execute().get();
+            System.out.println(result);
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0 ; i < jsonArray.length() ; ++i) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String img = jsonObject.getString("img");
+                String rest_name = jsonObject.getString("rest_name");
+                String address = jsonObject.getString("address");
+                String score = jsonObject.getString("score");
+                String rest_id = jsonObject.getString("rest_id");
+
+                favoriteAdapter.addItem(img, rest_id, rest_name, address, score);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     View.OnClickListener tabClickListener = (v) -> {
@@ -187,7 +207,7 @@ public class MypageActivity extends AppCompatActivity
     }
 
     private void showRes() {
-        listview.setAdapter(likeAdapter);
+        listview.setAdapter(favoriteAdapter);
     }
 
     @Override

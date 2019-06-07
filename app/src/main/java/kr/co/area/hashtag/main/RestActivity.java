@@ -67,7 +67,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
     ListView reviewlist;
     RatingBar rating;
     String id = "";
-    String isFrom, restname;
+    String restname;
     Button about_btn, writebtn;
 
     private reviewListViewAdapter listadapter;
@@ -117,7 +117,6 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
             id = "error";
         } else {
             id = extra.getString("id");
-            isFrom = extra.getString("From");
         }
         writebtn = findViewById(R.id.evaluate_button);
         Place_nameView = findViewById(R.id.place_name);
@@ -214,17 +213,6 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
     //뒤로가기
     @Override
     public void onBackPressed() { // AR로부터 온 화면인지, 지도에서 온 화면인지...
-        switch (isFrom) {
-            case "AR":
-                startActivity(new Intent(this, ARActivity.class));
-                break;
-            case "HOME":
-                startActivity(new Intent(this, HomeActivity.class));
-                break;
-            case "MAP":
-                startActivity(new Intent(this, GoogleMapsActivity.class));
-                break;
-        }
         finish();
     }
 

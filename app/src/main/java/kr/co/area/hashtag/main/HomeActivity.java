@@ -417,7 +417,7 @@ public class HomeActivity extends AppCompatActivity
                 .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //500 미터 내에서 검색
+                .radius(200) //200 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();
