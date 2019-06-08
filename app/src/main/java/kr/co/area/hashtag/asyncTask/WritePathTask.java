@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -45,12 +47,14 @@ public class WritePathTask extends AsyncTask<Object,Void,String> {
         //제목, 사진, place, 설명
         String title = (String) objects[0];
         Bitmap bitmap = (Bitmap) objects[1];
+        System.out.println(bitmap.getRowBytes());
         ArrayList<PathPlace> pathPlaces = (ArrayList<PathPlace>) objects[2];
 
         String content = (String) objects[3];
-        attachmentFileName = title +Math.random()+".jpg";
+        attachmentFileName = title.replace(".", "") +(int)(Math.random()*100000)+".jpg";
+        System.out.println(attachmentFileName);
         try {
-            URL url = new URL("http://118.220.3.71:13565/create_review_with_image");
+            URL url = new URL("http://118.220.3.71:13565/upload_file");
             httpUrlConnection = (HttpURLConnection) url.openConnection();
             httpUrlConnection.setUseCaches(false);
             httpUrlConnection.setDoOutput(true);
@@ -70,20 +74,22 @@ public class WritePathTask extends AsyncTask<Object,Void,String> {
             request.writeBytes("upload_path" + this.crlf);
 
             request.writeBytes(this.twoHyphens + boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"google_id\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"title\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
-            request.writeBytes(title + this.crlf);
+            request.write(title.getBytes("UTF-8"));
+            request.writeBytes(this.crlf);
 
             request.writeBytes(this.twoHyphens + boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"review_content\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"content\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
             request.write(content.getBytes("UTF-8"));
             request.writeBytes(this.crlf);
 
             request.writeBytes(this.twoHyphens + boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"review_rate\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"path_places\"" + this.crlf);
             request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf + this.crlf);
-            request.writeBytes(pathPlaces + this.crlf);
+            request.write(new Gson().toJson(pathPlaces).getBytes("UTF-8"));
+            request.writeBytes(this.crlf);
 
             request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
             request.writeBytes("Content-Disposition: form-data; name=\"" +

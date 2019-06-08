@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Recommend_change">
+    tools:context=".recommendation_path.RecommendPathMainActivity">
 
 
     <Button
@@ -44,156 +44,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_tab">
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/favorite_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="167dp"
-                android:layout_height="205dp"
-                android:layout_marginRight="7dp"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/favorite1"
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/image3" />
-
-                <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="수원 감성카페" />
-
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="추천수 7" />
-
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="#생생정보통" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="7dp"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/favorite2"
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/image98" />
-
-                <TextView
-                    android:id="@+id/textView38"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="곱창 모음" />
-
-                <TextView
-                    android:id="@+id/textView39"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="추천수 20" />
-
-                <TextView
-                    android:id="@+id/textView40"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="#나혼자산다" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="162dp"
-                android:layout_height="202dp"
-                android:layout_marginRight="7dp"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/favorite3"
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/image1" />
-
-                <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="홍대 소품샵 모음" />
-
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="추천수 17" />
-
-                <TextView
-                    android:id="@+id/textView37"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="#맛있는 TV" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="162dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/favorite4"
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/list5" />
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="인천 빙수투어" />
-
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="추천수 28" />
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="#수요미식회" />
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
     </HorizontalScrollView>
 
     <TextView
@@ -255,6 +110,7 @@
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toEndOf="@+id/review_tab"
         app:layout_constraintTop_toTopOf="parent" />
+
     <!--</ScrollView>-->
 
 

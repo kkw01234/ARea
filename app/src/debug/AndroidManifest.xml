@@ -3,7 +3,7 @@
 
     <application>
         <activity android:name="kr.co.area.hashtag.Recommend_write"></activity>
-        <activity android:name="kr.co.area.hashtag.Recommend_change" />
+        <activity android:name="kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity" />
     </application>
 
 </manifest>

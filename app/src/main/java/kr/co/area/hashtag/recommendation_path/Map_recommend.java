@@ -17,10 +17,11 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import kr.co.area.hashtag.R;
-import kr.co.area.hashtag.Recommend_change;
 
 public class Map_recommend extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+
+    //자세한 정보를 나타내느
     // 구글 맵 참조변수 생성
     GoogleMap mMap;
 
@@ -107,7 +108,7 @@ public class Map_recommend extends FragmentActivity implements OnMapReadyCallbac
 
 
     public void onBackPressed() {
-        startActivity(new Intent(Map_recommend.this, Recommend_change.class));
+        startActivity(new Intent(Map_recommend.this, RecommendPathMainActivity.class));
         finish();
     }
 
