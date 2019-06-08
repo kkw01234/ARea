@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import kr.co.area.hashtag.Good_rec;
-import kr.co.area.hashtag.Map_recommend;
-import kr.co.area.hashtag.New_rec;
+import kr.co.area.hashtag.recommendation_path.Good_rec;
+import kr.co.area.hashtag.recommendation_path.Map_recommend;
+import kr.co.area.hashtag.recommendation_path.New_rec;
 import kr.co.area.hashtag.main.HomeActivity;
 import kr.co.area.hashtag.R;
 

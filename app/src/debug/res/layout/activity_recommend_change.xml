@@ -7,12 +7,23 @@
     tools:context=".Recommend_change">
 
 
+    <Button
+        android:id="@+id/writepathbuttion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="추천경로 작성"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/review_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:text="인기순"
         android:textColor="@color/colorPrimary"
@@ -21,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.023"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Mypick" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -58,6 +69,7 @@
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/image3" />
+
                 <TextView
                     android:id="@+id/textView32"
                     android:layout_width="match_parent"
@@ -236,16 +248,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="나만의 목록"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/writepathbuttion"
+        app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toEndOf="@+id/review_tab"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
     <!--</ScrollView>-->
 
 

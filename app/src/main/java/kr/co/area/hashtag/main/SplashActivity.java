@@ -99,8 +99,6 @@ public class SplashActivity extends Activity { // 로고를 띄우면서, 주변
         else intent = new Intent(this, LoginActivity.class);
         intent.putExtra("lat", 37.56);
         intent.putExtra("lng", 126.97);
-//        intent.putExtra("lat", lat);
-//        intent.putExtra("lng", lng);
         startActivity(intent);
         finish();
     }

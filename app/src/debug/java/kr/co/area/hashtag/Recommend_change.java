@@ -5,18 +5,16 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import kr.co.area.hashtag.main.ListViewAdapter;
-import kr.co.area.hashtag.main.ListViewItem;
-import kr.co.area.hashtag.main.RestActivity;
 import kr.co.area.hashtag.recommend.Recommendlist_adapter;
 import kr.co.area.hashtag.recommend.Recommendlist_item;
+import kr.co.area.hashtag.recommendation_path.Map_recommend;
+import kr.co.area.hashtag.recommendation_path.WriteRecommendPathActivity;
 
 public class Recommend_change extends AppCompatActivity {
 
@@ -35,9 +33,9 @@ public class Recommend_change extends AppCompatActivity {
                 MapRcommendAction();
             }
         });
-
-        Button recwrite = (Button)findViewById(R.id.Mypick);
-        recwrite.setOnClickListener(new View.OnClickListener() {
+        Button writePathButton = findViewById(R.id.writepathbuttion);
+        Button mypick = (Button)findViewById(R.id.Mypick);
+        mypick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -45,6 +43,12 @@ public class Recommend_change extends AppCompatActivity {
                         getApplicationContext(), Recommend_write.class); // 다음 넘어갈 클래스 지정
                 startActivity(intent); // 다음 화면으로 넘어가기
             }
+        });
+
+        //작성버튼으로 넘어가는 곳
+        writePathButton.setOnClickListener((v)->{
+            Intent intent = new Intent(getApplicationContext(), WriteRecommendPathActivity.class);
+            startActivity(intent);
         });
 
         // Adapter 생성

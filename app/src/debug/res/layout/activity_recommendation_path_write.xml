@@ -13,52 +13,20 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/wirtetext2"
+        app:layout_constraintEnd_toEndOf="@+id/writecontent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Map_move">
+        app:layout_constraintTop_toBottomOf="@+id/loadmap">
 
         <LinearLayout
-            android:id="@+id/linearLayout11"
+            android:id="@+id/writescroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1.한방통닭"
-                android:textSize="23dp" />
-
-
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2. 오마일"
-                android:textSize="23dp" />
-
-
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="3. 패션5"
-                android:textSize="23dp" />
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="4. 오세영식당"
-                android:textSize="23dp" />
-
-
         </LinearLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/writebtn2"
+        android:id="@+id/writepathbutton"
         android:layout_width="0dp"
         android:layout_height="62dp"
         android:layout_marginTop="8dp"
@@ -70,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wirtetext2"
+        app:layout_constraintTop_toBottomOf="@+id/writecontent"
         app:layout_constraintVertical_bias="0.84" />
 
     <View
@@ -86,7 +54,7 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/wirtetext2"
+        android:id="@+id/writecontent"
         android:layout_width="334dp"
         android:layout_height="119dp"
         android:layout_marginStart="8dp"
@@ -95,10 +63,10 @@
         android:hint="문구입력..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview4" />
+        app:layout_constraintTop_toBottomOf="@+id/writecontent0" />
 
     <TextView
-        android:id="@+id/textview2"
+        android:id="@+id/writepicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -109,10 +77,10 @@
         app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rec_title" />
+        app:layout_constraintTop_toBottomOf="@+id/writetitle" />
 
     <TextView
-        android:id="@+id/textview5"
+        android:id="@+id/writelocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -125,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view7" />
 
     <TextView
-        android:id="@+id/textview4"
+        android:id="@+id/writecontent0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -139,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
     <TextView
-        android:id="@+id/rec_title"
+        android:id="@+id/writetitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -150,10 +118,10 @@
         app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview3" />
+        app:layout_constraintTop_toBottomOf="@+id/writepath" />
 
     <TextView
-        android:id="@+id/textview3"
+        android:id="@+id/writepath"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -166,7 +134,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/Map_move"
+        android:id="@+id/loadmap"
         android:layout_width="45dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -175,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
 
-        app:layout_constraintStart_toEndOf="@+id/textview5"
+        app:layout_constraintStart_toEndOf="@+id/writelocation"
         app:layout_constraintTop_toBottomOf="@+id/view7"
         app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
@@ -190,12 +158,12 @@
         android:onClick="loadImagefromGallery2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textview2"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintStart_toEndOf="@+id/writepicture"
+        app:layout_constraintTop_toBottomOf="@+id/pathname"
         app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/pathname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -206,9 +174,9 @@
         android:onClick="loadImagefromGallery"
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toEndOf="@+id/rec_title"
-        app:layout_constraintTop_toBottomOf="@+id/textview3" /><![CDATA[
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toEndOf="@+id/writetitle"
+        app:layout_constraintTop_toBottomOf="@+id/writepath" /><![CDATA[
 
 
         android:id="@+id/linearLayout10"
