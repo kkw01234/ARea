@@ -129,7 +129,6 @@ public class HomeActivity extends AppCompatActivity
         });
 
         callPermission();  // 권한 요청
-        callPermission();  // 권한 요청
 
         Intent intent = getIntent();
         posInfo = findViewById(R.id.pos_info);
@@ -139,7 +138,8 @@ public class HomeActivity extends AppCompatActivity
         currentPosition = new LatLng(lat, lng);
         posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
 
-        showPlaceInformation(currentPosition);
+        if(currentPosition != null)
+            showPlaceInformation(currentPosition);
 
         mListView = findViewById(R.id.morelist);
         mListView.setOnTouchListener((v, event) -> {
