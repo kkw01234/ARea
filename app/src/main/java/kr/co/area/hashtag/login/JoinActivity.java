@@ -76,6 +76,7 @@ public class JoinActivity extends Activity {
         checkBtn.setOnClickListener(btnListener);
         joinButton.setOnClickListener(btnListener);
         checkName.setOnClickListener(btnListener);
+        checkMail.setOnClickListener(btnListener);
         joinMail.setImeOptions(EditorInfo.IME_ACTION_DONE);
         joinMail.setOnEditorActionListener((v, actionId, event) ->
         {
@@ -168,7 +169,7 @@ public class JoinActivity extends Activity {
                 }
                 break;
             case R.id.mailcheckbtn: //메일중복 버튼을 눌렀을때
-                String checkMail = joinname.getText().toString();
+                String checkMail = joinMail.getText().toString();
                 if (checkMail.equals("")) {
                     Toast.makeText(JoinActivity.this, "메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     joinMail.setFocusableInTouchMode(true);

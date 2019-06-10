@@ -25,7 +25,6 @@
         <activity android:name=".recommendation_path.WritePathMapActivity"></activity>
         <activity android:name=".recommendation_path.Good_rec" />
         <activity android:name=".recommendation_path.Map_recommend" />
-        <activity android:name=".recommendation_path.New_rec" />
         <activity
             android:name=".main.HomeActivity"
             android:label="@string/title_activity_home"
@@ -36,9 +35,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".recommend.DetailRecommendActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".recommend.RecommendActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".write.MyReviewActivity"

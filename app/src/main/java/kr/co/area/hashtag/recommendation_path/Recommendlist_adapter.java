@@ -1,4 +1,4 @@
-package kr.co.area.hashtag.recommend;
+package kr.co.area.hashtag.recommendation_path;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ import kr.co.area.hashtag.R;
 
 public class Recommendlist_adapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<Recommendlist_item> listViewItemList = new ArrayList<Recommendlist_item>() ;
+    private ArrayList<Recommendlist_item> listViewItemList = new ArrayList<>() ;
 
     // ListViewAdapter의 생성자
     public Recommendlist_adapter() {

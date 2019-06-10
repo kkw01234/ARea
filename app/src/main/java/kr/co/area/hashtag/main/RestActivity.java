@@ -1,10 +1,7 @@
 package kr.co.area.hashtag.main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,27 +11,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,7 +36,7 @@ import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.myPage.MypageActivity;
-import kr.co.area.hashtag.recommend.RecommendActivity;
+import kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity;
 import kr.co.area.hashtag.write.WriteReviewActivity;
 
 public class RestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -294,7 +282,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.rec_path:
-                startActivity(new Intent(this, RecommendActivity.class));
+                startActivity(new Intent(this, RecommendPathMainActivity.class));
                 break;
             case R.id.logout:
                 logout();

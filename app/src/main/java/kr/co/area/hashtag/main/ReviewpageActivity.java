@@ -3,7 +3,6 @@ package kr.co.area.hashtag.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,12 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,7 +31,7 @@ import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.myPage.MypageActivity;
-import kr.co.area.hashtag.recommend.RecommendActivity;
+import kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity;
 
 public class ReviewpageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
@@ -151,7 +146,7 @@ public class ReviewpageActivity extends AppCompatActivity implements NavigationV
                 finish();
                 break;
             case R.id.rec_path:
-                startActivity(new Intent(this, RecommendActivity.class));
+                startActivity(new Intent(this, RecommendPathMainActivity.class));
                 break;
             case R.id.logout:
                 logout();

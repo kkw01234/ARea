@@ -2,7 +2,6 @@ package kr.co.area.hashtag.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,9 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,14 +20,12 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import kr.co.area.hashtag.Recommend_change;
+import kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
@@ -52,17 +47,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, PlacesListener {
@@ -135,7 +127,6 @@ public class HomeActivity extends AppCompatActivity
         });
 
         callPermission();  // 권한 요청
-        callPermission();  // 권한 요청
 
         Intent intent = getIntent();
         posInfo = findViewById(R.id.pos_info);
@@ -145,7 +136,8 @@ public class HomeActivity extends AppCompatActivity
         currentPosition = new LatLng(lat, lng);
         posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
 
-        showPlaceInformation(currentPosition);
+        if(currentPosition != null)
+            showPlaceInformation(currentPosition);
 
         mListView = findViewById(R.id.morelist);
         mListView.setOnTouchListener((v, event) -> {
@@ -234,7 +226,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(new Intent(this, GoogleMapsActivity.class));
                 break;
             case R.id.rec_path:
-                startActivity(new Intent(this, Recommend_change.class));
+                startActivity(new Intent(this, RecommendPathMainActivity.class));
                 break;
             case R.id.logout:
                 logout();

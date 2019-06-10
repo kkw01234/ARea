@@ -34,7 +34,7 @@ import kr.co.area.hashtag.asyncTask.CheckNameTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
-import kr.co.area.hashtag.recommend.RecommendActivity;
+import kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity;
 
 public class ChangeMypageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -220,7 +220,7 @@ public class ChangeMypageActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.rec_path:
-                startActivity(new Intent(this, RecommendActivity.class));
+                startActivity(new Intent(this, RecommendPathMainActivity.class));
                 break;
             case R.id.logout:
                 logout();
