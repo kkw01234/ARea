@@ -22,7 +22,6 @@ public class MyReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_written);
-        Button btn2 = findViewById(R.id.button6);
 
         Intent intent = getIntent();
         String review_id = intent.getStringExtra("review_id");
@@ -43,19 +42,11 @@ public class MyReviewActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.viewText);
         RatingBar ratingBar = findViewById(R.id.ratingBar1);
         ImageView imageView = findViewById(R.id.imageView1);
-        TextView adView = findViewById(R.id.adView);
 
         textView.setText(WriteReviewActivity.reviewText);
         ratingBar.setRating(WriteReviewActivity.reviewPoint);
-        adView.setText(WriteReviewActivity.reviewAddress);
         imageView.setImageBitmap(WriteReviewActivity.scaled);
 
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              finish(); //이전으로 되돌아갈때는 Intent로 옮기면 안되고 finish()로 해주면 됩니다.
-            }
-        });
     }
 
     //뒤로가기
