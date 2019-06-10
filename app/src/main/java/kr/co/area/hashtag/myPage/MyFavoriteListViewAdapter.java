@@ -89,7 +89,7 @@ public class MyFavoriteListViewAdapter extends BaseAdapter {
 
         item.setimg(img);
         item.setRestId(restId);
-        if(restName.length() > 6) restName = restName.substring(0, 12) + "..";
+        if(restName.length() > 12) restName = restName.substring(0, 12) + "..";
         item.setRestName(restName);
         item.setAddress(address);
         double sco = Double.parseDouble(score);
