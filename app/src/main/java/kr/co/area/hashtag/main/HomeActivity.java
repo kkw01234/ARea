@@ -249,6 +249,7 @@ public class HomeActivity extends AppCompatActivity
     private void logout() {
         try {
             new LogoutTask(activity).execute().get();
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
         }
