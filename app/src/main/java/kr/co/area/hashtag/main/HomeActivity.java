@@ -367,10 +367,10 @@ public class HomeActivity extends AppCompatActivity
             Log.i("GetPlace", result);
 
             JSONObject jsonObject = new JSONObject(result);
-            String img = jsonObject.getString("img");
+            String img = jsonObject.getString("rest_image");
             String rest_name = jsonObject.getString("rest_name");
-            String address = jsonObject.getString("address");
-            String score = jsonObject.getString("score");
+            String address = jsonObject.getString("rest_address");
+            String score = jsonObject.getString("rest_point");
             String rest_id = jsonObject.getString("rest_id");
 
             adapter.addItem(img, rest_id, rest_name, address, score);
@@ -443,7 +443,7 @@ public class HomeActivity extends AppCompatActivity
                 .listener(this)
                 .key(getResources().getString(R.string.google_maps_key))
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(200) //200 미터 내에서 검색
+                .radius(500) //200 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .build()
                 .execute();

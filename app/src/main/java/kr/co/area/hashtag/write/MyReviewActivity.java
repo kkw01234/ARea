@@ -3,8 +3,6 @@ package kr.co.area.hashtag.write;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -41,7 +39,7 @@ public class MyReviewActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.viewText);
         RatingBar ratingBar = findViewById(R.id.ratingBar1);
-        ImageView imageView = findViewById(R.id.imageView1);
+        ImageView imageView = findViewById(R.id.favorite_imageView);
 
         textView.setText(WriteReviewActivity.reviewText);
         ratingBar.setRating(WriteReviewActivity.reviewPoint);
