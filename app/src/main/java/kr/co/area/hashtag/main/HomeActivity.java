@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import kr.co.area.hashtag.myPage.MyFavoriteListViewAdapter;
 import kr.co.area.hashtag.recommendation_path.RecommendPathMainActivity;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
 import kr.co.area.hashtag.login.LoginActivity;
@@ -51,6 +52,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -81,11 +84,13 @@ public class HomeActivity extends AppCompatActivity
 
     // GPSTracker class
     private GpsInfo gps;
+    private ImageView refreshImage;
     double lat, lng;
     LatLng currentPosition;
 
+
     private ListView mListView;
-    private ListViewAdapter adapter;
+    private MyFavoriteListViewAdapter adapter;
     private int count;
 
 
@@ -126,19 +131,6 @@ public class HomeActivity extends AppCompatActivity
             startActivity(new Intent(activity, MypageActivity.class));
         });
 
-        callPermission();  // 권한 요청
-
-        Intent intent = getIntent();
-        posInfo = findViewById(R.id.pos_info);
-        lat = intent.getDoubleExtra("lat", 0);
-        lng = intent.getDoubleExtra("lng", 0);
-        if (lat == 0 && lng == 0) position(); // 값을 받아오지 못한 경우
-        currentPosition = new LatLng(lat, lng);
-        posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
-
-        if(currentPosition != null)
-            showPlaceInformation(currentPosition);
-
         mListView = findViewById(R.id.morelist);
         mListView.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -146,7 +138,7 @@ public class HomeActivity extends AppCompatActivity
         });
 
         // Adapter 생성
-        adapter = new ListViewAdapter();
+        adapter = new MyFavoriteListViewAdapter(this);
 
         // 리스트뷰 참조 및 Adapter달기
         mListView.setAdapter(adapter);
@@ -162,6 +154,19 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
+        callPermission();  // 권한 요청
+
+        Intent intent = getIntent();
+        posInfo = findViewById(R.id.pos_info);
+        lat = intent.getDoubleExtra("lat", 0);
+        lng = intent.getDoubleExtra("lng", 0);
+        if (lat == 0 && lng == 0) position(); // 값을 받아오지 못한 경우
+        currentPosition = new LatLng(lat, lng);
+        posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
+
+        if(currentPosition != null)
+            showPlaceInformation(currentPosition);
+
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -173,9 +178,14 @@ public class HomeActivity extends AppCompatActivity
         map_button.setOnClickListener(this);
         AR_button.setOnClickListener(this);
 
+        refreshImage = findViewById(R.id.refreshImage);
+        refreshImage.setOnClickListener((v) -> {
+            callPermission();
+            clickRefresh();
+        });
+
     }
     //사용자의 위치 수신
-
 
     @Override
     public void onResume(){
@@ -281,6 +291,15 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+
+    private void clickRefresh(){
+        Toast.makeText(this, "주소를 새로 받습니다.", Toast.LENGTH_LONG).show();
+        position();
+        currentPosition = new LatLng(lat, lng);
+        posInfo.setText(getCurrentAddress(currentPosition).get(0).getAddressLine(0));
+        showPlaceInformation(currentPosition);
+    }
+
     public void position() {
         // 권한 요청을 해야 함
         if (!isPermission) {
@@ -346,11 +365,15 @@ public class HomeActivity extends AppCompatActivity
         try {
             String result = new PlaceTask(this).execute(id).get();
             Log.i("GetPlace", result);
-            JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(result);
-            JsonElement name = obj.get("rest_name"); // 레스토랑 이름
-            JsonElement addr = obj.get("rest_address"); // 레스토랑 주소
-            adapter.addItem(null, name.getAsString(), addr.getAsString(), id);
+
+            JSONObject jsonObject = new JSONObject(result);
+            String img = jsonObject.getString("img");
+            String rest_name = jsonObject.getString("rest_name");
+            String address = jsonObject.getString("address");
+            String score = jsonObject.getString("score");
+            String rest_id = jsonObject.getString("rest_id");
+
+            adapter.addItem(img, rest_id, rest_name, address, score);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
@@ -396,6 +419,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onPlacesStart() {
+        adapter.clearList();
     }
 
     @Override

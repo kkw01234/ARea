@@ -24,7 +24,7 @@ import kr.co.area.hashtag.asyncTask.LogoutTask;
 public class LoginActivity extends Activity {
     EditText userId, userPwd;
     TextView autoLoginInfo;
-    Button loginBtn, joinBtn, logoutBtn;
+    Button loginBtn, joinBtn;
     Switch autoLogin;
     boolean isAuto;
     Activity activity;
@@ -41,7 +41,6 @@ public class LoginActivity extends Activity {
         userPwd = findViewById(R.id.userPwd);
         loginBtn = findViewById(R.id.loginBtn);
         joinBtn = findViewById(R.id.joinBtn);
-        logoutBtn = findViewById(R.id.logoutBtn);
         autoLogin = findViewById(R.id.autoLogin);
         autoLoginInfo = findViewById(R.id.autoLoginInfo);
         autoLogin.setOnCheckedChangeListener((c, b) -> {
@@ -52,7 +51,6 @@ public class LoginActivity extends Activity {
         autoLogin.setChecked(true);
         loginBtn.setOnClickListener(btnListener);
         joinBtn.setOnClickListener(btnListener);
-        logoutBtn.setOnClickListener(btnListener);
         userPwd.setImeOptions(EditorInfo.IME_ACTION_DONE);
         userPwd.setOnEditorActionListener((v, actionId, event) ->
         {
@@ -62,6 +60,7 @@ public class LoginActivity extends Activity {
             }
             return false;
         });
+        logout();
     }
 
     View.OnClickListener btnListener = (view) -> {
@@ -72,10 +71,6 @@ public class LoginActivity extends Activity {
             case R.id.loginBtn: // 로그인 버튼 눌렀을 경우
                 login();
                 break;
-            case R.id.logoutBtn:
-                logout();
-                break;
-
         }
     };
 

@@ -41,7 +41,7 @@ public class AROverlayView extends View implements PlacesListener {
     public AROverlayView(Activity activity, int meter) {
         super(activity);
         this.activity = (ARActivity) activity;
-        bmp = scaleDown(BitmapFactory.decodeResource(getResources(), R.drawable.ar_rest), 200, true); // 이미지 축소시키기
+        bmp = scaleDown(BitmapFactory.decodeResource(getResources(), R.drawable.ar_rest), 250, true); // 이미지 축소시키기
         arPoints = new ArrayList<>();
         arTouchPoints = new ArrayList<>();
         this.meter = meter;
@@ -143,13 +143,16 @@ public class AROverlayView extends View implements PlacesListener {
             return; // 그리지 않는다
         }
 
+        Paint.FontMetrics fm = new Paint.FontMetrics();
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // 마커 글자 스타일 설정 위한 paint
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         paint.setTextSize(50);
+        paint.getFontMetrics(fm);
+        int margin = 10;
         arTouchPoints.clear(); // 터치 리셋
-
+        int bmpHeight = bmp.getHeight() / 4 * 3;
         for (int i = 0; i < arPoints.size(); i++) { //  각각을 계산해서 현재 화면에 맞게 그려주기
             ARPoint arPoint = arPoints.get(i);
             arPoint.getLocation().setAltitude(currentLocation.getAltitude());
@@ -168,11 +171,12 @@ public class AROverlayView extends View implements PlacesListener {
 
                 canvas.drawBitmap(bmp, x - bmp.getWidth() / 2, y - bmp.getHeight() / 2, null); // 식당 아이콘과
                 String name = arPoint.getName();
-                if(name.length() > 5) name = name.substring(0, 4) + "..";
 
-                canvas.drawText(name, x - 20 * name.length(), y + bmp.getHeight() / 2 + 50, paint); // 식당 이름을 그린다
-
-                arTouchPoints.add(new ARTouchPoint(arPoint.getID(), x - bmp.getWidth() / 2, y - bmp.getHeight() / 2)); // 터치 포인트 추가
+                paint.setColor(Color.BLACK);
+                canvas.drawRect(x - margin - paint.measureText(name) / 2, y + fm.top - margin + bmpHeight , x + paint.measureText(name) / 2 + margin, y + fm.bottom + margin + bmpHeight, paint);
+                paint.setColor(Color.WHITE);
+                canvas.drawText(name, x - paint.measureText(name) / 2, y + bmpHeight, paint); // 식당 이름을 그린다
+                arTouchPoints.add(new ARTouchPoint(arPoint.getID(), x - bmp.getWidth() / 2, y + bmp.getHeight() / 2)); // 터치 포인트 추가
             }
         }
     }

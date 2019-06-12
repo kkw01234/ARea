@@ -53,27 +53,16 @@
         app:layout_constraintTop_toBottomOf="@+id/userPwd" />
 
     <Button
-        android:id="@+id/logoutBtn"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:text="@string/logout"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinBtn" />
-
-    <Button
         android:id="@+id/joinBtn"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/signup"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,14 +71,14 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/signin"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

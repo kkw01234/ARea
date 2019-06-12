@@ -28,6 +28,10 @@ public class MyFavoriteListViewAdapter extends BaseAdapter {
         this.activity = activity;
     }
 
+    public void clearList(){
+        items.clear();
+    }
+
     @Override
     public int getCount() {
         return items.size();

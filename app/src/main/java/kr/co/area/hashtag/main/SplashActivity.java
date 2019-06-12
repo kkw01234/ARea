@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 
 import org.json.JSONObject;
 
+import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.asyncTask.LoginTask;
 
