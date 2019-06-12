@@ -113,12 +113,12 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
-                startActivity(intent);
-            }
+                @Override
+                public void onItemClick(AdapterView parent, View v, int position, long id) {
+                    Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(getApplicationContext(), MapRecommendActivity.class);
+                    startActivity(intent);
+                }
         });
     }
 
@@ -130,7 +130,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
     }
 
     public void MapRcommendAction() {
-        Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
+        Intent intent = new Intent(getApplicationContext(), MapRecommendActivity.class);
         startActivity(intent);
     }
 

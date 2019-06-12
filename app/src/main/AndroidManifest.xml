@@ -24,7 +24,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".recommendation_path.WritePathMapActivity"></activity>
         <activity android:name=".recommendation_path.Good_rec" />
-        <activity android:name=".recommendation_path.Map_recommend" />
+        <activity android:name=".recommendation_path.MapRecommendActivity" />
         <activity
             android:name=".main.HomeActivity"
             android:label="@string/title_activity_home"
