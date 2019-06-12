@@ -1,117 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recommendation_path.RecommendPathMainActivity">
-
-
-    <Button
-        android:id="@+id/writepathbuttion"
-        android:layout_width="wrap_content"
+    android:fitsSystemWindows="true">
+    <!-- main layout-->
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="추천경로 작성"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#fff">
 
-    <TextView
-        android:id="@+id/review_tab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="인기순"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Mypick" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeToolbar"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:titleTextColor="@color/cardview_dark_background">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="408dp"
-        android:layout_height="228dp"
-        android:fadeScrollbars="false"
-        android:scrollbarSize="7dp"
-        android:scrollbarStyle="outsideInset"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/review_tab">
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="222dp"
+                android:layout_height="53dp"
+                app:srcCompat="@drawable/logo1" />
+        </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/favorite_view"
-            android:layout_width="wrap_content"
+
+        <View
+            android:id="@+id/toolbar_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="-2dp"
+            android:background="@color/colorPrimaryDark" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
-    </HorizontalScrollView>
+            android:layout_below="@id/toolbar_bottom"
+            tools:context=".recommendation_path.RecommendPathMainActivity">
 
-    <TextView
-        android:id="@+id/res_tab"
+
+            <Button
+                android:id="@+id/writepathbuttion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="#FFFFFFFF"
+                android:drawableStart="@drawable/ic_edit_black_24dp"
+                android:text="경로 작성"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/review_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="7dp"
+                android:text="인기순"
+                android:textColor="@color/colorPrimary"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/favorite_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/review_tab" />
+
+            <TextView
+                android:id="@+id/res_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="최신순"
+                android:textColor="@color/colorPrimary"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favorite_view" />
+
+            <!--<ScrollView-->
+            <!--android:id="@+id/scrollView3"-->
+            <!--android:layout_width="402dp"-->
+            <!--android:layout_height="356dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:fadeScrollbars="false"-->
+            <!--android:fillViewport="true"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="1.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/res_tab">-->
+
+
+            <ListView
+                android:id="@+id/recent_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/res_tab" />
+
+            <Button
+                android:id="@+id/Mypick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFFFFFFF"
+                android:text="나만의 목록"
+                app:layout_constraintEnd_toStartOf="@+id/writepathbuttion"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--</ScrollView>-->
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+    <!--navigation drawer-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="344dp"
-        android:text="최신순"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"
+        app:theme="@style/NavigationDrawerStyle" />
 
-    <!--<ScrollView-->
-        <!--android:id="@+id/scrollView3"-->
-        <!--android:layout_width="402dp"-->
-        <!--android:layout_height="356dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:fadeScrollbars="false"-->
-        <!--android:fillViewport="true"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="1.0"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/res_tab">-->
-
-
-    <ListView
-        android:id="@+id/listview1"
-        android:layout_width="380dp"
-        android:layout_height="303dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/res_tab"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/Mypick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:text="나만의 목록"
-        app:layout_constraintEnd_toStartOf="@+id/writepathbuttion"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toEndOf="@+id/review_tab"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--</ScrollView>-->
-
-
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.DrawerLayout>

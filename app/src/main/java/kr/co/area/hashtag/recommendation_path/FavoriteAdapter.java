@@ -27,6 +27,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public FavoriteAdapter(Activity activity){
         this.activity= activity;
     }
+
     public FavoriteAdapter(ArrayList<Recommendlist_item> favoriteAdapters, Activity activity){
         this.holders = favoriteAdapters;
     }
