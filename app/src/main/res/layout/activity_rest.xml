@@ -346,8 +346,8 @@
 
                         <TextView
                             android:id="@+id/myscorepoint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="160dp"
+                            android:layout_height="36dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginBottom="4dp"
                             android:text="나와 98% 일치"

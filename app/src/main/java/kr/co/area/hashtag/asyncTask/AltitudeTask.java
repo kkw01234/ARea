@@ -29,7 +29,7 @@ public class AltitudeTask extends AsyncTask<String, Void, String> {
         params.add(new Parameter("key", activity.getResources().getString(R.string.google_maps_key)));
         RequestHttpURLConnection rc = new RequestHttpURLConnection();
         StringBuffer response = new StringBuffer();
-        int result = rc.GetHttpToServer(url, params, response);
+        int result = rc.GetHttpToServer(url, params, response,"GET");
 
         JsonParser parser = new JsonParser();
         JsonObject obj = (JsonObject) parser.parse(response.toString());

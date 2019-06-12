@@ -149,7 +149,7 @@ public class RequestHttpURLConnection {
         }
     }
 
-    public int GetHttpToServer(String _url,List<Parameter> params ,StringBuffer response){ //Rest API 사용하고 싶을 때 //Json구조로 Return이 됨
+    public int GetHttpToServer(String _url,List<Parameter> params ,StringBuffer response,String getorPost){ //Rest API 사용하고 싶을 때 //Json구조로 Return이 됨
         try{
             StringBuilder builder = new StringBuilder(_url);
             builder.append("?");
@@ -168,7 +168,7 @@ public class RequestHttpURLConnection {
             URL url = new URL(builder.toString());
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod(getorPost);
             int resonseCode = conn.getResponseCode();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));

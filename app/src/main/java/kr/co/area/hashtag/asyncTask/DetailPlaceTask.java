@@ -24,7 +24,7 @@ public class DetailPlaceTask extends AsyncTask<String, Void, String> {
         params.add(new Parameter("placeid",strings[0]));
         params.add(new Parameter("key",activity.getResources().getString(R.string.google_maps_key)));
         StringBuffer builder = new StringBuffer();
-        int result = conn.GetHttpToServer(url, params,builder);
+        int result = conn.GetHttpToServer(url, params,builder,"GET");
         System.out.println(result);
         return builder.toString();
 
