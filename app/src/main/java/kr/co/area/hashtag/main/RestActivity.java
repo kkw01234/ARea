@@ -54,7 +54,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
     ImageView wordcloud, restImage;
     ListView reviewlist;
     RatingBar rating;
-    String id = "";
+    String id = "", userId = "";
     String restname;
     Button about_btn, writebtn;
 
@@ -84,7 +84,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
         goMyPageImg = headerView.findViewById(R.id.go_mypage_img);
         profile = headerView.findViewById(R.id.profileView);
         userHi.setText(user.getString("userName", "???") + " 님,");
-        String userId = user.getString("userId", null);
+        userId = user.getString("userId", null);
         String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
@@ -120,28 +120,8 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
         reviewPoint = findViewById(R.id.reviewscore);
         rating = findViewById(R.id.agstar);
         restImage = findViewById(R.id.rest_image);
-
-        getPlace(id);
-
-
         wordcloud = findViewById(R.id.wordcloudimg);
-        String cloudImg = "http://118.220.3.71:13565/download_file?category=load_wordcloud&u_id=" + userId + "&google_id=" + id;
-        Glide.with(this).load(cloudImg).apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .into(wordcloud);
         reviewlist = findViewById(R.id.reviewList);
-
-        //날짜
-//        TextView date = findViewById(R.id.update);
-//        date.setText(+ "기준");
-
-        // Adapter 생성
-        listadapter = new reviewListViewAdapter(this);
-
-        getReviews();
-        // 리스트뷰 참조 및 Adapter달기
-        reviewlist.setAdapter(listadapter);
-        setListViewHeightBasedOnChildren(reviewlist);
 
         moreReview.setOnClickListener((v) -> {
             startActivity(new Intent(this, ReviewpageActivity.class).putExtra("rest_id", id).putExtra("rest_name", restname));
@@ -169,6 +149,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
             about_btn.setSelected(islike);
         });    //버튼 터치시 이벤트
 
+        setInform();
     }
 
     View.OnClickListener headListener = (view) -> {
@@ -180,6 +161,22 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
 
         }
     };
+
+    private void setInform() {
+        getPlace(id);
+
+        String cloudImg = "http://118.220.3.71:13565/download_file?category=load_wordcloud&u_id=" + userId + "&google_id=" + id;
+        Glide.with(this).load(cloudImg).apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .into(wordcloud);
+
+        // Adapter 생성
+        listadapter = new reviewListViewAdapter(this);
+        getReviews();
+        // 리스트뷰 참조 및 Adapter달기
+        reviewlist.setAdapter(listadapter);
+        setListViewHeightBasedOnChildren(reviewlist);
+    }
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
         int totalHeight = 0;
@@ -197,6 +194,11 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
         listView.requestLayout();
     }
 
+    @Override
+    public void onResume(){
+        setInform();
+        super.onResume();
+    }
 
     //뒤로가기
     @Override
