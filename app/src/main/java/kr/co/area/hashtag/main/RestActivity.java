@@ -171,7 +171,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
             }
             about_btn.setSelected(islike);
         });    //버튼 터치시 이벤트
-
+        similarAnalysis();
     }
 
     View.OnClickListener headListener = (view) -> {
