@@ -287,7 +287,7 @@
                         android:paddingTop="3dp"
                         android:paddingRight="8dp"
                         android:paddingBottom="3dp"
-                        android:text="더보기"
+                        android:text="정보 더보기"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/place_autocomplete_prediction_secondary_text"
                         android:textSize="14sp"
@@ -399,7 +399,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text="더보기"
+                        android:text="리뷰 더보기"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/view7" />

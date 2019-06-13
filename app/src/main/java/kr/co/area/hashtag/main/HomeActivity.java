@@ -99,7 +99,6 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         activity = this;
-        count = 0;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -149,7 +148,6 @@ public class HomeActivity extends AppCompatActivity
                 Intent intent = new Intent(getBaseContext(), RestActivity.class);
                 ListViewItem item = (ListViewItem) adapter.getItem(position);
                 intent.putExtra("id", item.getPlaceId());
-                intent.putExtra("From", "HOME");
                 startActivity(intent);
             }
         });
@@ -251,6 +249,7 @@ public class HomeActivity extends AppCompatActivity
     private void logout() {
         try {
             new LogoutTask(activity).execute().get();
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -374,7 +373,6 @@ public class HomeActivity extends AppCompatActivity
             String rest_id = jsonObject.getString("rest_id");
 
             adapter.addItem(img, rest_id, rest_name, address, score);
-            adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -419,7 +417,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onPlacesStart() {
-        adapter.clearList();
+        adapter = new MyFavoriteListViewAdapter(this);
+        count = 0;
     }
 
     @Override
@@ -436,6 +435,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onPlacesFinished() {
+        mListView.setAdapter(adapter);
     }
 
     public void showPlaceInformation(LatLng location) {

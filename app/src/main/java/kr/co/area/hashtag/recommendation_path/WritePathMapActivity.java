@@ -39,7 +39,7 @@ public class WritePathMapActivity extends AppCompatActivity implements OnMapRead
     GoogleMap googleMap;
     LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97); //서울역
 
-    Marker searchMarker= null;
+    Marker searchMarker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +54,16 @@ public class WritePathMapActivity extends AppCompatActivity implements OnMapRead
 
         Intent intent = getIntent();
         Serializable seri = intent.getSerializableExtra("list");
-        if(seri != null) {
+        if (seri != null) {
             polylist = (ArrayList<PathPlace>) seri;
             System.out.println(polylist.size());
-            for(int i=0;i<polylist.size()-2;i++){
-                LatLng src = new LatLng(polylist.get(i).latitude,polylist.get(i).longitude);
-                LatLng dest = new LatLng(polylist.get(i+1).latitude,polylist.get(i+1).longitude);
+            for (int i = 0; i < polylist.size() - 2; i++) {
+                LatLng src = new LatLng(polylist.get(i).latitude, polylist.get(i).longitude);
+                LatLng dest = new LatLng(polylist.get(i + 1).latitude, polylist.get(i + 1).longitude);
 
-                Polyline line =googleMap.addPolyline(new PolylineOptions().add(
-                        new LatLng(src.latitude,src.latitude),
-                        new LatLng(dest.latitude,dest.longitude)
+                Polyline line = googleMap.addPolyline(new PolylineOptions().add(
+                        new LatLng(src.latitude, src.latitude),
+                        new LatLng(dest.latitude, dest.longitude)
                 ).width(5).color(Color.RED).geodesic(true));
                 polylines.add(line);
             }
@@ -73,19 +73,13 @@ public class WritePathMapActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION,25);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 25);
         googleMap.animateCamera(cameraUpdate);
 
         googleMap.setOnInfoWindowClickListener((marker) -> {
-            Intent intent = new Intent(getBaseContext(), WriteRecommendPathActivity.class);
             Place place = (Place) marker.getTag();
-            intent.putExtra("id", place.getId());
-            intent.putExtra("name", place.getName());
-            //intent.putExtra("placeType",place.getPlaceTypes().get(0));
-            intent.putExtra("From", "Map");
-            intent.putExtra("latitude", place.getLatLng().latitude);
-            intent.putExtra("longitude",place.getLatLng().longitude);
-            startActivity(intent);
+            WriteRecommendPathActivity.addPlace(place.getId(), place.getName().toString(), place.getLatLng().latitude, place.getLatLng().longitude);
+            finish();
         });
     }
 

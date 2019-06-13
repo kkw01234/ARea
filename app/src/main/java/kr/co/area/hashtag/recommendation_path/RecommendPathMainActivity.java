@@ -89,6 +89,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
         goMyPageImg.setOnClickListener((view) -> {
             startActivity(new Intent(activity, MypageActivity.class));
         });
+        // related Navigation
 
         writeButton = findViewById(R.id.writepathbuttion);
         writeButton.setOnClickListener((v) -> {
@@ -102,40 +103,44 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
             v.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
-        r_adapter = new Recommendlist_adapter();
-        listView.setAdapter(r_adapter);
         resultRecent();
 
         recyclerView = findViewById(R.id.favorite_view);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(manager);
-        f_adapter = new FavoriteAdapter(activity);
-        recyclerView.setAdapter(f_adapter);
         resultFavorite();
 
         // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
-                startActivity(intent);
-            }
+                @Override
+                public void onItemClick(AdapterView parent, View v, int position, long id) {
+                    Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(getApplicationContext(), MapRecommendActivity.class);
+                    startActivity(intent);
+                }
         });
     }
 
+    @Override
+    public void onResume(){
+        resultRecent();
+        resultFavorite();
+        super.onResume();
+    }
+
     public void MapRcommendAction() {
-        Intent intent = new Intent(getApplicationContext(), Map_recommend.class);
+        Intent intent = new Intent(getApplicationContext(), MapRecommendActivity.class);
         startActivity(intent);
     }
 
-    public String resultRecent() {
+    public void resultRecent() {
         try {
             ReadPathTask readPathTask = new ReadPathTask(activity, "load_recent_recommend_path");
             String result = readPathTask.execute().get();
             JSONArray jsonArray = new JSONArray(result);
             System.out.println("RECENT : " + jsonArray.length());
+            r_adapter = new Recommendlist_adapter();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String id = jsonObject.getString("id");
@@ -144,11 +149,10 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
                 //String url = "http://118.220.3.71:13565/download_file?cate=path_image&u_id=null&google_id="+id;
                 r_adapter.addItem(ContextCompat.getDrawable(this, selectDrawable(i + 1)), title, writeName);
             }
-            r_adapter.notifyDataSetChanged();
+            listView.setAdapter(r_adapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     public int selectDrawable(int i) {
@@ -173,6 +177,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
             String result = readPathTask.execute().get();
             JSONArray jsonArray = new JSONArray(result);
             System.out.println("FAVORITE : " + jsonArray.length());
+            f_adapter = new FavoriteAdapter(activity);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String id = jsonObject.getString("id");
@@ -188,7 +193,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
                 item.setGood(good);
                 f_adapter.additem(item);
             }
-            f_adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(f_adapter);
         } catch (Exception e) {
             e.printStackTrace();
         }

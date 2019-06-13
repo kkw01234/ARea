@@ -25,8 +25,7 @@ import java.util.Random;
 
 import kr.co.area.hashtag.utils.PathPlace;
 
-public class WritePathTask extends AsyncTask<Object,Void,String> {
-
+public class WritePathTask extends AsyncTask<Object, Void, String> {
     static final String TAG = "WriteTask";
     private Activity activity;
     Context context;
@@ -42,6 +41,7 @@ public class WritePathTask extends AsyncTask<Object,Void,String> {
         this.activity = activity;
         context = activity.getApplicationContext();
     }
+
     @Override
     protected String doInBackground(Object... objects) {
         //제목, 사진, place, 설명
@@ -51,7 +51,7 @@ public class WritePathTask extends AsyncTask<Object,Void,String> {
         ArrayList<PathPlace> pathPlaces = (ArrayList<PathPlace>) objects[2];
 
         String content = (String) objects[3];
-        attachmentFileName = title.replace(".", "") +(int)(Math.random()*100000)+".jpg";
+        attachmentFileName = title.replace(".", "") + (int) (Math.random() * 100000) + ".jpg";
         System.out.println(attachmentFileName);
         try {
             URL url = new URL("http://118.220.3.71:13565/upload_file");
@@ -92,9 +92,9 @@ public class WritePathTask extends AsyncTask<Object,Void,String> {
             request.writeBytes(this.crlf);
 
             request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"" +
-                    this.attachmentName + "\";filename=\"" +
-                    this.attachmentFileName + "\"" + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"" + this.attachmentName + "\";filename=\"");
+            request.write(this.attachmentFileName.getBytes("UTF-8"));
+            request.writeBytes("\"" + this.crlf);
             request.writeBytes("Content-Transfer-Encoding: binary" + this.crlf);
             request.writeBytes(this.crlf);
 
