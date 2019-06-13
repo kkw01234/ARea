@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,11 +32,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.ar.ARActivity;
+import kr.co.area.hashtag.asyncTask.GetOneRecTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
+import kr.co.area.hashtag.myPage.MyFavoriteListViewAdapter;
 import kr.co.area.hashtag.myPage.MypageActivity;
 
 public class MapRecommendActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +58,12 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
     //자세한 정보를 나타내느
     // 구글 맵 참조변수 생성
     GoogleMap mMap;
+
+    private String id;
+    private TextView titleView, contentView;
+    private ListView listView;
+    private MyFavoriteListViewAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +111,35 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
         // BitmapDescriptorFactory 생성하기 위한 소스
         MapsInitializer.initialize(getApplicationContext());
 
+        titleView = findViewById(R.id.recTitle);
+        contentView = findViewById(R.id.informRec);
+        listView = findViewById(R.id.recList);
+        adapter = new MyFavoriteListViewAdapter(this);
 
+        Intent intent = getIntent();
+        id = intent.getStringExtra("rec_id");
+        getInform();
     }
+
+    private void getInform() {
+        try { // 정보 받기
+            String result = new GetOneRecTask(this).execute(id).get();
+            System.out.println(result);
+            JSONObject jsonObject = new JSONObject(result);
+            String title = jsonObject.getString("title");
+            String content = jsonObject.getString("content");
+            // adapter.addItem(img, rest_name, content, rate, date);
+            JSONArray routes = new JSONArray(jsonObject.getJSONArray("route"));
+            for(int i = 0 ; i < routes.length() ; ++i){
+                JSONObject route = routes.getJSONObject(i);
+            }
+            titleView.setText(title);
+            contentView.setText(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -156,8 +194,6 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
                 .add(new LatLng(37.5386494, 127.00208229999998), new LatLng(37.5425156, 127.00245990000007))
                 .width(5)
                 .color(Color.RED));
-
-
     }
 
 

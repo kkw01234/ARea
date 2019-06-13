@@ -69,9 +69,10 @@ public class Recommendlist_adapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String desc) {
+    public void addItem(Drawable icon, String id, String title, String desc) {
         Recommendlist_item item = new Recommendlist_item();
 
+        item.setId(id);
         item.setIcon(icon);
         item.setTitle(title);
         item.setDesc(desc);

@@ -117,6 +117,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
                 public void onItemClick(AdapterView parent, View v, int position, long id) {
                     Recommendlist_item item = (Recommendlist_item) parent.getItemAtPosition(position);
                     Intent intent = new Intent(getApplicationContext(), MapRecommendActivity.class);
+                    intent.putExtra("rec_id", item.getId());
                     startActivity(intent);
                 }
         });
@@ -147,7 +148,7 @@ public class RecommendPathMainActivity extends AppCompatActivity implements Navi
                 String title = jsonObject.getString("title");
                 String writeName =jsonObject.getString("writename");
                 //String url = "http://118.220.3.71:13565/download_file?cate=path_image&u_id=null&google_id="+id;
-                r_adapter.addItem(ContextCompat.getDrawable(this, selectDrawable(i + 1)), title, writeName);
+                r_adapter.addItem(ContextCompat.getDrawable(this, selectDrawable(i + 1)), id, title, writeName);
             }
             listView.setAdapter(r_adapter);
         } catch (Exception e) {

@@ -39,7 +39,7 @@
             android:background="@color/colorPrimaryDark" />
 
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/recTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar_bottom"
@@ -54,107 +54,52 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="270dp"
-            android:layout_below="@id/textview"
+            android:layout_below="@id/recTitle"
             android:layout_marginTop="8dp" />
 
-        <ScrollView
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/map">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/informRec"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="5dp"
+                android:text="추천경로 설명"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context=".recommendation_path.MapRecommendActivity">
+            <View
+                android:id="@+id/toolbar_bottom2"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/informRec" />
 
-                    <View
-                        android:id="@+id/toolbar_bottom2"
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/colorPrimaryDark"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <ListView
+                android:id="@+id/recList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_bottom2">
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar_bottom2"
-                        tools:layout_editor_absoluteX="8dp">
+            </ListView>
 
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="1.한방통닭"
-                            android:textSize="23dp" />
-
-                        <TextView
-                            android:id="@+id/textView19"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:text="#전지적참견시점 #이영자맛집"
-                            android:textSize="17dp" />
-
-                        <TextView
-                            android:id="@+id/textView21"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="2. 오마일"
-                            android:textSize="23dp" />
-
-                        <TextView
-                            android:id="@+id/textView22"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:text="#김치볶음밥 #미식클럽"
-                            android:textSize="17dp" />
-
-                        <TextView
-                            android:id="@+id/textView23"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="3. 패션5"
-                            android:textSize="23dp" />
-
-                        <TextView
-                            android:id="@+id/textView24"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:text="#케익 #디저트 #생생정보통"
-                            android:textSize="17dp" />
-
-                        <TextView
-                            android:id="@+id/textView17"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="4. 오세영식당"
-                            android:textSize="23dp" />
-
-                        <TextView
-                            android:id="@+id/textView27"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="#케익 #디저트 #생생정보통"
-                            android:textSize="17dp" />
-                    </LinearLayout>
-
-                </android.support.constraint.ConstraintLayout>
-
-            </LinearLayout>
-        </ScrollView>
+        </android.support.constraint.ConstraintLayout>
 
 
     </RelativeLayout>
