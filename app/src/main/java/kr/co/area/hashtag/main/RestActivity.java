@@ -33,6 +33,7 @@ import kr.co.area.hashtag.asyncTask.FavoriteTask;
 import kr.co.area.hashtag.asyncTask.GetAllReviewByRestTask;
 import kr.co.area.hashtag.asyncTask.LogoutTask;
 import kr.co.area.hashtag.asyncTask.PlaceTask;
+import kr.co.area.hashtag.asyncTask.SimilarTask;
 import kr.co.area.hashtag.login.LoginActivity;
 import kr.co.area.hashtag.map.GoogleMapsActivity;
 import kr.co.area.hashtag.myPage.MypageActivity;
@@ -50,11 +51,12 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
 
 
     boolean islike = false;
-    TextView Place_nameView, AddressView, Place_Text_View, OpeningHour, PhoneView, dataPoint, myPoint, reviewPoint, updateData, countReview, moreReview, moreMenu;
+    TextView Place_nameView, AddressView, Place_Text_View, OpeningHour, PhoneView, dataPoint, myPoint, reviewPoint, updateData, countReview, moreReview, moreMenu, myScorePoint;
     ImageView wordcloud, restImage;
     ListView reviewlist;
     RatingBar rating;
     String id = "";
+    private String userId;
     String restname;
     Button about_btn, writebtn;
 
@@ -84,7 +86,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
         goMyPageImg = headerView.findViewById(R.id.go_mypage_img);
         profile = headerView.findViewById(R.id.profileView);
         userHi.setText(user.getString("userName", "???") + " 님,");
-        String userId = user.getString("userId", null);
+        userId = user.getString("userId", null);
         String image = "http://118.220.3.71:13565/download_file?category=download_my_image&u_id=" + userId;
         Glide.with(this).load(image).apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
@@ -120,6 +122,7 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
         reviewPoint = findViewById(R.id.reviewscore);
         rating = findViewById(R.id.agstar);
         restImage = findViewById(R.id.rest_image);
+        myScorePoint = findViewById(R.id.myscorepoint);
 
         getPlace(id);
 
@@ -299,6 +302,26 @@ public class RestActivity extends AppCompatActivity implements NavigationView.On
             new LogoutTask(activity).execute().get();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void similarAnalysis(){
+        SimilarTask similarTask = new SimilarTask();
+        try {
+            int result = similarTask.execute(userId, id).get();
+            if(result == 0) {
+                myScorePoint.setText("일치여부 확인불가");
+                return;
+            }
+            String similar = "나와 "+result+"% 일치";
+            myScorePoint.setText(similar);
+            if(result > 90){
+                myScorePoint.setTextColor(Color.RED);
+            }else if(result > 60){
+                myScorePoint.setTextColor(Color.BLUE);
+            }
+        }catch (Exception e){
+            e.printStackTrace();//id
         }
     }
 }

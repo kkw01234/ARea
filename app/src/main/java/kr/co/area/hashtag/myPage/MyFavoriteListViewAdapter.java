@@ -90,8 +90,8 @@ public class MyFavoriteListViewAdapter extends BaseAdapter {
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public void addItem(String img, String restId, String restName, String address, String score) {
         MyFavoriteListViewItem item = new MyFavoriteListViewItem();
-
-        item.setimg(img);
+        if(img !=null)
+            item.setimg(img);
         item.setRestId(restId);
         if (restName.length() > 12) restName = restName.substring(0, 12) + "..";
         item.setRestName(restName);

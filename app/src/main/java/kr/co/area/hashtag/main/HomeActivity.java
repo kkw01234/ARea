@@ -376,6 +376,7 @@ public class HomeActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public List<Address> getCurrentAddress(LatLng latlng) { //주소
