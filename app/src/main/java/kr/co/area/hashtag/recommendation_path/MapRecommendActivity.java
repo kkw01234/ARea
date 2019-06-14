@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import kr.co.area.hashtag.R;
 import kr.co.area.hashtag.ar.ARActivity;
 import kr.co.area.hashtag.asyncTask.GetOneRecTask;
@@ -62,7 +64,7 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
     private String id;
     private TextView titleView, contentView;
     private ListView listView;
-    private MyFavoriteListViewAdapter adapter;
+    private MyRouteListViewAdapter adapter;
 
 
     @Override
@@ -114,11 +116,10 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
         titleView = findViewById(R.id.recTitle);
         contentView = findViewById(R.id.informRec);
         listView = findViewById(R.id.recList);
-        adapter = new MyFavoriteListViewAdapter(this);
+        adapter = new MyRouteListViewAdapter(this);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("rec_id");
-        getInform();
     }
 
     private void getInform() {
@@ -128,13 +129,31 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
             JSONObject jsonObject = new JSONObject(result);
             String title = jsonObject.getString("title");
             String content = jsonObject.getString("content");
-            // adapter.addItem(img, rest_name, content, rate, date);
-            JSONArray routes = new JSONArray(jsonObject.getJSONArray("route"));
+            JSONArray routes = jsonObject.getJSONArray("route");
+            ArrayList<LatLng> latlngs = new ArrayList<>();
             for(int i = 0 ; i < routes.length() ; ++i){
-                JSONObject route = routes.getJSONObject(i);
+                JSONArray route = routes.getJSONArray(i);
+                String rest_id = route.getString(1);
+                String rest_name = route.getString(2);
+                double lat = route.getDouble(3);
+                double lng = route.getDouble(4);
+                int seq = route.getInt(5);
+                LatLng latlng = new LatLng(lat, lng);
+                latlngs.add(latlng);
+                MarkerOptions markerOption = new MarkerOptions();
+                markerOption.position(latlng).title(rest_name);
+                mMap.addMarker(markerOption);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+                adapter.addItem(rest_id, rest_name, seq);
             }
+            listView.setAdapter(adapter);
             titleView.setText(title);
             contentView.setText(content);
+            PolylineOptions opt = new PolylineOptions();
+            for(int i = 0; i < latlngs.size() - 1 ; ++i) {
+                opt.add(latlngs.get(i), latlngs.get(i + 1));
+            }
+            mMap.addPolyline(opt.width(5).color(Color.RED));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,54 +165,17 @@ public class MapRecommendActivity extends AppCompatActivity implements OnMapRead
         // 구글 맵 객체를 불러온다.
         mMap = googleMap;
 
-        // 서울에 대한 위치 설정
-        LatLng seoul = new LatLng(37.5335402, 127.00864849999993);
-        LatLng seoul2 = new LatLng(37.5315144, 127.0055198);
-        LatLng seoul3 = new LatLng(37.5386494, 127.00208229999998);
-        LatLng seoul4 = new LatLng(37.5425156, 127.00245990000007);
-
-        // 구글 맵에 표시할 마커에 대한 옵션 설정
-        MarkerOptions makerOptions = new MarkerOptions();
-        MarkerOptions makerOptions2 = new MarkerOptions();
-        MarkerOptions makerOptions3 = new MarkerOptions();
-        MarkerOptions makerOptions4 = new MarkerOptions();
-
-        makerOptions
-                .position(seoul)
-                .title("오마일");
-
-        makerOptions2
-                .position(seoul2)
-                .title("한방통닭");
-        makerOptions3
-                .position(seoul3)
-                .title("패션5");
-
-        makerOptions4
-                .position(seoul4)
-                .title("오세영식당");
-
-        // 마커를 생성한다.
-        mMap.addMarker(makerOptions);
-        mMap.addMarker(makerOptions2);
-        mMap.addMarker(makerOptions3);
-        mMap.addMarker(makerOptions4);
-
         //마커클릭 이벤트 처리
         mMap.setOnMarkerClickListener(this);
 
-        //카메라를 마커 위치로 옮긴다. // 줌 설정했음
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul2, 13));
-
-        //========================================
-
-        //폴리라인 추가
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(37.5335402, 127.00864849999993), new LatLng(37.5315144, 127.0055198))
-                .add(new LatLng(37.5315144, 127.0055198), new LatLng(37.5386494, 127.00208229999998))
-                .add(new LatLng(37.5386494, 127.00208229999998), new LatLng(37.5425156, 127.00245990000007))
-                .width(5)
-                .color(Color.RED));
+//        //폴리라인 추가
+//        Polyline line = mMap.addPolyline(new PolylineOptions()
+//                .add(new LatLng(37.5335402, 127.00864849999993), new LatLng(37.5315144, 127.0055198))
+//                .add(new LatLng(37.5315144, 127.0055198), new LatLng(37.5386494, 127.00208229999998))
+//                .add(new LatLng(37.5386494, 127.00208229999998), new LatLng(37.5425156, 127.00245990000007))
+//                .width(5)
+//                .color(Color.RED));
+        getInform();
     }
 
 
