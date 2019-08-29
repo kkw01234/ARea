@@ -10,8 +10,8 @@ made by [강경웅](https://github.com/pigranya1218), [김건욱](https://github
 
 
 #### 문서
-[계획서](https://drive.google.com/open?id=12wOv1qhbbUXe0RkfSlRdkvdw11nwMQEl)
-[포스터](https://drive.google.com/open?id=1oeKTHLUDb8xwwxuGstQU13o71w8iKozI)
-[완료보고서](https://drive.google.com/open?id=1SMAdrS_NUErFBivWT0HCeT3spnEfDsHb)
-[발표 ppt](https://drive.google.com/open?id=1vHKdn4VMkLOhbEHf6xSbbrgw723wWemg)
+- [계획서](https://drive.google.com/open?id=12wOv1qhbbUXe0RkfSlRdkvdw11nwMQEl)
+- [포스터](https://drive.google.com/open?id=1oeKTHLUDb8xwwxuGstQU13o71w8iKozI)
+- [완료보고서](https://drive.google.com/open?id=1SMAdrS_NUErFBivWT0HCeT3spnEfDsHb)
+- [발표 ppt](https://drive.google.com/open?id=1vHKdn4VMkLOhbEHf6xSbbrgw723wWemg)
 
